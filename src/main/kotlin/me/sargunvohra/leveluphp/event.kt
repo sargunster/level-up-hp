@@ -16,6 +16,7 @@ object LuhpEventHandler {
         player.luhpData.initialized = true
         player.luhpXp = 0
         player.luhpLevel = 0
+        player.health = player.maxHealth
     }
 
     @SubscribeEvent
@@ -44,6 +45,9 @@ object LuhpEventHandler {
         }
 
         newPlayer.luhpSync()
+
+        if (event.isWasDeath)
+            newPlayer.health = newPlayer.maxHealth
     }
 
     @SubscribeEvent

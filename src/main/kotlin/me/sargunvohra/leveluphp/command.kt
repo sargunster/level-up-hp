@@ -41,7 +41,7 @@ object CommandLuhp : CommandTreeBase() {
         addSubcommand(CommandHelp)
         addSubcommand(CommandCheck)
         addSubcommand(CommandSetLevel)
-        addSubcommand(CommandAddHp)
+        addSubcommand(CommandAddLevel)
         addSubcommand(CommandSetXp)
         addSubcommand(CommandAddXp)
     }
@@ -61,8 +61,8 @@ object CommandSetLevel : CommandBase() {
     override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>) {
         if (args.size != 2)
             throw WrongUsageException(getUsage(sender))
-        getPlayer(server, sender, args[0]).luhpLevel = parseInt(args[1], 1, LuhpConfig.maximumLevel)
-        sender.sendMessage(TextComponentString("Successfully updated player HP!"))
+        getPlayer(server, sender, args[0]).luhpLevel = parseInt(args[1], 0, LuhpConfig.maximumLevel)
+        sender.sendMessage(TextComponentString("Successfully updated player HP-LVL!"))
     }
 
     override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?): List<String> {
@@ -73,7 +73,7 @@ object CommandSetLevel : CommandBase() {
     }
 }
 
-object CommandAddHp : CommandBase() {
+object CommandAddLevel : CommandBase() {
 
     override fun getName() = "addlevel"
 
@@ -84,7 +84,7 @@ object CommandAddHp : CommandBase() {
             throw WrongUsageException(getUsage(sender))
         val player = getPlayer(server, sender, args[0])
         player.luhpLevel += parseInt(args[1], 0, LuhpConfig.maximumLevel - player.luhpLevel)
-        sender.sendMessage(TextComponentString("Successfully updated player HP!"))
+        sender.sendMessage(TextComponentString("Successfully updated player HP-LVL!"))
     }
 
     override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?): List<String> {

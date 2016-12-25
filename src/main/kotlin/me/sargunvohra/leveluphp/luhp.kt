@@ -23,6 +23,11 @@ fun EntityPlayerMP.luhpSync() {
         attr.removeModifier(mod)
     val amount = LuhpConfig.hpOffset + LuhpConfig.hpPerLevel * luhpLevel
     attr.applyModifier(HpModifier(amount))
+
+    if (health > 20) {
+        health --
+        health ++
+    }
 }
 
 var EntityPlayerMP.luhpLevel: Int
