@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "Level Up HP",
+    "description": "RPG Style HP Upgrades",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://minecraft.curseforge.com/projects/level-up-hp",
+    "authorList": [
+      "Sargun Vohra"
+    ],
+    "requiredMods": [
+      "shadowmc"
+    ],
+    "dependencies": [
+      "shadowmc"
+    ]
+  }
+]

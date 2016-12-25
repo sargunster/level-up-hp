@@ -1,0 +1,100 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'kotlin'
+
+version = "${mc_version}-${mod_version}"
+group = mod_namespace
+archivesBaseName = mod_id
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+minecraft {
+    version = "${mc_version}-${forge_version}"
+    runDir = "run"
+
+    mappings = mcp_mappings
+
+    replace "@MOD_VERSION@": mod_version, "@MOD_ID": mod_id
+}
+
+runClient {
+    args '--username', run_as
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    exclude "**/*.pdn"
+    exclude "**/*.cubik"
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'modid': mod_id, 'version': project.version, 'mcversion': project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    // for developer worlds
+    maven {
+        name "FireBall API Depot"
+        url "http://dl.tsr.me/artifactory/libs-release/"
+    }
+
+    // for shadowmc
+    maven {
+        name "shadowfacts"
+        url "http://mvn.rx14.co.uk/shadowfacts/"
+    }
+
+    // for JEI
+    maven {
+        name "JEI"
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+configurations {
+    mods
+}
+
+task installMods(type: Copy, dependsOn: "deinstallMods") {
+    from { configurations.mods }
+    include "**/*.jar"
+    into file(minecraft.runDir + "/mods")
+}
+
+task deinstallMods(type: Delete) {
+    delete fileTree(dir: minecraft.runDir + "/mods", include: "*.jar")
+}
+
+tasks.setupDecompWorkspace.dependsOn installMods
+tasks.setupDevWorkspace.dependsOn installMods
+
+dependencies {
+    // developer world
+    mods group: 'com.fireball1725.devworld', name: 'devworld', version: "${mc_version}-${devworld_version}-client"
+
+    // jei
+    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
+    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+
+    // shadowmc
+    compile group: 'net.shadowfacts', name: 'ShadowMC', version: "${mc_version}-${shadowmc_version}"
+}
