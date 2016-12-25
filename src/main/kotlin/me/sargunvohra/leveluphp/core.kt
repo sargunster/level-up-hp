@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry
 
 
 const val MOD_ID = "leveluphp"
-const val VERSION = "1.0.0-SNAPSHOT"
+const val VERSION = "1.0.0"
 
 @Mod(
         modid = MOD_ID,
