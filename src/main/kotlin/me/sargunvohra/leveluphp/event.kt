@@ -1,6 +1,5 @@
 package me.sargunvohra.leveluphp
 
-import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import me.sargunvohra.leveluphp.LuhpCapabilities.LUHP_DATA
 import net.minecraft.entity.monster.EntityMob
@@ -70,7 +69,7 @@ object LuhpEventHandler {
             source.world.playSound(null, source.posX, source.posY, source.posZ,
                     LuhpSounds.levelUp, SoundCategory.PLAYERS, 1f, 1f)
 
-            source.sendStatusMsg("${ChatFormatting.RED}${ChatFormatting.BOLD}HP UP!")
+            source.sendStatusMsg("§c§lHP UP!")
 
             if (LuhpConfig.healOnLevelUp)
                 source.health = source.maxHealth

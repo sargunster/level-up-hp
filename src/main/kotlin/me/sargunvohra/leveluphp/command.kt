@@ -1,6 +1,5 @@
 package me.sargunvohra.leveluphp
 
-import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.command.CommandBase
 import net.minecraft.command.CommandException
 import net.minecraft.command.ICommandSender
@@ -27,7 +26,7 @@ object CommandHp : CommandBase() {
         val msg = if (sender.luhpLevel >= LuhpConfig.maximumLevel)
             "You're maxed out!"
         else
-            "You have ${ChatFormatting.RED}${sender.luhpXp}/${sender.neededLuhpXp}${ChatFormatting.RESET}" +
+            "You have §c${sender.luhpXp}/${sender.neededLuhpXp}§r" +
                     " xp towards the next HP upgrade"
         sender.sendMessage(TextComponentString(msg))
     }

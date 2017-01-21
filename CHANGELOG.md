@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 - Bugfix release
+ - Fixed some chat formatting in multiplayer. This should fix the `/hp` command.
+
 ## 1.0.0 - Initial release
  - Added the ability to upgrade HP by killing mobs
  - Added a command for users to check HP upgrade status (/hp)
