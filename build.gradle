@@ -4,8 +4,8 @@ buildscript {
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -48,53 +48,13 @@ processResources {
 }
 
 repositories {
-    mavenLocal()
-    mavenCentral()
-
-    // for developer worlds
+    jcenter()
     maven {
-        name "FireBall API Depot"
-        url "http://dl.tsr.me/artifactory/libs-release/"
-    }
-
-    // for shadowmc
-    maven {
-        name "shadowfacts"
-        url "http://mvn.rx14.co.uk/shadowfacts/"
-    }
-
-    // for JEI
-    maven {
-        name "JEI"
-        url "http://dvs1.progwml6.com/files/maven"
+        url "http://maven.shadowfacts.net/"
     }
 }
-
-configurations {
-    mods
-}
-
-task installMods(type: Copy, dependsOn: "deinstallMods") {
-    from { configurations.mods }
-    include "**/*.jar"
-    into file(minecraft.runDir + "/mods")
-}
-
-task deinstallMods(type: Delete) {
-    delete fileTree(dir: minecraft.runDir + "/mods", include: "*.jar")
-}
-
-tasks.setupDecompWorkspace.dependsOn installMods
-tasks.setupDevWorkspace.dependsOn installMods
 
 dependencies {
-    // developer world
-    mods group: 'com.fireball1725.devworld', name: 'devworld', version: "${mc_version}-${devworld_version}-client"
-
-    // jei
-    deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
-    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-
-    // shadowmc
-    compile group: 'net.shadowfacts', name: 'ShadowMC', version: "${mc_version}-${shadowmc_version}"
+    deobfCompile group: 'net.shadowfacts', name: 'ShadowMC', version: shadowmc_version
+    deobfCompile group: 'net.shadowfacts', name: 'Forgelin', version: forgelin_version
 }

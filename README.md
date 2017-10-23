@@ -14,7 +14,7 @@ Check out this mod on [CurseForge][].
 On Linux or MacOS:
 
 ```bash
-git clone https://github.com/sargunster/level-up-hp.git
+git clone https://github.com/sargunv/level-up-hp.git
 cd level-up-hp
 ./gradlew setupDecompWorkspace build runClient
 ```
@@ -22,11 +22,11 @@ cd level-up-hp
 On Windows:
 
 ```cmd
-git clone https://github.com/sargunster/level-up-hp.git
+git clone https://github.com/sargunv/level-up-hp.git
 cd level-up-hp
 ./gradlew.bat setupDecompWorkspace build runClient
 ```
 
 [CurseForge]: https://minecraft.curseforge.com/projects/level-up-hp
 [Minecraft]: https://minecraft.net/en/
-[Releases]: https://github.com/sargunster/level-up-hp/releases
+[Releases]: https://github.com/sargunv/level-up-hp/releases

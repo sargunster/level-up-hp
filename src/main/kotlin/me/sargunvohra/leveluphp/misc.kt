@@ -7,7 +7,8 @@ import net.minecraft.util.text.TextComponentString
 
 fun EntityPlayer.sendStatusMsg(message: String) = sendStatusMessage(TextComponentString(message), true)
 
+@Suppress("MemberVisibilityCanPrivate")
 object LuhpSounds {
     val levelUpLoc = ResourceLocation("leveluphp", "level-up")
-    val levelUp = SoundEvent(levelUpLoc)
+    val levelUp = SoundEvent(levelUpLoc).setRegistryName(levelUpLoc)
 }

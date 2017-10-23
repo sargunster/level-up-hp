@@ -69,8 +69,8 @@ var EntityPlayerMP.luhpXp: Int
     get() = luhpData.xp
     set(value) {
         luhpData.xp = if (value > 0) value else 0
-        while (luhpXp >= neededLuhpXp) {
-            luhpXp -= neededLuhpXp
+        while (luhpData.xp >= neededLuhpXp) {
+            luhpData.xp -= neededLuhpXp
             luhpLevel++
         }
     }

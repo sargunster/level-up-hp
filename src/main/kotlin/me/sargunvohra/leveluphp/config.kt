@@ -64,12 +64,12 @@ class LevelUpHpConfigGui(parent: GuiScreen) : GUIConfig(parent, MOD_ID, LuhpConf
 @Suppress("unused")
 class LevelUpHpConfigGuiFactory : IModGuiFactory {
 
-    override fun initialize(minecraftInstance: Minecraft) = Unit
+    override fun initialize(minecraftInstance: Minecraft) {}
 
-    override fun mainConfigGuiClass() = LevelUpHpConfigGui::class.java
+    override fun hasConfigGui() = true
 
-    override fun runtimeGuiCategories() = null
+    override fun createConfigGui(parentScreen: GuiScreen) = LevelUpHpConfigGui(parentScreen)
 
-    override fun getHandlerFor(element: IModGuiFactory.RuntimeOptionCategoryElement) = null
+    override fun runtimeGuiCategories() = emptySet<IModGuiFactory.RuntimeOptionCategoryElement>()
 
 }

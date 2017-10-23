@@ -38,7 +38,7 @@ interface LuhpData {
             return if (capability === LUHP_DATA) LUHP_DATA.cast(impl) else null
         }
 
-        override fun serializeNBT(): NBTBase {
+        override fun serializeNBT(): NBTBase? {
             return LUHP_DATA.storage.writeNBT(LUHP_DATA, LUHP_DATA.cast(impl), null)
         }
 

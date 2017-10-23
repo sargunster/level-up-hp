@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package me.sargunvohra.leveluphp
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -56,7 +58,7 @@ object LuhpEventHandler {
 
     @SubscribeEvent
     fun onPlayerKill(event: LivingDeathEvent) {
-        val source = event.source.entity as? EntityPlayerMP ?: return
+        val source = event.source.trueSource as? EntityPlayerMP ?: return
         val oldLevel = source.luhpLevel
 
         when (event.entity) {
