@@ -1,4 +1,3 @@
-[![TeamCity](https://img.shields.io/teamcity/https/build.vohras.tk/s/LevelUpHP_Build.svg)][TeamCity]
 [![Downloads](http://cf.way2muchnoise.eu/level-up-hp.svg)][CurseForge]
 [![CurseForge](http://cf.way2muchnoise.eu/versions/level-up-hp.svg)][CurseForge]
 
@@ -28,7 +27,6 @@ cd level-up-hp
 ./gradlew.bat setupDecompWorkspace build runClient
 ```
 
-[TeamCity]: https://build.vohras.tk/viewType.html?buildTypeId=LevelUpHP_Build&guest=1
 [CurseForge]: https://minecraft.curseforge.com/projects/level-up-hp
 [Minecraft]: https://minecraft.net/en/
 [Releases]: https://github.com/sargunster/level-up-hp/releases
