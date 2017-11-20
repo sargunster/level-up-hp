@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 
 
 const val MOD_ID = "leveluphp"
-const val VERSION = "1.1.0"
+const val VERSION = "1.1.1"
 
 @Suppress("unused")
 @Mod(

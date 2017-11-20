@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 - Bugfix release
+ - Fixed a bug that reset health data on return from The End
+
+## 1.1.0 - Minecraft update
+ - Updated to MC 1.12
+
 ## 1.0.1 - Bugfix release
  - Fixed some chat formatting in multiplayer. This should fix the `/hp` command.
 

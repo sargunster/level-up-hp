@@ -35,19 +35,21 @@ object LuhpEventHandler {
     fun onPlayerClone(event: PlayerEvent.Clone) {
         val newPlayer = event.entityPlayer as? EntityPlayerMP ?: return
 
-        if (event.isWasDeath) {
-            if (!LuhpConfig.resetOnDeath) {
-                val oldPlayer = event.original as? EntityPlayerMP ?: return
-                LUHP_DATA.readNBT(newPlayer.luhpData, null, LUHP_DATA.writeNBT(oldPlayer.luhpData, null))
+        val shouldReset = event.isWasDeath && LuhpConfig.resetOnDeath
+
+        if (shouldReset) {
+            initData(newPlayer)
+        } else {
+            val oldPlayer = event.original as? EntityPlayerMP ?: return
+            LUHP_DATA.readNBT(newPlayer.luhpData, null, LUHP_DATA.writeNBT(oldPlayer.luhpData, null))
+
+            if (event.isWasDeath)
                 newPlayer.luhpXp -= newPlayer.penaltyLuhpXp
-            } else {
-                initData(newPlayer)
-            }
         }
 
         newPlayer.luhpSync()
 
-        if (event.isWasDeath)
+        if (!shouldReset)
             newPlayer.health = newPlayer.maxHealth
     }
 
