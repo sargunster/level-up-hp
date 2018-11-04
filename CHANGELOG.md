@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 - Dependency update and bug fixes
+ - Updated all dependencies to their latest versions
+ - Fixed a bug where not all mobs awarded XP (example: slime)
+ - Fixed a bug where Forgelin wasn't listed as a dependency
+
 ## 1.1.1 - Bugfix release
  - Fixed a bug that reset health data on return from The End
 

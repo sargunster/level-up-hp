@@ -17,13 +17,13 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 
 
 const val MOD_ID = "leveluphp"
-const val VERSION = "1.1.1"
+const val VERSION = "1.2.0"
 
 @Suppress("unused")
 @Mod(
         modid = MOD_ID,
         version = VERSION,
-        dependencies = "required-after:shadowmc@[3.8.0,);",
+        dependencies = "required-after:shadowmc;required-after:forgelin",
         modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter",
         guiFactory = "me.sargunvohra.leveluphp.LevelUpHpConfigGuiFactory")
 object LevelUpHpMod {

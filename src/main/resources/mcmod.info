@@ -10,10 +10,12 @@
       "Sargun Vohra"
     ],
     "requiredMods": [
-      "shadowmc"
+      "shadowmc",
+      "forgelin"
     ],
     "dependencies": [
-      "shadowmc"
+      "shadowmc",
+      "forgelin"
     ]
   }
 ]
