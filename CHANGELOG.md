@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 - Add hp xp bar overlay
+ - Add an hp xp bar below the regular XP bar
+ - Adjust default config to start with less HP but gain faster
+ 
 ## 1.2.0 - Dependency update and bug fixes
  - Updated all dependencies to their latest versions
  - Fixed a bug where not all mobs awarded XP (example: slime)
