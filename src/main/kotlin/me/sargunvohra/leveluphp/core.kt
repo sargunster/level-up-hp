@@ -30,7 +30,7 @@ object LevelUpHpMod {
     fun preInit(event: FMLPreInitializationEvent) {
         initConfig(event)
 
-        CapabilityManager.INSTANCE.register(LuhpData::class.java, LuhpData.Storage(), LuhpData.Impl::class.java)
+        CapabilityManager.INSTANCE.register(LuhpData::class.java, LuhpData.Storage(), LuhpData.Impl::class.java::newInstance)
 
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(LuhpEventHandler)
