@@ -4,10 +4,14 @@ package me.sargunvohra.leveluphp
 
 import me.sargunvohra.leveluphp.Capabilities.LUHP_DATA
 import me.sargunvohra.leveluphp.extensions.*
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Gui
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.passive.IAnimals
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.SoundCategory
+import net.minecraftforge.client.event.RenderGameOverlayEvent
+import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -21,9 +25,9 @@ object EventHandler {
         val data = player.luhpData
 
         if (!data.initialized)
-            player.luhpInit()
+            player.luhpInitialize()
         else
-            player.luhpSync()
+            player.luhpUpdateHpModifier()
     }
 
     @SubscribeEvent
@@ -33,7 +37,7 @@ object EventHandler {
         val shouldReset = event.isWasDeath && ModConfig.resetOnDeath
 
         if (shouldReset) {
-            newPlayer.luhpInit()
+            newPlayer.luhpInitialize()
         } else {
             val oldPlayer = event.original as? EntityPlayerMP ?: return
             LUHP_DATA.readNBT(newPlayer.luhpData, null, LUHP_DATA.writeNBT(oldPlayer.luhpData, null))
@@ -42,7 +46,7 @@ object EventHandler {
                 newPlayer.luhpXp -= newPlayer.penaltyLuhpXp
         }
 
-        newPlayer.luhpSync()
+        newPlayer.luhpUpdateHpModifier()
 
         if (!shouldReset)
             newPlayer.health = newPlayer.maxHealth
@@ -50,7 +54,16 @@ object EventHandler {
 
     @SubscribeEvent
     fun onPlayerChangeDim(event: net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent) {
-        (event.player as? EntityPlayerMP ?: return).luhpSync()
+        val player = (event.player as? EntityPlayerMP ?: return)
+        player.luhpUpdateHpModifier()
+        player.luhpUpdateClientOverlay()
+    }
+
+    @SubscribeEvent
+    fun onEntityJoinWorld(event: EntityJoinWorldEvent) {
+        val player = (event.entity as? EntityPlayerMP ?: return)
+        player.luhpUpdateHpModifier()
+        player.luhpUpdateClientOverlay()
     }
 
     @SubscribeEvent
@@ -73,5 +86,27 @@ object EventHandler {
             if (ModConfig.healOnLevelUp)
                 source.health = source.maxHealth
         }
+    }
+
+    @SubscribeEvent
+    fun onRenderGameOverlay(event: RenderGameOverlayEvent.Post) {
+        if (event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE)
+            return
+        if (event.isCanceled)
+            return
+
+        val left = event.resolution.scaledWidth / 2 - 91
+        val top = event.resolution.scaledHeight - 26
+        val fullWidth = 182
+        val filledWidth = (fullWidth * ExpBarUpdateMessage.LATEST_FRACTION).toInt()
+        val height = 3
+
+        val mc = Minecraft.getMinecraft()
+
+        mc.textureManager.bindTexture(Resources.textureIcons)
+        mc.ingameGUI.drawTexturedModalRect(left, top, 0, 3, fullWidth, height)
+        mc.ingameGUI.drawTexturedModalRect(left, top, 0, 0, filledWidth, height)
+
+        mc.textureManager.bindTexture(Gui.ICONS)
     }
 }

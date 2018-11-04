@@ -1,6 +1,8 @@
 package me.sargunvohra.leveluphp.extensions
 
 import me.sargunvohra.leveluphp.Capabilities.LUHP_DATA
+import me.sargunvohra.leveluphp.ExpBarUpdateMessage
+import me.sargunvohra.leveluphp.LevelUpHpMod
 import me.sargunvohra.leveluphp.LuhpData
 import me.sargunvohra.leveluphp.ModConfig
 import me.sargunvohra.leveluphp.constants.MOD_ID
@@ -12,14 +14,14 @@ import net.minecraft.util.text.TextComponentString
 
 fun EntityPlayer.sendStatusMsg(message: String) = sendStatusMessage(TextComponentString(message), true)
 
-fun EntityPlayerMP.luhpInit() {
+fun EntityPlayerMP.luhpInitialize() {
     luhpData.initialized = true
     luhpXp = 0
     luhpLevel = 0
     health = maxHealth
 }
 
-fun EntityPlayerMP.luhpSync() {
+fun EntityPlayerMP.luhpUpdateHpModifier() {
     val maxHealthAttr = getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
 
     val existingModifier = maxHealthAttr.modifiers.find { it.name == "$MOD_ID.hpmod" }
@@ -35,6 +37,9 @@ fun EntityPlayerMP.luhpSync() {
         health++
     }
 }
+
+val EntityPlayerMP.luhpData: LuhpData
+    get() = getCapability(LUHP_DATA, null)!!
 
 var EntityPlayerMP.luhpLevel: Int
     get() = luhpData.level
@@ -52,7 +57,7 @@ var EntityPlayerMP.luhpLevel: Int
 
         // update health bar
         val oldHp = maxHealth
-        luhpSync()
+        luhpUpdateHpModifier()
         val newHp = maxHealth
 
         // update current health value
@@ -60,10 +65,22 @@ var EntityPlayerMP.luhpLevel: Int
             heal(newHp - oldHp)
         if (health > newHp)
             health = newHp
+
+        luhpUpdateClientOverlay()
     }
 
-val EntityPlayerMP.luhpData: LuhpData
-    get() = getCapability(LUHP_DATA, null)!!
+var EntityPlayerMP.luhpXp: Int
+    get() = luhpData.xp
+    set(value) {
+        luhpData.xp = if (value > 0) value else 0
+
+        while (luhpData.xp >= neededLuhpXp) {
+            luhpData.xp -= neededLuhpXp
+            luhpLevel++
+        }
+
+        luhpUpdateClientOverlay()
+    }
 
 val EntityPlayerMP.neededLuhpXp: Int
     get() = ModConfig.neededXpBase + luhpLevel * ModConfig.neededXpScale
@@ -71,12 +88,10 @@ val EntityPlayerMP.neededLuhpXp: Int
 val EntityPlayerMP.penaltyLuhpXp: Int
     get() = ModConfig.deathXpPenaltyBase + luhpLevel * ModConfig.deathXpPenaltyScale
 
-var EntityPlayerMP.luhpXp: Int
-    get() = luhpData.xp
-    set(value) {
-        luhpData.xp = if (value > 0) value else 0
-        while (luhpData.xp >= neededLuhpXp) {
-            luhpData.xp -= neededLuhpXp
-            luhpLevel++
-        }
-    }
+fun EntityPlayerMP.luhpUpdateClientOverlay() {
+    val message = if (luhpLevel < ModConfig.maximumLevel)
+        ExpBarUpdateMessage(luhpXp, neededLuhpXp)
+    else
+        ExpBarUpdateMessage(-1, -1)
+    LevelUpHpMod.NETWORK_WRAPPER.sendTo(message, this)
+}

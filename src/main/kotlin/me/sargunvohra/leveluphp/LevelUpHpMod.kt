@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.network.NetworkRegistry
+import net.minecraftforge.fml.relauncher.Side
 import net.shadowfacts.shadowmc.config.ForgeConfigAdapter
 
 
@@ -27,6 +29,8 @@ import net.shadowfacts.shadowmc.config.ForgeConfigAdapter
         guiFactory = "me.sargunvohra.leveluphp.ModGuiFactory"
 )
 object LevelUpHpMod {
+
+    val NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)!!
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
@@ -42,6 +46,13 @@ object LevelUpHpMod {
 
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(EventHandler)
+
+        NETWORK_WRAPPER.registerMessage(
+                ExpBarUpdateMessage::class.java,
+                ExpBarUpdateMessage::class.java,
+                0,
+                Side.CLIENT
+        )
     }
 
     @Mod.EventHandler
