@@ -2,23 +2,18 @@
 
 package me.sargunvohra.leveluphp
 
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import me.sargunvohra.leveluphp.LuhpCapabilities.LUHP_DATA
+import me.sargunvohra.leveluphp.Capabilities.LUHP_DATA
+import me.sargunvohra.leveluphp.extensions.*
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.passive.IAnimals
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.SoundCategory
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-object LuhpEventHandler {
 
-    private fun initData(player: EntityPlayerMP) {
-        player.luhpData.initialized = true
-        player.luhpXp = 0
-        player.luhpLevel = 0
-        player.health = player.maxHealth
-    }
+object EventHandler {
 
     @SubscribeEvent
     fun onPlayerLoad(event: PlayerEvent.LoadFromFile) {
@@ -26,7 +21,7 @@ object LuhpEventHandler {
         val data = player.luhpData
 
         if (!data.initialized)
-            initData(player)
+            player.luhpInit()
         else
             player.luhpSync()
     }
@@ -35,10 +30,10 @@ object LuhpEventHandler {
     fun onPlayerClone(event: PlayerEvent.Clone) {
         val newPlayer = event.entityPlayer as? EntityPlayerMP ?: return
 
-        val shouldReset = event.isWasDeath && LuhpConfig.resetOnDeath
+        val shouldReset = event.isWasDeath && ModConfig.resetOnDeath
 
         if (shouldReset) {
-            initData(newPlayer)
+            newPlayer.luhpInit()
         } else {
             val oldPlayer = event.original as? EntityPlayerMP ?: return
             LUHP_DATA.readNBT(newPlayer.luhpData, null, LUHP_DATA.writeNBT(oldPlayer.luhpData, null))
@@ -64,18 +59,18 @@ object LuhpEventHandler {
         val oldLevel = source.luhpLevel
 
         when (event.entity) {
-            is IMob -> source.luhpXp += LuhpConfig.monsterGain
-            is IAnimals-> source.luhpXp += LuhpConfig.livestockGain
+            is IMob -> source.luhpXp += ModConfig.monsterGain
+            is IAnimals -> source.luhpXp += ModConfig.livestockGain
         }
 
         if (source.luhpLevel > oldLevel) {
 
             source.world.playSound(null, source.posX, source.posY, source.posZ,
-                    LuhpSounds.levelUp, SoundCategory.PLAYERS, 1f, 1f)
+                    Sounds.levelUp, SoundCategory.PLAYERS, 1f, 1f)
 
             source.sendStatusMsg("§c§lHP UP!")
 
-            if (LuhpConfig.healOnLevelUp)
+            if (ModConfig.healOnLevelUp)
                 source.health = source.maxHealth
         }
     }

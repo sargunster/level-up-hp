@@ -1,16 +1,13 @@
 package me.sargunvohra.leveluphp
 
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiScreen
+import me.sargunvohra.leveluphp.constants.MOD_ID
 import net.minecraftforge.common.config.Configuration
-import net.minecraftforge.fml.client.IModGuiFactory
 import net.shadowfacts.config.Config
 import net.shadowfacts.config.ConfigManager
-import net.shadowfacts.shadowmc.config.GUIConfig
 import java.io.File
 
 @Config(name = MOD_ID)
-object LuhpConfig {
+object ModConfig {
 
     @JvmStatic
     lateinit var config: Configuration
@@ -53,23 +50,9 @@ object LuhpConfig {
     }
 
     fun load() {
-        ConfigManager.load(LuhpConfig::class.java, Configuration::class.java, config)
+        ConfigManager.load(ModConfig::class.java, Configuration::class.java, config)
         if (config.hasChanged())
             config.save()
     }
 }
 
-class LevelUpHpConfigGui(parent: GuiScreen) : GUIConfig(parent, MOD_ID, LuhpConfig.config)
-
-@Suppress("unused")
-class LevelUpHpConfigGuiFactory : IModGuiFactory {
-
-    override fun initialize(minecraftInstance: Minecraft) {}
-
-    override fun hasConfigGui() = true
-
-    override fun createConfigGui(parentScreen: GuiScreen) = LevelUpHpConfigGui(parentScreen)
-
-    override fun runtimeGuiCategories() = emptySet<IModGuiFactory.RuntimeOptionCategoryElement>()
-
-}

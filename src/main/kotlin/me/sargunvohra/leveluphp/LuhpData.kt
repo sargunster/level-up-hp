@@ -1,18 +1,10 @@
 package me.sargunvohra.leveluphp
 
-import me.sargunvohra.leveluphp.LuhpCapabilities.LUHP_DATA
 import net.minecraft.nbt.NBTBase
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
-
-object LuhpCapabilities {
-
-    @JvmStatic @CapabilityInject(LuhpData::class)
-    lateinit var LUHP_DATA: Capability<LuhpData>
-}
+import net.minecraftforge.common.capabilities.ICapabilitySerializable
 
 interface LuhpData {
 
@@ -31,19 +23,19 @@ interface LuhpData {
         private val impl = Impl()
 
         override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-            return capability === LUHP_DATA
+            return capability === Capabilities.LUHP_DATA
         }
 
         override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-            return if (capability === LUHP_DATA) LUHP_DATA.cast(impl) else null
+            return if (capability === Capabilities.LUHP_DATA) Capabilities.LUHP_DATA.cast(impl) else null
         }
 
         override fun serializeNBT(): NBTBase? {
-            return LUHP_DATA.storage.writeNBT(LUHP_DATA, LUHP_DATA.cast(impl), null)
+            return Capabilities.LUHP_DATA.storage.writeNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null)
         }
 
         override fun deserializeNBT(nbt: NBTBase?) {
-            LUHP_DATA.storage.readNBT(LUHP_DATA, LUHP_DATA.cast(impl), null, nbt)
+            Capabilities.LUHP_DATA.storage.readNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null, nbt)
         }
     }
 
