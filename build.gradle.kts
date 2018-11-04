@@ -44,6 +44,8 @@ apply(plugin = "kotlin")
 version = "$vMinecraft-$vThisMod"
 group = modNamespace
 
+project.setProperty("archivesBaseName", modId)
+
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = sourceCompatibility
