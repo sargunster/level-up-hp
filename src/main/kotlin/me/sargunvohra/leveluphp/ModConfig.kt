@@ -13,22 +13,22 @@ object ModConfig {
     lateinit var config: Configuration
 
     @JvmStatic @Config.Prop(description = "Starting HP offset in half-hearts.")
-    var hpOffset = 0
+    var hpOffset = -10
 
     @JvmStatic @Config.Prop(description = "Maximum HP level.")
-    var maximumLevel = 10
+    var maximumLevel = 15
 
     @JvmStatic @Config.Prop(description = "HP gain per level in half-hearts")
     var hpPerLevel = 2
 
     @JvmStatic @Config.Prop(description = "Base HP-XP needed to advance to next HP level (base + scale*level).")
-    var neededXpBase = 500
+    var neededXpBase = 100
 
     @JvmStatic @Config.Prop(description = "Scaling HP-XP needed to advance to next HP level (base + scale*level).")
     var neededXpScale = 50
 
     @JvmStatic @Config.Prop(description = "Base HP-XP lost on death (base + scale*level).")
-    var deathXpPenaltyBase = 100
+    var deathXpPenaltyBase = 20
 
     @JvmStatic @Config.Prop(description = "Scaling HP-XP lost on death (base + scale*level).")
     var deathXpPenaltyScale = 10
