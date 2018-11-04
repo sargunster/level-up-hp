@@ -17,7 +17,6 @@ buildscript {
 val modNamespace: String by project
 val modId: String by project
 
-val vThisMod: String by project
 val vMinecraft: String by project
 val vMcpMappings: String by project
 val vForge: String by project
@@ -26,6 +25,18 @@ val vForgelin: String by project
 val vShadowMc: String by project
 
 val runClientPlayerName: String by project
+
+fun getVersionFromGit(): String {
+    val proc = Runtime.getRuntime().exec("git describe --tags --dirty")
+    val exitCode = proc.waitFor()
+    if (exitCode == 0) {
+        return proc.inputStream.bufferedReader().readLine().trim()
+    } else {
+        throw Exception("Git describe failed with code: $exitCode")
+    }
+}
+
+val vThisMod = getVersionFromGit()
 
 apply(plugin = "net.minecraftforge.gradle.forge")
 apply(plugin = "kotlin")
@@ -47,6 +58,7 @@ configure<ForgeExtension> {
 
 tasks.named<JavaExec>("runClient") {
     args("--username", runClientPlayerName)
+    outputs.upToDateWhen { false }
 }
 
 tasks.named<ProcessResources>("processResources") {
