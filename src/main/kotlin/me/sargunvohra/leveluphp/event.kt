@@ -4,8 +4,8 @@ package me.sargunvohra.leveluphp
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import me.sargunvohra.leveluphp.LuhpCapabilities.LUHP_DATA
-import net.minecraft.entity.monster.EntityMob
-import net.minecraft.entity.passive.EntityAnimal
+import net.minecraft.entity.monster.IMob
+import net.minecraft.entity.passive.IAnimals
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.SoundCategory
 import net.minecraftforge.event.entity.living.LivingDeathEvent
@@ -64,8 +64,8 @@ object LuhpEventHandler {
         val oldLevel = source.luhpLevel
 
         when (event.entity) {
-            is EntityMob -> source.luhpXp += LuhpConfig.monsterGain
-            is EntityAnimal -> source.luhpXp += LuhpConfig.livestockGain
+            is IMob -> source.luhpXp += LuhpConfig.monsterGain
+            is IAnimals-> source.luhpXp += LuhpConfig.livestockGain
         }
 
         if (source.luhpLevel > oldLevel) {
