@@ -13,6 +13,7 @@ jobs:
     - run: ./gradlew setupCiWorkspace build
     - store_artifacts:
         path: build/libs
+        destination: jars
     - save_cache:
         paths:
         - ~/.gradle
