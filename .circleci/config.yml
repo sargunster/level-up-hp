@@ -1,0 +1,19 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+    - image: circleci/openjdk:8-jdk
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "build.gradle" }}
+        - v1-dependencies-
+    - run: ./gradlew setupCiWorkspace build
+    - store_artifacts:
+        path: build/libs
+    - save_cache:
+        paths:
+        - ~/.gradle
+        key: v1-dependencies-{{ checksum "build.gradle" }}
