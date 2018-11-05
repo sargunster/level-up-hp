@@ -7,8 +7,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext
 import net.minecraftforge.fml.relauncher.Side
 
 data class ExpBarUpdateMessage(
-        var currentXp: Int = 0,
-        var neededXp: Int = 0
+    var currentXp: Int = 0,
+    var neededXp: Int = 0
 ) : IMessage, IMessageHandler<ExpBarUpdateMessage, IMessage> {
 
     companion object {

@@ -27,34 +27,46 @@ interface LuhpData {
         }
 
         override fun <T : Any?> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-            return if (capability === Capabilities.LUHP_DATA) Capabilities.LUHP_DATA.cast(impl) else null
+            return if (capability === Capabilities.LUHP_DATA)
+                Capabilities.LUHP_DATA.cast(impl)
+            else null
         }
 
         override fun serializeNBT(): NBTBase? {
-            return Capabilities.LUHP_DATA.storage.writeNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null)
+            return Capabilities.LUHP_DATA.storage
+                .writeNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null)
         }
 
         override fun deserializeNBT(nbt: NBTBase?) {
-            Capabilities.LUHP_DATA.storage.readNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null, nbt)
+            Capabilities.LUHP_DATA.storage
+                .readNBT(Capabilities.LUHP_DATA, Capabilities.LUHP_DATA.cast(impl), null, nbt)
         }
     }
 
     class Storage : Capability.IStorage<LuhpData> {
 
-        override fun readNBT(capability: Capability<LuhpData>, instance: LuhpData, side: EnumFacing?, nbt: NBTBase) {
+        override fun readNBT(
+            capability: Capability<LuhpData>,
+            instance: LuhpData,
+            side: EnumFacing?,
+            nbt: NBTBase
+        ) {
             val compound = nbt as NBTTagCompound
             instance.xp = compound.getInteger("xp")
             instance.level = compound.getInteger("level")
             instance.initialized = compound.getBoolean("initialized")
         }
 
-        override fun writeNBT(capability: Capability<LuhpData>, instance: LuhpData, side: EnumFacing?): NBTBase {
+        override fun writeNBT(
+            capability: Capability<LuhpData>,
+            instance: LuhpData,
+            side: EnumFacing?
+        ): NBTBase {
             val compound = NBTTagCompound()
             compound.setInteger("xp", instance.xp)
             compound.setInteger("level", instance.level)
             compound.setBoolean("initialized", instance.initialized)
             return compound
         }
-
     }
 }

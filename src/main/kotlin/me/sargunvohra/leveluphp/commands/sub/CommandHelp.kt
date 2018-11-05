@@ -26,7 +26,12 @@ object CommandHelp : CommandBase() {
             throw WrongUsageException(getUsage(sender))
     }
 
-    override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?): List<String> {
+    override fun getTabCompletions(
+        server: MinecraftServer,
+        sender: ICommandSender,
+        args: Array<out String>,
+        targetPos: BlockPos?
+    ): List<String> {
         return CommandLuhp.commandMap.keys.toList()
     }
 }

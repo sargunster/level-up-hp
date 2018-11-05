@@ -89,7 +89,13 @@ tasks.named<ProcessResources>("processResources") {
 
     from(sourceSets.getByName("main").resources.srcDirs) {
         include("mcmod.info")
-        expand(mapOf("modid" to modId, "version" to project.version, "mcversion" to minecraft.version))
+        expand(
+            mapOf(
+                "modid" to modId,
+                "version" to project.version,
+                "mcversion" to minecraft.version
+            )
+        )
     }
     from(sourceSets.getByName("main").resources.srcDirs) {
         exclude("mcmod.info")
@@ -98,23 +104,30 @@ tasks.named<ProcessResources>("processResources") {
 
 configure<SpotlessExtension> {
     val ktlintSettings = mapOf(
-            "indent_size" to "2",
-            "continuation_indent_size" to "2"
+        "indent_size" to "4",
+        "continuation_indent_size" to "4",
+        "max_line_length" to "100"
     )
+    format("misc") {
+        target(
+            "**/*.md",
+            "**/*.gitignore",
+            "**/*.json",
+            "**/*.info",
+            "**/*.lang",
+            "**/*.properties"
+        )
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+        lineEndings = LineEnding.UNIX
+    }
 
     kotlin {
         ktlint().userData(ktlintSettings)
     }
 
-//    kotlinGradle {
-//        ktlint().userData(ktlintSettings)
-//    }
-
-    format("misc") {
-        target("**/*.md", "**/*.gitignore", "**/*.json", "**/*.info", "**/*.lang", "**/*.properties")
-        trimTrailingWhitespace()
-        indentWithSpaces(2)
-        endWithNewline()
-        lineEndings = LineEnding.UNIX
+    kotlinGradle {
+        ktlint().userData(ktlintSettings)
     }
 }

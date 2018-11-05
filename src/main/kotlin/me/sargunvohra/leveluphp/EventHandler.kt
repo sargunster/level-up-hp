@@ -3,7 +3,14 @@
 package me.sargunvohra.leveluphp
 
 import me.sargunvohra.leveluphp.Capabilities.LUHP_DATA
-import me.sargunvohra.leveluphp.extensions.*
+import me.sargunvohra.leveluphp.extensions.luhpData
+import me.sargunvohra.leveluphp.extensions.luhpInitialize
+import me.sargunvohra.leveluphp.extensions.luhpLevel
+import me.sargunvohra.leveluphp.extensions.luhpUpdateClientOverlay
+import me.sargunvohra.leveluphp.extensions.luhpUpdateHpModifier
+import me.sargunvohra.leveluphp.extensions.luhpXp
+import me.sargunvohra.leveluphp.extensions.penaltyLuhpXp
+import me.sargunvohra.leveluphp.extensions.sendStatusMsg
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.entity.monster.IMob
@@ -15,7 +22,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-
+import net.minecraftforge.fml.common.gameevent.PlayerEvent as FMLPlayerEvent
 
 object EventHandler {
 
@@ -40,7 +47,11 @@ object EventHandler {
             newPlayer.luhpInitialize()
         } else {
             val oldPlayer = event.original as? EntityPlayerMP ?: return
-            LUHP_DATA.readNBT(newPlayer.luhpData, null, LUHP_DATA.writeNBT(oldPlayer.luhpData, null))
+            LUHP_DATA.readNBT(
+                newPlayer.luhpData,
+                null,
+                LUHP_DATA.writeNBT(oldPlayer.luhpData, null)
+            )
 
             if (event.isWasDeath)
                 newPlayer.luhpXp -= newPlayer.penaltyLuhpXp
@@ -53,7 +64,7 @@ object EventHandler {
     }
 
     @SubscribeEvent
-    fun onPlayerChangeDim(event: net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent) {
+    fun onPlayerChangeDim(event: FMLPlayerEvent.PlayerChangedDimensionEvent) {
         val player = (event.player as? EntityPlayerMP ?: return)
         player.luhpUpdateHpModifier()
         player.luhpUpdateClientOverlay()
@@ -78,8 +89,10 @@ object EventHandler {
 
         if (source.luhpLevel > oldLevel) {
 
-            source.world.playSound(null, source.posX, source.posY, source.posZ,
-                    Sounds.levelUp, SoundCategory.PLAYERS, 1f, 1f)
+            source.world.playSound(
+                null, source.posX, source.posY, source.posZ,
+                Sounds.levelUp, SoundCategory.PLAYERS, 1f, 1f
+            )
 
             source.sendStatusMsg("§c§lHP UP!")
 

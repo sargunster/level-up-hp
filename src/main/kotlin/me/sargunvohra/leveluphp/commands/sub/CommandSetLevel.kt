@@ -22,7 +22,12 @@ object CommandSetLevel : CommandBase() {
         sender.sendMessage(TextComponentString("Successfully updated player HP-LVL!"))
     }
 
-    override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?): List<String> {
+    override fun getTabCompletions(
+        server: MinecraftServer,
+        sender: ICommandSender,
+        args: Array<out String>,
+        targetPos: BlockPos?
+    ): List<String> {
         return if (args.size == 1)
             getListOfStringsMatchingLastWord(args, *server.onlinePlayerNames)
         else

@@ -30,9 +30,10 @@ object CommandHp : CommandBase() {
             "You're maxed out!"
         else
             "You have §c${sender.luhpXp}/${sender.neededLuhpXp}§r" +
-                    " xp towards the next HP upgrade"
+                " xp towards the next HP upgrade"
         sender.sendMessage(TextComponentString(msg))
     }
 
-    override fun checkPermission(server: MinecraftServer, sender: ICommandSender) = sender is EntityPlayerMP
+    override fun checkPermission(server: MinecraftServer, sender: ICommandSender) =
+        sender is EntityPlayerMP
 }

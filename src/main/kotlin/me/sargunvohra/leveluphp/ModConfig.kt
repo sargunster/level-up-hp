@@ -12,37 +12,52 @@ object ModConfig {
     @JvmStatic
     lateinit var config: Configuration
 
-    @JvmStatic @Config.Prop(description = "Starting HP offset in half-hearts.")
+    @JvmStatic
+    @Config.Prop(description = "Starting HP offset in half-hearts.")
     var hpOffset = -10
 
-    @JvmStatic @Config.Prop(description = "Maximum HP level.")
+    @JvmStatic
+    @Config.Prop(description = "Maximum HP level.")
     var maximumLevel = 15
 
-    @JvmStatic @Config.Prop(description = "HP gain per level in half-hearts")
+    @JvmStatic
+    @Config.Prop(description = "HP gain per level in half-hearts")
     var hpPerLevel = 2
 
-    @JvmStatic @Config.Prop(description = "Base HP-XP needed to advance to next HP level (base + scale*level).")
+    @JvmStatic
+    @Config.Prop(
+        description = "Base HP-XP needed to advance to next HP level (base + scale*level)."
+    )
     var neededXpBase = 100
 
-    @JvmStatic @Config.Prop(description = "Scaling HP-XP needed to advance to next HP level (base + scale*level).")
+    @JvmStatic
+    @Config.Prop(
+        description = "Scaling HP-XP needed to advance to next HP level (base + scale*level)."
+    )
     var neededXpScale = 50
 
-    @JvmStatic @Config.Prop(description = "Base HP-XP lost on death (base + scale*level).")
+    @JvmStatic
+    @Config.Prop(description = "Base HP-XP lost on death (base + scale*level).")
     var deathXpPenaltyBase = 20
 
-    @JvmStatic @Config.Prop(description = "Scaling HP-XP lost on death (base + scale*level).")
+    @JvmStatic
+    @Config.Prop(description = "Scaling HP-XP lost on death (base + scale*level).")
     var deathXpPenaltyScale = 10
 
-    @JvmStatic @Config.Prop(description = "Whether the player should heal when HP is leveled up")
+    @JvmStatic
+    @Config.Prop(description = "Whether the player should heal when HP is leveled up")
     var healOnLevelUp = true
 
-    @JvmStatic @Config.Prop(description = "Whether the player's HP level and XP should reset on death")
+    @JvmStatic
+    @Config.Prop(description = "Whether the player's HP level and XP should reset on death")
     var resetOnDeath = false
 
-    @JvmStatic @Config.Prop(description = "XP gained from killing monsters")
+    @JvmStatic
+    @Config.Prop(description = "XP gained from killing monsters")
     var monsterGain = 5
 
-    @JvmStatic @Config.Prop(description = "XP gained from killing livestock")
+    @JvmStatic
+    @Config.Prop(description = "XP gained from killing livestock")
     var livestockGain = 2
 
     fun init(configFile: File) {
@@ -55,4 +70,3 @@ object ModConfig {
             config.save()
     }
 }
-

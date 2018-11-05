@@ -12,8 +12,8 @@ class ModGuiFactory : IModGuiFactory {
 
     override fun hasConfigGui() = true
 
-    override fun createConfigGui(parentScreen: GuiScreen) = GUIConfig(parentScreen, MOD_ID, ModConfig.config)
+    override fun createConfigGui(parentScreen: GuiScreen) =
+        GUIConfig(parentScreen, MOD_ID, ModConfig.config)
 
     override fun runtimeGuiCategories() = emptySet<IModGuiFactory.RuntimeOptionCategoryElement>()
-
 }

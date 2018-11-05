@@ -9,7 +9,7 @@ jobs:
     - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "build.gradle.kts" }}
-    - run: ./gradlew setupCiWorkspace build
+    - run: ./gradlew setupCiWorkspace check build
     - store_artifacts:
         path: build/libs
         destination: jars

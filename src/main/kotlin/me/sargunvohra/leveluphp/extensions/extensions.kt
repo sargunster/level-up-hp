@@ -12,7 +12,8 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.util.text.TextComponentString
 
-fun EntityPlayer.sendStatusMsg(message: String) = sendStatusMessage(TextComponentString(message), true)
+fun EntityPlayer.sendStatusMsg(message: String) =
+    sendStatusMessage(TextComponentString(message), true)
 
 fun EntityPlayerMP.luhpInitialize() {
     luhpData.initialized = true

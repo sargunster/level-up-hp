@@ -20,13 +20,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.shadowfacts.shadowmc.config.ForgeConfigAdapter
 
-
 @Suppress("unused")
 @Mod(
-        modid = MOD_ID,
-        useMetadata = true,
-        modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter",
-        guiFactory = "me.sargunvohra.leveluphp.ModGuiFactory"
+    modid = MOD_ID,
+    useMetadata = true,
+    modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter",
+    guiFactory = "me.sargunvohra.leveluphp.ModGuiFactory"
 )
 object LevelUpHpMod {
 
@@ -39,19 +38,19 @@ object LevelUpHpMod {
         ModConfig.load()
 
         CapabilityManager.INSTANCE.register(
-                LuhpData::class.java,
-                LuhpData.Storage(),
-                LuhpData.Impl::class.java::newInstance
+            LuhpData::class.java,
+            LuhpData.Storage(),
+            LuhpData.Impl::class.java::newInstance
         )
 
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(EventHandler)
 
         NETWORK_WRAPPER.registerMessage(
-                ExpBarUpdateMessage::class.java,
-                ExpBarUpdateMessage::class.java,
-                0,
-                Side.CLIENT
+            ExpBarUpdateMessage::class.java,
+            ExpBarUpdateMessage::class.java,
+            0,
+            Side.CLIENT
         )
     }
 
@@ -70,7 +69,11 @@ object LevelUpHpMod {
     fun onEntityAttachCapability(event: AttachCapabilitiesEvent<Entity>) {
         val obj = event.`object`
         if (obj is EntityPlayerMP) {
-            event.addCapability(ResourceLocation(MOD_ID, LuhpData::class.java.simpleName), LuhpData.Provider())
+            event
+                .addCapability(
+                    ResourceLocation(MOD_ID, LuhpData::class.java.simpleName),
+                    LuhpData.Provider()
+                )
         }
     }
 
