@@ -1,3 +1,5 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.spotless.LineEnding
 import net.minecraftforge.gradle.user.patcherUser.forge.ForgeExtension
 
 buildscript {
@@ -41,10 +43,25 @@ val vThisMod = getVersionFromGit()
 apply(plugin = "net.minecraftforge.gradle.forge")
 apply(plugin = "kotlin")
 
+plugins {
+    id("com.diffplug.gradle.spotless") version "3.16.0"
+}
+
 version = "$vMinecraft-$vThisMod"
 group = modNamespace
 
 project.setProperty("archivesBaseName", modId)
+
+repositories {
+    jcenter()
+    maven(url = "http://maven.shadowfacts.net/")
+}
+
+dependencies {
+    val deobfCompile = configurations.getByName("deobfCompile")
+    deobfCompile(group = "net.shadowfacts", name = "ShadowMC", version = vShadowMc)
+    deobfCompile(group = "net.shadowfacts", name = "Forgelin", version = vForgelin)
+}
 
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -79,13 +96,25 @@ tasks.named<ProcessResources>("processResources") {
     }
 }
 
-repositories {
-    jcenter()
-    maven(url = "http://maven.shadowfacts.net/")
-}
+configure<SpotlessExtension> {
+    val ktlintSettings = mapOf(
+            "indent_size" to "2",
+            "continuation_indent_size" to "2"
+    )
 
-dependencies {
-    val deobfCompile = configurations.getByName("deobfCompile")
-    deobfCompile(group = "net.shadowfacts", name = "ShadowMC", version = vShadowMc)
-    deobfCompile(group = "net.shadowfacts", name = "Forgelin", version = vForgelin)
+    kotlin {
+        ktlint().userData(ktlintSettings)
+    }
+
+//    kotlinGradle {
+//        ktlint().userData(ktlintSettings)
+//    }
+
+    format("misc") {
+        target("**/*.md", "**/*.gitignore", "**/*.json", "**/*.info", "**/*.lang", "**/*.properties")
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+        lineEndings = LineEnding.UNIX
+    }
 }
