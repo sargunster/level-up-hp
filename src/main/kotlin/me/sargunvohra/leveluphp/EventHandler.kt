@@ -103,9 +103,11 @@ object EventHandler {
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Post) {
-        if (event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE)
-            return
-        if (event.isCanceled)
+        if (
+            event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE
+            || event.isCanceled
+            || !ModConfig.showCustomXpBar
+        )
             return
 
         val left = event.resolution.scaledWidth / 2 - 91

@@ -60,6 +60,10 @@ object ModConfig {
     @Config.Prop(description = "XP gained from killing livestock")
     var livestockGain = 2
 
+    @JvmStatic
+    @Config.Prop(description = "Whether to display the custom HP-XP bar overlay")
+    var showCustomXpBar = true
+
     fun init(configFile: File) {
         config = Configuration(configFile)
     }
