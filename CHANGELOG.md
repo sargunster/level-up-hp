@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 - Config for hp xp bar overlay
+ - Added a config option to show the custom XP bar (on by default)
+ - Removed the bar in creative mode (just like the regular XP bar)
+
 ## 1.3.0 - Add hp xp bar overlay
  - Add an hp xp bar below the regular XP bar
  - Adjust default config to start with less HP but gain faster
