@@ -25,6 +25,7 @@ val vForge: String by project
 val vKotlin: String by project
 val vForgelin: String by project
 val vShadowMc: String by project
+val vDevWorld: String by project
 
 val runClientPlayerName: String by project
 
@@ -55,12 +56,20 @@ project.setProperty("archivesBaseName", modId)
 repositories {
     jcenter()
     maven(url = "http://maven.shadowfacts.net/")
+    maven(url = "http://dl.tsr.me/artifactory/libs-release/")
+}
+
+configurations {
+    create("mod")
 }
 
 dependencies {
-    val deobfCompile = configurations.getByName("deobfCompile")
+    val deobfCompile = configurations["deobfCompile"]
     deobfCompile(group = "net.shadowfacts", name = "ShadowMC", version = vShadowMc)
     deobfCompile(group = "net.shadowfacts", name = "Forgelin", version = vForgelin)
+
+    val mod = configurations["mod"]
+    mod(group = "com.fireball1725.devworld", name = "devworld", version = vDevWorld)
 }
 
 configure<JavaPluginExtension> {
@@ -131,3 +140,21 @@ configure<SpotlessExtension> {
         ktlint().userData(ktlintSettings)
     }
 }
+
+tasks.create<Copy>("installMods") {
+    val minecraft = project.extensions.getByType<ForgeExtension>()
+    from(configurations["mod"])
+    include("**/*.jar")
+    into(file(minecraft.runDir + "/mods"))
+}.dependsOn("deinstallMods")
+
+tasks.create<Delete>("deinstallMods") {
+    val minecraft = project.extensions.getByType<ForgeExtension>()
+    delete(fileTree(
+        "dir" to minecraft.runDir + "/mods",
+        "include" to "*.jar"
+    ))
+}
+
+tasks["setupDecompWorkspace"].dependsOn("installMods")
+tasks["setupDevWorkspace"].dependsOn("installMods")
