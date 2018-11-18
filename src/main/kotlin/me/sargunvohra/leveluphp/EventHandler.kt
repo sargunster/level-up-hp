@@ -103,8 +103,11 @@ object EventHandler {
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Post) {
+        val mc = Minecraft.getMinecraft()
+
         if (
-            event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE
+            !mc.playerController.gameIsSurvivalOrAdventure()
+            || event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE
             || event.isCanceled
             || !ModConfig.showCustomXpBar
         )
@@ -115,8 +118,6 @@ object EventHandler {
         val fullWidth = 182
         val filledWidth = (fullWidth * ExpBarUpdateMessage.LATEST_FRACTION).toInt()
         val height = 3
-
-        val mc = Minecraft.getMinecraft()
 
         mc.textureManager.bindTexture(Resources.textureIcons)
         mc.ingameGUI.drawTexturedModalRect(left, top, 0, 3, fullWidth, height)
