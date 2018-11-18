@@ -106,10 +106,10 @@ object EventHandler {
         val mc = Minecraft.getMinecraft()
 
         if (
-            !mc.playerController.gameIsSurvivalOrAdventure()
-            || event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE
-            || event.isCanceled
-            || !ModConfig.showCustomXpBar
+            !mc.playerController.gameIsSurvivalOrAdventure() ||
+            event.type != RenderGameOverlayEvent.ElementType.EXPERIENCE ||
+            event.isCanceled ||
+            !ModConfig.showCustomXpBar
         )
             return
 
