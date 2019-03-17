@@ -1,5 +1,4 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import com.diffplug.spotless.LineEnding
 import net.minecraftforge.gradle.user.patcherUser.forge.ForgeExtension
 
 buildscript {
@@ -129,7 +128,6 @@ configure<SpotlessExtension> {
         trimTrailingWhitespace()
         indentWithSpaces(2)
         endWithNewline()
-        lineEndings = LineEnding.UNIX
     }
 
     kotlin {
