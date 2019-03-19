@@ -15,8 +15,8 @@ Check out this mod on [CurseForge][].
 ```bash
 git clone https://github.com/sargunv/level-up-hp.git
 cd level-up-hp
-./gradlew setupDecompWorkspace build runClient
-# On Windows, use ./gradlew.bat ...
+./gradlew check build runClient
+# On Windows, use "gradlew.bat" instead of "gradlew"
 ```
 
 [CurseForge]: https://minecraft.curseforge.com/projects/level-up-hp

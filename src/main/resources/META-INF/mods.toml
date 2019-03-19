@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[${forgeMajorVersion},)"
+issueTrackerURL="https://github.com/sargunv/level-up-hp/issues"
+
+[[mods]]
+modId="${modId}"
+version="${modVersion}"
+displayName="Level Up HP"
+#updateJSONURL=""
+displayURL="https://minecraft.curseforge.com/projects/level-up-hp"
+#logoFile=""
+credits=""
+authors="Sargun Vohra"
+description='''
+RPG Style HP Upgrades
+'''
+
+[["dependencies.${modId}"]]
+    modId="forge"
+    mandatory=true
+    versionRange="[${forgeMajorVersion},)"
+    ordering="NONE"
+    side="BOTH"
+
+[["dependencies.${modId}"]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[${mcVersion}]"
+    ordering="NONE"
+    side="BOTH"
