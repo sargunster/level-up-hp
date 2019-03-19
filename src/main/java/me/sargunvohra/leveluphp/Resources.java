@@ -1,13 +1,11 @@
 package me.sargunvohra.leveluphp;
 
+import lombok.experimental.UtilityClass;
 import net.minecraft.util.ResourceLocation;
 
-public final class Resources {
-  private Resources() {
-    throw new IllegalStateException();
-  }
-
-  public static ResourceLocation get(String name) {
+@UtilityClass
+public class Resources {
+  public ResourceLocation get(String name) {
     return new ResourceLocation(LevelUpHp.MOD_ID, name);
   }
 }
