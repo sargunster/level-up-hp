@@ -1,5 +1,6 @@
 package me.sargunvohra.svlib.capability;
 
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
@@ -10,8 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.function.Supplier;
 
 /**
  * This class is responsible for attaching PlayerCapabilities to players, and making sure the data
@@ -30,7 +29,7 @@ public class PlayerCapabilityManager<Handler extends PlayerCapability> {
   void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
     val entity = event.getObject();
     if (!(entity instanceof EntityPlayer)) return;
-    
+
     val provider = new PlayerCapabilityProvider<Handler>(capability.get(), key);
     event.addCapability(key, provider);
     provider.attach((EntityPlayer) entity);
@@ -38,7 +37,8 @@ public class PlayerCapabilityManager<Handler extends PlayerCapability> {
 
   @SubscribeEvent
   void onPlayerClone(PlayerEvent.Clone event) {
-    event.getEntityPlayer()
+    event
+        .getEntityPlayer()
         .getCapability(capability.get())
         .ifPresent(handler -> initializeClone(event.isWasDeath(), event.getOriginal(), handler));
   }

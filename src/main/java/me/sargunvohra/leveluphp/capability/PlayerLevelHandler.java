@@ -1,7 +1,6 @@
 package me.sargunvohra.leveluphp.capability;
 
 import java.util.UUID;
-
 import lombok.*;
 import me.sargunvohra.leveluphp.LevelUpHp;
 import me.sargunvohra.leveluphp.Resources;

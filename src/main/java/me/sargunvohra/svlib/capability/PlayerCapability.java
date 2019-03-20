@@ -1,10 +1,9 @@
 package me.sargunvohra.svlib.capability;
 
-import lombok.val;
-import net.minecraft.entity.player.EntityPlayer;
-
 import java.util.HashSet;
 import java.util.Set;
+import lombok.val;
+import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class PlayerCapability {
   private Set<Runnable> listeners = new HashSet<>();

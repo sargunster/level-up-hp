@@ -10,7 +10,8 @@ final class PlayerLevelStorage implements Capability.IStorage<PlayerLevelHandler
   private static final String XP_KEY = "xp";
 
   @Override
-  public INBTBase writeNBT(Capability<PlayerLevelHandler> type, PlayerLevelHandler instance, EnumFacing side) {
+  public INBTBase writeNBT(
+      Capability<PlayerLevelHandler> type, PlayerLevelHandler instance, EnumFacing side) {
     val tag = new NBTTagCompound();
     tag.putInt(XP_KEY, instance.getXp());
     return tag;
@@ -18,7 +19,10 @@ final class PlayerLevelStorage implements Capability.IStorage<PlayerLevelHandler
 
   @Override
   public void readNBT(
-    Capability<PlayerLevelHandler> type, PlayerLevelHandler instance, EnumFacing side, INBTBase nbt) {
+      Capability<PlayerLevelHandler> type,
+      PlayerLevelHandler instance,
+      EnumFacing side,
+      INBTBase nbt) {
     val tag = (NBTTagCompound) nbt;
     instance.setXp(tag.getInt(XP_KEY));
   }

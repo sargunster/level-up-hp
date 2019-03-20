@@ -2,8 +2,8 @@ package me.sargunvohra.leveluphp;
 
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import me.sargunvohra.leveluphp.core.ProgressionController;
 import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
+import me.sargunvohra.leveluphp.core.ProgressionController;
 import me.sargunvohra.svlib.capability.PlayerCapabilityManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

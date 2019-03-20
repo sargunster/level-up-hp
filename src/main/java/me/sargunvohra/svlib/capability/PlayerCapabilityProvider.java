@@ -1,14 +1,13 @@
 package me.sargunvohra.svlib.capability;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Specialized provider for capabilities that attach to players. Supports persisting data across
@@ -36,7 +35,8 @@ public class PlayerCapabilityProvider<Handler extends PlayerCapability>
 
   @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing side) {
+  public <T> LazyOptional<T> getCapability(
+      @Nonnull Capability<T> capability, @Nullable EnumFacing side) {
     val ret = super.getCapability(capability, side);
     ret.addListener(it -> this.target = null);
     return ret;
