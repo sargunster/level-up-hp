@@ -2,9 +2,7 @@ package me.sargunvohra.svlib.capability;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import net.minecraft.entity.Entity;
