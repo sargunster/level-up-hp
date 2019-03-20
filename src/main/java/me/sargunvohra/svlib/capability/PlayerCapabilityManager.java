@@ -1,11 +1,15 @@
 package me.sargunvohra.svlib.capability;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -15,24 +19,30 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 /**
  * This class is responsible for attaching PlayerCapabilities to players, and making sure the data
  * is always consistent, such as across dimensional travel or respawn.
- *
- * <p>TODO sync to client
  */
 @Log4j2
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PlayerCapabilityManager<Handler extends PlayerCapability> {
 
   private final Supplier<Capability<Handler>> capability;
   private final ResourceLocation key;
+  private final Predicate<EntityPlayer> filter;
+
+  public PlayerCapabilityManager(Supplier<Capability<Handler>> capability, ResourceLocation key) {
+    this(capability, key, player -> true);
+  }
 
   @SubscribeEvent
   void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
     val entity = event.getObject();
     if (!(entity instanceof EntityPlayer)) return;
 
+    val player = (EntityPlayer) entity;
+    if (!filter.test(player)) return;
+
     val provider = new PlayerCapabilityProvider<Handler>(capability.get(), key);
     event.addCapability(key, provider);
-    provider.attach((EntityPlayer) entity);
+    provider.attach(player);
   }
 
   @SubscribeEvent
@@ -40,13 +50,22 @@ public class PlayerCapabilityManager<Handler extends PlayerCapability> {
     event
         .getEntityPlayer()
         .getCapability(capability.get())
-        .ifPresent(handler -> initializeClone(event.isWasDeath(), event.getOriginal(), handler));
+        .ifPresent(
+            handler -> initializeClone(event.isWasDeath(), event.getEntityPlayer(), handler));
   }
 
-  private void initializeClone(boolean wasDeath, EntityPlayer oldPlayer, Handler newHandler) {
-    if (!wasDeath || newHandler.shouldPersistOnDeath()) {
-      val oldData = oldPlayer.getEntityData().get(key.toString());
-      capability.get().getStorage().readNBT(capability.get(), newHandler, null, oldData);
+  private void initializeClone(boolean wasDeath, EntityPlayer newPlayer, Handler newHandler) {
+    if (newHandler.shouldPersist(wasDeath)) {
+      val entityData = newPlayer.getEntityData();
+      if (!entityData.contains(EntityPlayer.PERSISTED_NBT_TAG)) return;
+
+      val persistedData = (NBTTagCompound) entityData.get(EntityPlayer.PERSISTED_NBT_TAG);
+      val keyStr = key.toString();
+      if (!persistedData.contains(keyStr)) return;
+
+      val data = persistedData.get(keyStr);
+      val cap = capability.get();
+      cap.getStorage().readNBT(cap, newHandler, null, data);
     }
   }
 }

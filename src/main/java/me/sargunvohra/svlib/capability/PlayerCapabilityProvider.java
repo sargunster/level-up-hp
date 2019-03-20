@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import lombok.val;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -44,8 +45,15 @@ public class PlayerCapabilityProvider<Handler extends PlayerCapability>
 
   private void writeToEntityData() {
     if (target == null) return;
+
     val data = getCapability().getStorage().writeNBT(getCapability(), getInstance(), null);
     if (data == null) return;
-    target.getEntityData().put(key.toString(), data);
+
+    val entityData = target.getEntityData();
+    if (!entityData.contains(EntityPlayer.PERSISTED_NBT_TAG))
+      entityData.put(EntityPlayer.PERSISTED_NBT_TAG, new NBTTagCompound());
+
+    val persistedData = (NBTTagCompound) entityData.get(EntityPlayer.PERSISTED_NBT_TAG);
+    persistedData.put(key.toString(), data);
   }
 }

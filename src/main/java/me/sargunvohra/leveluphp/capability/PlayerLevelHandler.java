@@ -37,6 +37,11 @@ public final class PlayerLevelHandler extends PlayerCapability {
   }
 
   @Override
+  public boolean shouldPersist(boolean wasDeath) {
+    return true;
+  }
+
+  @Override
   public void apply(EntityPlayer target) {
     final UUID MODIFIER_ID = UUID.fromString("ff859d30-ec60-418f-a5be-6f3de76a514a");
     final String MODIFIER_NAME = LevelUpHp.MOD_ID + ".hp_modifier";

@@ -10,8 +10,8 @@ public abstract class PlayerCapability {
 
   public void apply(EntityPlayer target) {}
 
-  public boolean shouldPersistOnDeath() {
-    return false;
+  public boolean shouldPersist(boolean wasDeath) {
+    return !wasDeath;
   }
 
   public final void addListener(Runnable listener) {
