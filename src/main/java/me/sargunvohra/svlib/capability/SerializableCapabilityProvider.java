@@ -4,10 +4,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
-public class SerializableCapabilityProvider<C> extends SimpleCapabilityProvider<C>
+/**
+ * Variant of SimpleCapabilityProvider for capabilities that want to save data.
+ *
+ * @param <I> The capability interface
+ */
+public class SerializableCapabilityProvider<I> extends SimpleCapabilityProvider<I>
     implements ICapabilitySerializable<NBTTagCompound> {
 
-  public SerializableCapabilityProvider(Capability<C> type) {
+  public SerializableCapabilityProvider(Capability<I> type) {
     super(type);
   }
 

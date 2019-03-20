@@ -6,6 +6,7 @@ import me.sargunvohra.leveluphp.Capabilities;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+/** This class is responsible for managing progression of the player's hp level. */
 @Log4j2
 public class ProgressionController {
 
