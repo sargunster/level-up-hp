@@ -10,29 +10,27 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
 /**
- * Simple provider for use with capabilities that simply attach without complex logic.
- *
- * @param <I> The capability interface
+ * Simple provider for use with capabilities that simply attach without complex logic or
+ * serialization.
  */
 @Getter
-public class SimpleCapabilityProvider<I> implements ICapabilityProvider {
+public class SimpleCapabilityProvider<Handler> implements ICapabilityProvider {
 
-  private final Capability<I> type;
-  private final I instance;
+  private final Capability<Handler> capability;
+  private final Handler instance;
 
-  public SimpleCapabilityProvider(Capability<I> type) {
-    this.type = type;
-    this.instance = type.getDefaultInstance();
+  public SimpleCapabilityProvider(Capability<Handler> capability) {
+    this.capability = capability;
+    this.instance = capability.getDefaultInstance();
   }
 
   @Nonnull
   @Override
-  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> type, @Nullable EnumFacing side) {
-    if (type != this.type) return LazyOptional.empty();
-
+  public <T> LazyOptional<T> getCapability(
+      @Nonnull Capability<T> capability, @Nullable EnumFacing side) {
+    if (capability != this.capability) return LazyOptional.empty();
     //noinspection NullableProblems
     val ret = LazyOptional.of(this::getInstance);
-
     // noinspection unchecked
     return (LazyOptional<T>) ret;
   }

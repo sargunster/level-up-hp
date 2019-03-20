@@ -1,9 +1,10 @@
 package me.sargunvohra.leveluphp;
 
 import lombok.extern.log4j.Log4j2;
+import lombok.val;
 import me.sargunvohra.leveluphp.core.ProgressionController;
-import me.sargunvohra.leveluphp.data.ILevelHandler;
-import me.sargunvohra.leveluphp.data.PlayerLevelManager;
+import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
+import me.sargunvohra.svlib.capability.PlayerCapabilityManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,15 +19,17 @@ public class LevelUpHp {
   public static final String MOD_ID = BuildConfig.NAME;
 
   public LevelUpHp() {
-    LOG.debug("register event bus listeners");
     FMLJavaModLoadingContext.get().getModEventBus().register(this);
-    MinecraftForge.EVENT_BUS.register(new PlayerLevelManager());
-    MinecraftForge.EVENT_BUS.register(new ProgressionController());
+
+    Object[] eventListeners = {
+      new PlayerCapabilityManager<>(() -> PlayerLevelHandler.CAPABILITY, PlayerLevelHandler.KEY),
+      new ProgressionController()
+    };
+    for (val listener : eventListeners) MinecraftForge.EVENT_BUS.register(listener);
   }
 
   @SubscribeEvent
   void onSetup(FMLCommonSetupEvent event) {
-    LOG.debug("register capabilities");
-    ILevelHandler.register();
+    PlayerLevelHandler.register();
   }
 }
