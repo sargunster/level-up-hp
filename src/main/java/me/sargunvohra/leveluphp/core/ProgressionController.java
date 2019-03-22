@@ -16,8 +16,11 @@ public class ProgressionController {
   void onLivingDeath(LivingDeathEvent event) {
     val source = event.getSource().getTrueSource();
     if (!(source instanceof EntityPlayer)) return;
-    source.getCapability(PlayerLevelHandler.CAPABILITY).ifPresent(hpData -> {
-      if (hpData.addXp(1)) source.sendMessage(new TextComponentString("Level up!"));
-    });
+    source
+        .getCapability(PlayerLevelHandler.CAPABILITY)
+        .ifPresent(
+            hpData -> {
+              if (hpData.addXp(1)) source.sendMessage(new TextComponentString("Level up!"));
+            });
   }
 }

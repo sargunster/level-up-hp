@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 /** Attach this capability to any player that should have the Level Up HP ability. */
+@ToString
 public final class PlayerLevelHandler extends PlayerCapability {
 
   @CapabilityInject(PlayerLevelHandler.class)
@@ -23,7 +24,8 @@ public final class PlayerLevelHandler extends PlayerCapability {
 
   @Getter private int xp;
   @Getter private int level;
-  private boolean healOnApply;
+
+  @ToString.Exclude private boolean healOnApply;
 
   public boolean setXp(int xp) {
     this.xp = xp;

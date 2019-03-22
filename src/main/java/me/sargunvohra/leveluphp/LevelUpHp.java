@@ -32,7 +32,11 @@ public class LevelUpHp {
   void registerForgeEventListeners() {
     Object[] eventListeners = {
       this,
-      new PlayerCapabilityManager<>(() -> PlayerLevelHandler.CAPABILITY, PlayerLevelHandler.KEY),
+      new PlayerCapabilityManager<>(
+          () -> PlayerLevelHandler.CAPABILITY,
+          PlayerLevelHandler.KEY,
+          player -> true,
+          BuildConfig.VERSION),
       new ProgressionController()
     };
     for (val listener : eventListeners) MinecraftForge.EVENT_BUS.register(listener);

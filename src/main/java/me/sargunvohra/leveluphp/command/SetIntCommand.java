@@ -1,17 +1,16 @@
 package me.sargunvohra.leveluphp.command;
 
+import static net.minecraft.command.Commands.literal;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import java.util.function.BiConsumer;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-
-import java.util.function.BiConsumer;
-
-import static net.minecraft.command.Commands.literal;
 
 @UtilityClass
 class SetIntCommand {

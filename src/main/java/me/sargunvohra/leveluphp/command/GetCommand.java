@@ -1,6 +1,9 @@
 package me.sargunvohra.leveluphp.command;
 
+import static net.minecraft.command.Commands.literal;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import java.util.function.Function;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
@@ -8,10 +11,6 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.util.text.ITextComponent;
-
-import java.util.function.Function;
-
-import static net.minecraft.command.Commands.literal;
 
 @UtilityClass
 class GetCommand {

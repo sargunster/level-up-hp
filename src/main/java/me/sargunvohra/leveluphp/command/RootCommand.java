@@ -1,5 +1,7 @@
 package me.sargunvohra.leveluphp.command;
 
+import static net.minecraft.command.Commands.literal;
+
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import lombok.experimental.UtilityClass;
 import lombok.val;
@@ -9,18 +11,18 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
-import static net.minecraft.command.Commands.literal;
-
-@SuppressWarnings("ALL")
 @UtilityClass
 public class RootCommand {
+
+  private final int MIN_PERMISSION = 2;
+
   public LiteralArgumentBuilder<CommandSource> register() {
     val base = literal(LevelUpHp.MOD_ID);
-    base.then(SetIntCommand.register("setxp", 2, PlayerLevelHandler::setXp));
-    base.then(SetIntCommand.register("addxp", 2, PlayerLevelHandler::addXp));
-    base.then(SetIntCommand.register("setlevel", 2, PlayerLevelHandler::setLevel));
-    base.then(SetIntCommand.register("addlevel", 2, PlayerLevelHandler::addLevel));
-    base.then(GetCommand.register("check", 2, RootCommand::checkCommand));
+    base.then(SetIntCommand.register("setxp", MIN_PERMISSION, PlayerLevelHandler::setXp));
+    base.then(SetIntCommand.register("addxp", MIN_PERMISSION, PlayerLevelHandler::addXp));
+    base.then(SetIntCommand.register("setlevel", MIN_PERMISSION, PlayerLevelHandler::setLevel));
+    base.then(SetIntCommand.register("addlevel", MIN_PERMISSION, PlayerLevelHandler::addLevel));
+    base.then(GetCommand.register("check", MIN_PERMISSION, RootCommand::checkCommand));
     return base;
   }
 
