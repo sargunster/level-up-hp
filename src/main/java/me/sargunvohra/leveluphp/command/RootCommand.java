@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import me.sargunvohra.leveluphp.LevelUpHp;
-import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
+import me.sargunvohra.leveluphp.core.PlayerLevelHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;

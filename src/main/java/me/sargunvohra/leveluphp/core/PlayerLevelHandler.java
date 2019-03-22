@@ -1,14 +1,17 @@
-package me.sargunvohra.leveluphp.capability;
+package me.sargunvohra.leveluphp.core;
 
 import java.util.UUID;
 import lombok.*;
+import me.sargunvohra.leveluphp.BuildConfig;
 import me.sargunvohra.leveluphp.LevelUpHp;
 import me.sargunvohra.leveluphp.Resources;
 import me.sargunvohra.svlib.capability.PlayerCapability;
+import me.sargunvohra.svlib.capability.PlayerCapabilityController;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -58,7 +61,11 @@ public final class PlayerLevelHandler extends PlayerCapability {
   }
 
   public int xpTarget() {
-    return 10;
+    return 4;
+  }
+
+  public float xpFraction() {
+    return (float) getXp() / xpTarget();
   }
 
   @Override
@@ -85,6 +92,15 @@ public final class PlayerLevelHandler extends PlayerCapability {
   }
 
   public static void register() {
+    MinecraftForge.EVENT_BUS.register(
+        new PlayerCapabilityController<>(
+            () -> PlayerLevelHandler.CAPABILITY,
+            PlayerLevelHandler.KEY,
+            player -> true,
+            BuildConfig.VERSION));
+  }
+
+  public static void setup() {
     CapabilityManager.INSTANCE.register(
         PlayerLevelHandler.class, new PlayerLevelStorage(), PlayerLevelHandler::new);
   }

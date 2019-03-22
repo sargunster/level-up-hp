@@ -28,17 +28,17 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 /**
  * This class is responsible for attaching PlayerCapabilities to players, and making sure the data
- * is always consistent, such as across dimensional travel or respawn.
+ * is always consistent, such as across dimensional travel or respawn, or from server to client.
  */
 @Log4j2
-public class PlayerCapabilityManager<Handler extends PlayerCapability> {
+public class PlayerCapabilityController<Handler extends PlayerCapability> {
 
   private final Supplier<Capability<Handler>> capability;
   private final Predicate<EntityPlayer> filter;
   private final ResourceLocation key;
   private final SimpleChannel channel;
 
-  public PlayerCapabilityManager(
+  public PlayerCapabilityController(
       Supplier<Capability<Handler>> capability,
       ResourceLocation key,
       Predicate<EntityPlayer> filter,
@@ -102,7 +102,7 @@ public class PlayerCapabilityManager<Handler extends PlayerCapability> {
     if (player.connection == null) return; // player doesn't have a client yet
     val cap = capability.get();
     val nbt = cap.getStorage().writeNBT(cap, handler, null);
-    val message = new PlayerCapabilityManager.Message(nbt);
+    val message = new PlayerCapabilityController.Message(nbt);
     channel.send(PacketDistributor.PLAYER.with(() -> player), message);
   }
 

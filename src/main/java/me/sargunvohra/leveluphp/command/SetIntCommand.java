@@ -7,7 +7,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import java.util.function.BiConsumer;
 import lombok.experimental.UtilityClass;
 import lombok.val;
-import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
+import me.sargunvohra.leveluphp.core.PlayerLevelHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;

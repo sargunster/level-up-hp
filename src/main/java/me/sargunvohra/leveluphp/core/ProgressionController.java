@@ -2,9 +2,9 @@ package me.sargunvohra.leveluphp.core;
 
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import me.sargunvohra.leveluphp.capability.PlayerLevelHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -22,5 +22,9 @@ public class ProgressionController {
             hpData -> {
               if (hpData.addXp(1)) source.sendMessage(new TextComponentString("Level up!"));
             });
+  }
+
+  public void register() {
+    MinecraftForge.EVENT_BUS.register(this);
   }
 }

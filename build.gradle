@@ -56,12 +56,16 @@ processResources {
     inputs.property "forgeVersion", project.properties.forgeVersion
     inputs.property "modId", project.properties.modId
 
-    expand (
-            modId: modId,
-            modVersion: project.version,
-            mcVersion: mcVersion,
-            forgeMajorVersion: forgeVersion.takeWhile { it != '.' },
-    )
+    eachFile { file ->
+        if (file.name.endsWith('.toml') || file.name.endsWith('.mcmeta')) {
+            file.expand(
+                    modId: modId,
+                    modVersion: project.version,
+                    mcVersion: mcVersion,
+                    forgeMajorVersion: forgeVersion.takeWhile { it != '.' },
+            )
+        }
+    }
 }
 
 jar {

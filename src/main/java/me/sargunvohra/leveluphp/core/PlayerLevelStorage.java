@@ -1,4 +1,4 @@
-package me.sargunvohra.leveluphp.capability;
+package me.sargunvohra.leveluphp.core;
 
 import lombok.val;
 import net.minecraft.nbt.INBTBase;

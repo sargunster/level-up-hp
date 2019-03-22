@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.LazyOptional;
  * Specialized provider for capabilities that attach to players. Supports persisting data across
  * death or return from end.
  */
-public class PlayerCapabilityProvider<Handler extends PlayerCapability>
+class PlayerCapabilityProvider<Handler extends PlayerCapability>
     extends SerializableCapabilityProvider<Handler> {
 
   private final ResourceLocation key;
