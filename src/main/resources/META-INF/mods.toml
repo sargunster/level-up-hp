@@ -1,5 +1,5 @@
-modLoader="javafml"
-loaderVersion="[${forgeMajorVersion},)"
+modLoader="kotlinfml"
+loaderVersion="${loaderVersion}"
 issueTrackerURL="https://github.com/sargunv/level-up-hp/issues"
 
 [[mods]]
@@ -18,7 +18,7 @@ RPG Style HP Upgrades
 [["dependencies.${modId}"]]
     modId="forge"
     mandatory=true
-    versionRange="[${forgeMajorVersion},)"
+    versionRange="${forgeAcceptedVersion}"
     ordering="NONE"
     side="BOTH"
 
