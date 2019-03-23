@@ -1,9 +1,5 @@
 package me.sargunvohra.leveluphp.data
 
-import net.minecraft.entity.Entity
-import net.minecraft.entity.monster.IMob
-import net.minecraft.entity.passive.IAnimal
-
 data class LevellingConfig(
     val hpOffset: Int,
     val maximumLevel: Int,
@@ -28,32 +24,23 @@ data class LevellingConfig(
         }
     }
 
-    fun calculateXpValue(entity: Entity): Int {
-        return overrides[entity.type.registryName.toString()]
-            ?: when (entity) {
-                is IAnimal -> primaryXpValues.animal
-                is IMob -> primaryXpValues.mob
-                else -> 0
-            }
+    data class Scale(
+        val base: Int,
+        val scale: Int
+    ) {
+        fun validate() {
+            check(base >= 0)
+            check(scale >= if (base == 0) 1 else 0)
+        }
     }
-}
 
-data class Scale(
-    val base: Int,
-    val scale: Int
-) {
-    fun validate() {
-        check(base >= 0)
-        check(scale >= if (base == 0) 1 else 0)
-    }
-}
-
-data class PrimaryXpValues(
-    val animal: Int,
-    val mob: Int
-) {
-    fun validate() {
-        check(animal >= 0)
-        check(mob >= 0)
+    data class PrimaryXpValues(
+        val animal: Int,
+        val mob: Int
+    ) {
+        fun validate() {
+            check(animal >= 0)
+            check(mob >= 0)
+        }
     }
 }

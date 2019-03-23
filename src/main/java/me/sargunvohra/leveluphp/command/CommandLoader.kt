@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 
 @KotlinEventBusSubscriber(modid = LevelUpHp.MOD_ID)
-object CommandManager {
+object CommandLoader {
     @SubscribeEvent
     fun onServerStarting(event: FMLServerStartingEvent) {
         event.commandDispatcher.register(buildLevelUpHpCommand())

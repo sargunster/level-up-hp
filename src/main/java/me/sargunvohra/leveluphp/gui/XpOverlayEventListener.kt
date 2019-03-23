@@ -2,7 +2,7 @@ package me.sargunvohra.leveluphp.gui
 
 import me.sargunvohra.leveluphp.LevelUpHp
 import me.sargunvohra.leveluphp.Resources
-import me.sargunvohra.leveluphp.core.playerLevelHandler
+import me.sargunvohra.leveluphp.level.playerLevelHandler
 import net.alexwells.kottle.KotlinEventBusSubscriber
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
@@ -12,10 +12,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 @KotlinEventBusSubscriber(Dist.CLIENT, modid = LevelUpHp.MOD_ID)
-object XpOverlayManager {
+object XpOverlayEventListener {
 
     @SubscribeEvent
-    internal fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
+    fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
         val mc = Minecraft.getInstance()
 
         if (!mc.playerController.gameIsSurvivalOrAdventure() ||

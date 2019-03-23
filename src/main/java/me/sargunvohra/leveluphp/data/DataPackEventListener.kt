@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.InputStreamReader
 
 @KotlinEventBusSubscriber(modid = LevelUpHp.MOD_ID)
-object DataPackManager {
+object DataPackEventListener {
 
     private val gson = Gson()
 
@@ -20,21 +20,20 @@ object DataPackManager {
         private set
 
     private fun reload(resourceManager: IResourceManager) {
-        val overrides = resourceManager.getAllResourceLocations("${LevelUpHp.MOD_ID}/override") {
-            it.endsWith(".json")
-        }.fold(HashMap<String, Int>()) { map, resource ->
-            val override: Map<String, Int> = gson.fromJson(
-                InputStreamReader(resourceManager.getResource(resource).inputStream),
-                object : TypeToken<Map<String, Int>>() {}.type
-            )
-            map += override
-            return@fold map
-        }
+        val overrides = resourceManager
+            .getAllResourceLocations("${LevelUpHp.MOD_ID}/override") {
+                it.endsWith(".json")
+            }.fold(HashMap<String, Int>()) { map, resource ->
+                val override: Map<String, Int> = gson.fromJson(
+                    InputStreamReader(resourceManager.getResource(resource).inputStream),
+                    object : TypeToken<Map<String, Int>>() {}.type
+                )
+                map += override
+                return@fold map
+            }
 
         config = gson.fromJson(
-            InputStreamReader(
-                resourceManager.getResource(Resources.get("${LevelUpHp.MOD_ID}/general.json")).inputStream
-            ),
+            InputStreamReader(resourceManager.getResource(Resources.dataGeneral).inputStream),
             LevellingConfig::class.java
         ).copy(overrides = overrides)
 

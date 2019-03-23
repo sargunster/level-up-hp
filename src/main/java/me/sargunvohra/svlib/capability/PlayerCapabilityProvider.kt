@@ -7,16 +7,15 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.util.LazyOptional
-import java.util.function.BiConsumer
 
 /**
  * Specialized provider for capabilities that attach to players. Supports persisting data across
  * death or return from end.
  */
-internal class PlayerCapabilityProvider<Handler : PlayerCapability>(
+class PlayerCapabilityProvider<Handler : PlayerCapability>(
     capability: Capability<Handler>,
     private val key: ResourceLocation,
-    private val syncToClient: BiConsumer<EntityPlayerMP, Handler>
+    private val syncToClient: (EntityPlayerMP, Handler) -> Unit
 ) : SerializableCapabilityProvider<Handler>(capability) {
 
     private var targetPlayer: EntityPlayer? = null
@@ -52,6 +51,6 @@ internal class PlayerCapabilityProvider<Handler : PlayerCapability>(
 
     private fun syncToClientIfMP() {
         val player = targetPlayer as? EntityPlayerMP ?: return
-        syncToClient.accept(player, instance)
+        syncToClient(player, instance)
     }
 }

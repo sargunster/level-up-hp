@@ -6,7 +6,7 @@ import java.util.HashSet
 abstract class PlayerCapability {
     private val listeners = HashSet<() -> Any>()
 
-    open fun apply(target: EntityPlayer) {}
+    open fun apply(owner: EntityPlayer) {}
 
     open fun shouldPersist(wasDeath: Boolean) = !wasDeath
 

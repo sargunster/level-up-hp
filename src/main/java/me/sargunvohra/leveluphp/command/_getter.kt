@@ -1,8 +1,8 @@
 package me.sargunvohra.leveluphp.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import me.sargunvohra.leveluphp.core.PlayerLevelHandler
-import me.sargunvohra.leveluphp.core.playerLevelHandler
+import me.sargunvohra.leveluphp.level.Leveller
+import me.sargunvohra.leveluphp.level.playerLevelHandler
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands.argument
 import net.minecraft.command.Commands.literal
@@ -10,10 +10,10 @@ import net.minecraft.command.arguments.EntityArgument.getPlayer
 import net.minecraft.command.arguments.EntityArgument.player
 import net.minecraft.util.text.ITextComponent
 
-internal fun getter(
+fun getter(
     literal: String,
     permissionLevel: Int,
-    response: (PlayerLevelHandler) -> ITextComponent
+    response: (Leveller) -> ITextComponent
 ): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
         .requires { it.hasPermissionLevel(permissionLevel) }

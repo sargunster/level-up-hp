@@ -13,7 +13,7 @@ open class SimpleCapabilityProvider<Handler>(
     val capability: Capability<Handler>
 ) : ICapabilityProvider {
 
-    internal val instance: Handler = capability.defaultInstance!!
+    val instance: Handler = capability.defaultInstance!!
 
     override fun <T> getCapability(capability: Capability<T>, side: EnumFacing?): LazyOptional<T> {
         if (capability !== this.capability)
