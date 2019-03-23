@@ -16,6 +16,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.EntityJoinWorldEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
 import net.minecraftforge.fml.network.NetworkRegistry
@@ -28,7 +29,8 @@ import java.util.function.Supplier
  * This class is responsible for attaching PlayerCapabilities to players, and making sure the data
  * is always consistent, such as across dimensional travel or respawn, or from server to client.
  */
-class PlayerCapabilityController<Handler : PlayerCapability>(
+@Mod.EventBusSubscriber
+open class PlayerCapabilityController<Handler : PlayerCapability>(
     capSupplier: () -> Capability<Handler>,
     private val key: ResourceLocation,
     private val filter: (EntityPlayer) -> Boolean = { true },
@@ -42,7 +44,7 @@ class PlayerCapabilityController<Handler : PlayerCapability>(
     private val capability by lazy { capSupplier() }
 
     init {
-        @Suppress("INACCESSIBLE_TYPE")
+        @Suppress("INACCESSIBLE_TYPE", "LeakingThis")
         channel.registerMessage(
             0,
             Message::class.java,

@@ -1,0 +1,19 @@
+{
+    "hpOffset": -10,
+    "maximumLevel": 15,
+    "hpPerLevel": 2,
+    "healOnLevelUp": true,
+    "resetOnDeath": false,
+    "advancementScale": {
+        "base": 100,
+        "scale": 50
+    },
+    "deathPenaltyScale": {
+        "base": 25,
+        "scale": 12
+    },
+    "primaryXpValues": {
+        "animal": 2,
+        "mob": 5
+    }
+}
