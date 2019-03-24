@@ -1,0 +1,9 @@
+{
+    "levelup": {
+        "category": "player",
+        "subtitle": "leveluphp.subtitle.levelup",
+        "sounds": [
+            "leveluphp:levelup"
+        ]
+    }
+}

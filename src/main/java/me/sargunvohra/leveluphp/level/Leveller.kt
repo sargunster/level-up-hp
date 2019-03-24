@@ -1,6 +1,7 @@
 package me.sargunvohra.leveluphp.level
 
 import me.sargunvohra.leveluphp.LevelUpHp
+import me.sargunvohra.leveluphp.SoundEvents
 import me.sargunvohra.leveluphp.data.DataPackEventListener
 import me.sargunvohra.leveluphp.data.LevellingConfig
 import me.sargunvohra.svlib.capability.PlayerCapability
@@ -10,7 +11,8 @@ import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.passive.IAnimal
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.text.TextComponentString
+import net.minecraft.util.SoundCategory
+import net.minecraft.util.text.TextComponentTranslation
 import java.util.UUID
 
 class Leveller : PlayerCapability() {
@@ -106,7 +108,15 @@ class Leveller : PlayerCapability() {
         if (this.justLevelledUp) {
             justLevelledUp = false
 
-            owner.sendStatusMessage(TextComponentString("§c§lHP up!"), true)
+            owner.sendStatusMessage(TextComponentTranslation("leveluphp.status.levelup"), true)
+
+            owner.world.playSound(
+                null,
+                owner.posX, owner.posY, owner.posZ,
+                SoundEvents.levelUp,
+                SoundCategory.PLAYERS,
+                1f, 1f
+            )
 
             if (config.healOnLevelUp) {
                 owner.health = maxHealth
