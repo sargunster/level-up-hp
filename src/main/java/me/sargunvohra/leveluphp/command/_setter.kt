@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType.getInteger
 import com.mojang.brigadier.arguments.IntegerArgumentType.integer
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.leveluphp.level.Leveller
-import me.sargunvohra.leveluphp.level.playerLevelHandler
+import me.sargunvohra.leveluphp.level.leveller
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands.argument
 import net.minecraft.command.Commands.literal
@@ -24,7 +24,7 @@ fun setter(
                     val player = ctx.source.asPlayer()
                     val amount = getInteger(ctx, "amount")
 
-                    player.playerLevelHandler.ifPresent {
+                    player.leveller.ifPresent {
                         set(it, amount)
                     }
 
@@ -38,7 +38,7 @@ fun setter(
                     val amount = getInteger(ctx, "amount")
 
                     players.forEach { player ->
-                        player.playerLevelHandler.ifPresent {
+                        player.leveller.ifPresent {
                             set(it, amount)
                         }
                     }

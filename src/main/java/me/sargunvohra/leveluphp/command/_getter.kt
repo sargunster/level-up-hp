@@ -2,7 +2,7 @@ package me.sargunvohra.leveluphp.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.leveluphp.level.Leveller
-import me.sargunvohra.leveluphp.level.playerLevelHandler
+import me.sargunvohra.leveluphp.level.leveller
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands.argument
 import net.minecraft.command.Commands.literal
@@ -18,7 +18,7 @@ fun getter(
     return literal(literal)
         .requires { it.hasPermissionLevel(permissionLevel) }
         .executes { ctx ->
-            ctx.source.asPlayer().playerLevelHandler.ifPresent {
+            ctx.source.asPlayer().leveller.ifPresent {
                 ctx.source.sendFeedback(response(it), true)
             }
             return@executes 0
@@ -26,7 +26,7 @@ fun getter(
         .then(
             argument("player", player())
                 .executes { ctx ->
-                    getPlayer(ctx, "player").playerLevelHandler.ifPresent {
+                    getPlayer(ctx, "player").leveller.ifPresent {
                         ctx.source.sendFeedback(response(it), true)
                     }
                     return@executes 0

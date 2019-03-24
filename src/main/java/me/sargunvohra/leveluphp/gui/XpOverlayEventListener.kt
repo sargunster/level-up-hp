@@ -1,8 +1,7 @@
 package me.sargunvohra.leveluphp.gui
 
 import me.sargunvohra.leveluphp.LevelUpHp
-import me.sargunvohra.leveluphp.Resources
-import me.sargunvohra.leveluphp.level.playerLevelHandler
+import me.sargunvohra.leveluphp.level.leveller
 import net.alexwells.kottle.KotlinEventBusSubscriber
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
@@ -14,6 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 @KotlinEventBusSubscriber(Dist.CLIENT, modid = LevelUpHp.MOD_ID)
 object XpOverlayEventListener {
 
+    private val modIcons = LevelUpHp.res("textures/gui/icons.png")
+
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
         val mc = Minecraft.getInstance()
@@ -24,19 +25,19 @@ object XpOverlayEventListener {
         )
             return
 
-        mc.player.playerLevelHandler.ifPresent {
+        mc.player.leveller.ifPresent {
             event.isCanceled = true
 
             mc.profiler.startSection(LevelUpHp.MOD_ID)
             GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
             GlStateManager.disableBlend()
-            mc.getTextureManager().bindTexture(Resources.texIcons)
+            mc.getTextureManager().bindTexture(modIcons)
 
             val scaledWidth = mc.mainWindow.scaledWidth
             val centerX = scaledWidth / 2
             val scaledHeight = mc.mainWindow.scaledHeight
 
-            val fraction = it.xp.toFloat() / it.xpTarget
+            val fraction = if (it.maxedOut) 1f else it.xp.toFloat() / it.xpTarget
             renderBar(mc, centerX - 91, scaledHeight - 29, 0, (91 * fraction).toInt())
             renderBar(mc, centerX, scaledHeight - 29, 91, (91 * mc.player.experience).toInt())
 

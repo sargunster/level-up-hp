@@ -1,4 +1,5 @@
 {
-	"leveluphp.subtitle.levelup": "HP up!",
-	"leveluphp.status.levelup": "§c§lHP up!"
+	"subtitle.leveluphp.levelup": "HP up!",
+	"status.leveluphp.levelup": "§c§lHP up!",
+    "item.leveluphp.heart_container": "Heart Container"
 }

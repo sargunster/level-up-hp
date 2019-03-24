@@ -1,7 +1,7 @@
 package me.sargunvohra.leveluphp.level
 
 import me.sargunvohra.leveluphp.LevelUpHp
-import me.sargunvohra.leveluphp.SoundEvents
+import me.sargunvohra.leveluphp.init.SoundEvents
 import me.sargunvohra.leveluphp.data.DataPackEventListener
 import me.sargunvohra.leveluphp.data.LevellingConfig
 import me.sargunvohra.svlib.capability.PlayerCapability
@@ -29,8 +29,7 @@ class Leveller : PlayerCapability() {
     private var _level: Int = 0
     var level: Int
         set(value) {
-            justLevelledUp
-            justLevelledUp = justLevelledUp or (value > _level)
+            justLevelledUp = justLevelledUp || (!maxedOut && value > _level)
             _level = value
             reconfigure()
         }
@@ -51,7 +50,7 @@ class Leveller : PlayerCapability() {
         _xp = _xp.coerceAtLeast(0)
 
         // level up if we reached the target
-        while (_xp >= xpTarget && _level < config.maximumLevel) {
+        while (_xp >= xpTarget && !maxedOut) {
             _xp -= xpTarget
             _level++
             justLevelledUp = true
@@ -64,6 +63,9 @@ class Leveller : PlayerCapability() {
 
         notifyModified()
     }
+
+    val maxedOut
+        get() = level >= config.maximumLevel
 
     val xpTarget
         get() = calcScale(config.advancementScale)
@@ -108,7 +110,7 @@ class Leveller : PlayerCapability() {
         if (this.justLevelledUp) {
             justLevelledUp = false
 
-            owner.sendStatusMessage(TextComponentTranslation("leveluphp.status.levelup"), true)
+            owner.sendStatusMessage(TextComponentTranslation("status.leveluphp.levelup"), true)
 
             owner.world.playSound(
                 null,

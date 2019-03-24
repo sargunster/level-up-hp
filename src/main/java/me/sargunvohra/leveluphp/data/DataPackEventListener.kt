@@ -3,7 +3,6 @@ package me.sargunvohra.leveluphp.data
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import me.sargunvohra.leveluphp.LevelUpHp
-import me.sargunvohra.leveluphp.Resources
 import net.alexwells.kottle.KotlinEventBusSubscriber
 import net.minecraft.resources.IResourceManager
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -15,6 +14,7 @@ import java.io.InputStreamReader
 object DataPackEventListener {
 
     private val gson = Gson()
+    private val general = LevelUpHp.res("${LevelUpHp.MOD_ID}/general.json")
 
     lateinit var config: LevellingConfig
         private set
@@ -33,7 +33,7 @@ object DataPackEventListener {
             }
 
         config = gson.fromJson(
-            InputStreamReader(resourceManager.getResource(Resources.dataGeneral).inputStream),
+            InputStreamReader(resourceManager.getResource(general).inputStream),
             LevellingConfig::class.java
         ).copy(overrides = overrides)
 
