@@ -8,8 +8,6 @@ import net.minecraft.command.Commands.literal
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentString
 
-private const val MIN_PERMISSION = 2
-
 private fun check(handler: Leveller): ITextComponent {
     return TextComponentString("level: ${handler.level}, xp: ${handler.xp}/${handler.xpTarget}")
 }
@@ -18,12 +16,13 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<CommandSource> {
     val base = literal(LevelUpHp.MOD_ID)
 
     listOf(
-        setter("setxp", MIN_PERMISSION) { obj, xp -> obj.xp = xp },
-        setter("addxp", MIN_PERMISSION) { obj, xp -> obj.xp += xp },
-        setter("setlevel", MIN_PERMISSION) { obj, level -> obj.level = level },
-        setter("addlevel", MIN_PERMISSION) { obj, levels -> obj.level += levels },
-        getter("check", MIN_PERMISSION) { check(it) },
-        getter("config", MIN_PERMISSION) { TextComponentString(it.config.toString()) }
+        setter("setxp") { obj, xp -> obj.xp = xp },
+        setter("addxp") { obj, xp -> obj.xp += xp },
+        setter("setlevel") { obj, level -> obj.level = level },
+        setter("addlevel") { obj, levels -> obj.level += levels },
+        getter("check") { check(it) },
+        getter("config") { TextComponentString(it.config.toString()) }
+            .requires { it.hasPermissionLevel(2) }
     ).forEach { base.then(it) }
 
     return base

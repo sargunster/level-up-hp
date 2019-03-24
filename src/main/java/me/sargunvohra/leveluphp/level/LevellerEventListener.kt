@@ -26,9 +26,10 @@ object LevellerEventListener : PlayerCapabilityEventListener<Leveller>(
             it.onKill(event.entity)
         }
 
-        // apply death penalty if player got killed
+        // apply penalties if player got killed
         (event.entity as? EntityPlayerMP)?.leveller?.ifPresent {
-            it.xp -= it.deathPenalty
+            it.xp -= it.xpPenalty
+            it.level -= it.levelPenalty
         }
     }
 

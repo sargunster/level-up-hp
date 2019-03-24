@@ -13,11 +13,10 @@ import net.minecraft.command.arguments.EntityArgument.players
 
 fun setter(
     literal: String,
-    permissionLevel: Int,
     set: (Leveller, Int) -> Unit
 ): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
-        .requires { it.hasPermissionLevel(permissionLevel) }
+        .requires { it.hasPermissionLevel(2) }
         .then(
             argument("amount", integer(0))
                 .executes { ctx ->

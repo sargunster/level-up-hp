@@ -4,16 +4,35 @@
     "hpPerLevel": 2,
     "healOnLevelUp": true,
     "resetOnDeath": false,
-    "advancementScale": {
-        "base": 100,
-        "scale": 50
+    "xpTargetFunction": {
+        "terms": [
+            {
+                "exponent": 0,
+                "coefficient": 1000
+            },
+            {
+                "exponent": 1,
+                "coefficient": 500
+            }
+        ]
     },
-    "deathPenaltyScale": {
-        "base": 25,
-        "scale": 12
+    "xpPenaltyFunction": {
+        "terms": [
+            {
+                "exponent": 0,
+                "coefficient": 250
+            },
+            {
+                "exponent": 1,
+                "coefficient": 120
+            }
+        ]
+    },
+    "levelPenaltyFunction": {
+        "terms": []
     },
     "primaryXpValues": {
-        "animal": 2,
-        "mob": 5
+        "animal": 20,
+        "mob": 50
     }
 }

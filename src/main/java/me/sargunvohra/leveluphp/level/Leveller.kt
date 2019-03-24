@@ -1,9 +1,8 @@
 package me.sargunvohra.leveluphp.level
 
 import me.sargunvohra.leveluphp.LevelUpHp
-import me.sargunvohra.leveluphp.init.SoundEvents
 import me.sargunvohra.leveluphp.data.DataPackEventListener
-import me.sargunvohra.leveluphp.data.LevellingConfig
+import me.sargunvohra.leveluphp.init.SoundEvents
 import me.sargunvohra.svlib.capability.PlayerCapability
 import net.minecraft.entity.Entity
 import net.minecraft.entity.SharedMonsterAttributes
@@ -68,16 +67,16 @@ class Leveller : PlayerCapability() {
         get() = level >= config.maximumLevel
 
     val xpTarget
-        get() = calcScale(config.advancementScale)
+        get() = config.xpTargetFunction(level).coerceAtLeast(1)
 
-    val deathPenalty
-        get() = calcScale(config.deathPenaltyScale)
+    val xpPenalty
+        get() = config.xpPenaltyFunction(level)
+
+    val levelPenalty
+        get() = config.levelPenaltyFunction(level)
 
     private val bonusHp
         get() = level * config.hpPerLevel + config.hpOffset
-
-    private fun calcScale(scale: LevellingConfig.Scale) =
-        scale.base + level * scale.scale
 
     fun onKill(killed: Entity) {
         val gain = config.overrides[killed.type.registryName.toString()]

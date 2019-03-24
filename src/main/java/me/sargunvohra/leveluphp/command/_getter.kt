@@ -12,11 +12,9 @@ import net.minecraft.util.text.ITextComponent
 
 fun getter(
     literal: String,
-    permissionLevel: Int,
     response: (Leveller) -> ITextComponent
 ): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
-        .requires { it.hasPermissionLevel(permissionLevel) }
         .executes { ctx ->
             ctx.source.asPlayer().leveller.ifPresent {
                 ctx.source.sendFeedback(response(it), true)
@@ -25,6 +23,7 @@ fun getter(
         }
         .then(
             argument("player", player())
+                .requires { it.hasPermissionLevel(2) }
                 .executes { ctx ->
                     getPlayer(ctx, "player").leveller.ifPresent {
                         ctx.source.sendFeedback(response(it), true)

@@ -61,7 +61,10 @@ open class PlayerCapabilityEventListener<Handler : PlayerCapability>(
     @SubscribeEvent
     fun onEntityJoinWorld(event: EntityJoinWorldEvent) {
         val player = event.entity as? EntityPlayerMP ?: return
-        player.getCapability(capability).ifPresent { handler -> syncToClient(player, handler) }
+        player.getCapability(capability).ifPresent {
+            it.notifyModified()
+            syncToClient(player, it)
+        }
     }
 
     @SubscribeEvent
@@ -69,7 +72,9 @@ open class PlayerCapabilityEventListener<Handler : PlayerCapability>(
         event
             .entityPlayer
             .getCapability(capability)
-            .ifPresent { handler -> initializeClone(event.isWasDeath, event.entityPlayer, handler) }
+            .ifPresent {
+                initializeClone(event.isWasDeath, event.entityPlayer, it)
+            }
     }
 
     private fun initializeClone(wasDeath: Boolean, newPlayer: EntityPlayer, newHandler: Handler) {
