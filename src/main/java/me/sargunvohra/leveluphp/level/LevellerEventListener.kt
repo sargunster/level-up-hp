@@ -6,6 +6,7 @@ import me.sargunvohra.svlib.capability.PlayerCapabilityEventListener
 import net.alexwells.kottle.KotlinEventBusSubscriber
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraftforge.event.entity.living.LivingDeathEvent
+import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
@@ -35,12 +36,23 @@ object LevellerEventListener : PlayerCapabilityEventListener<Leveller>(
 
     @SubscribeEvent(priority = EventPriority.LOW)
     fun onServerStarting(event: FMLServerStartingEvent) {
+        // when the data pack changes, update leveller stats
         event.server.resourceManager.addReloadListener {
             event.server.playerList.players.forEach { player ->
                 player.leveller.ifPresent {
                     it.reconfigure()
                 }
             }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    fun onPlayerClone2(event: PlayerEvent.Clone) {
+        // for some reason MC caps health to 20 when returning from the end so let's undo that here
+        if (!event.isWasDeath) {
+            val newPlayer = event.entityPlayer as? EntityPlayerMP ?: return
+            val oldPlayer = event.original as EntityPlayerMP
+            newPlayer.health = oldPlayer.health
         }
     }
 }

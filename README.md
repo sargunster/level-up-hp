@@ -4,7 +4,7 @@
 
 # Level Up HP
 
-RPG style HP upgrades.
+Gain hearts of health by killing mobs or consuming heart containers.
 
 ## Information
 

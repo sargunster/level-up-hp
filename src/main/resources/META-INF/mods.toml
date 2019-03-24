@@ -1,6 +1,7 @@
 modLoader="kotlinfml"
 loaderVersion="${loaderVersion}"
 issueTrackerURL="https://github.com/sargunv/level-up-hp/issues"
+logoFile="leveluphp_logo.png"
 
 [[mods]]
 modId="${modId}"
@@ -8,11 +9,10 @@ version="${modVersion}"
 displayName="Level Up HP"
 #updateJSONURL=""
 displayURL="https://minecraft.curseforge.com/projects/level-up-hp"
-#logoFile=""
 credits=""
 authors="Sargun Vohra"
 description='''
-RPG Style HP Upgrades
+Gain hearts of health by killing mobs or consuming heart containers.
 '''
 
 [["dependencies.${modId}"]]
