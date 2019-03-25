@@ -15,7 +15,8 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 object LevellerEventListener : PlayerCapabilityEventListener<Leveller>(
     capSupplier = { LevellerLoader.CAPABILITY },
     key = LevelUpHp.res("player_level_handler"),
-    protocolVersion = BuildConfig.VERSION
+    protocolVersion = BuildConfig.VERSION,
+    serverAcceptedVersions = { true }
 ) {
     @SubscribeEvent
     fun onLivingDeath(event: LivingDeathEvent) {

@@ -28,11 +28,13 @@ open class PlayerCapabilityEventListener<Handler : PlayerCapability>(
     capSupplier: () -> Capability<Handler>,
     private val key: ResourceLocation,
     private val filter: (EntityPlayer) -> Boolean = { true },
-    protocolVersion: String
+    protocolVersion: String,
+    clientAcceptedVersions: (String) -> Boolean = { protocolVersion == it },
+    serverAcceptedVersions: (String) -> Boolean = { protocolVersion == it }
 ) {
 
     private val channel: SimpleChannel = NetworkRegistry.newSimpleChannel(
-        key, { protocolVersion }, { protocolVersion == it }, { protocolVersion == it }
+        key, { protocolVersion }, clientAcceptedVersions, serverAcceptedVersions
     )
 
     private val capability by lazy { capSupplier() }

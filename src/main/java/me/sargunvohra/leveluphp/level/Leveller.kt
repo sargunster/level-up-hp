@@ -11,7 +11,7 @@ import net.minecraft.entity.monster.IMob
 import net.minecraft.entity.passive.IAnimal
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.SoundCategory
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.util.text.TextComponentString
 import java.util.UUID
 
 class Leveller : PlayerCapability() {
@@ -109,7 +109,7 @@ class Leveller : PlayerCapability() {
         if (this.justLevelledUp) {
             justLevelledUp = false
 
-            owner.sendStatusMessage(TextComponentTranslation("status.leveluphp.levelup"), true)
+            owner.sendStatusMessage(TextComponentString("§c§lHP up!"), true)
 
             owner.world.playSound(
                 null,
