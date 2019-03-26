@@ -1,7 +1,3 @@
-[![Downloads](http://cf.way2muchnoise.eu/level-up-hp.svg)][CurseForge]
-[![CurseForge](http://cf.way2muchnoise.eu/versions/level-up-hp.svg)][CurseForge]
-[![CircleCI](https://circleci.com/gh/sargunv/level-up-hp.svg?style=shield)][CircleCI]
-
 # Level Up HP
 
 RPG style HP upgrades.
@@ -20,4 +16,3 @@ cd level-up-hp
 ```
 
 [CurseForge]: https://minecraft.curseforge.com/projects/level-up-hp
-[CircleCI]: (https://circleci.com/gh/sargunv/level-up-hp)
