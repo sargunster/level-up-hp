@@ -34,7 +34,11 @@ class HeartContainerItem : Item(Item.Settings().itemGroup(ItemGroup.MISC).stackS
         return ret
     }
 
-    override fun onItemFinishedUsing(stack: ItemStack, world: World, entity: LivingEntity): ItemStack {
+    override fun onItemFinishedUsing(
+        stack: ItemStack,
+        world: World,
+        entity: LivingEntity
+    ): ItemStack {
         (entity as? ServerPlayerEntity)?.hpLevelHandler?.let {
             it.level++
             entity.incrementStat(Stats.USED.getOrCreateStat(this))
