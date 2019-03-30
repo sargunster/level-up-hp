@@ -23,7 +23,7 @@ build:
 
 test:
   stage: test
-  script: ./gradlew check
+  script: ./gradlew ktlint check
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull

@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "package": "me.sargunvohra.mcmods.leveluphp.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "mixins": [
+        "LivingEntityMixin",
+        "PlayerEntityMixin",
+        "PlayerManagerMixin",
+        "ServerPlayerEntityMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

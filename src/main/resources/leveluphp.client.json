@@ -1,0 +1,11 @@
+{
+    "required": true,
+    "package": "me.sargunvohra.mcmods.leveluphp.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "mixins": [
+        "InGameHudMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

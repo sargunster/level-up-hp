@@ -9,9 +9,9 @@ Check out this mod on [CurseForge][].
 ## Building from source
 
 ```bash
-git clone https://github.com/sargunv/level-up-hp.git
+git clone https://gitlab.com/sargunv-mc-mods/level-up-hp.git
 cd level-up-hp
-./gradlew check build runClient
+./gradlew build
 # On Windows, use "gradlew.bat" instead of "gradlew"
 ```
 
