@@ -10,7 +10,8 @@
     "icon": "assets/leveluphp/icon.png",
     "side": "universal",
     "initializers": [
-        "me.sargunvohra.mcmods.leveluphp.LevelUpHp"
+        "me.sargunvohra.mcmods.leveluphp.LevelUpHp",
+        "me.sargunvohra.mcmods.leveluphp.LevelUpHpClient"
     ],
     "languageAdapter": "net.fabricmc.language.kotlin.KotlinLanguageAdapter",
     "requires": {
