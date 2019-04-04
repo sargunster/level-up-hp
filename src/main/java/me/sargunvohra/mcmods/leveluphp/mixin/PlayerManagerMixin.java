@@ -19,7 +19,7 @@ public class PlayerManagerMixin {
 
     @Shadow @Final private List<ServerPlayerEntity> players;
 
-    @Inject(method = "method_14556", at = @At("RETURN"))
+    @Inject(method = "respawnPlayer", at = @At("RETURN"))
     private void onRespawn(CallbackInfoReturnable<ServerPlayerEntity> cir) {
         ExtKt.getHpLevelHandler(cir.getReturnValue()).onModified();
     }

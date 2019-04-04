@@ -11,6 +11,7 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
+@Suppress("unused")
 object LevelUpHp : ModInitializer {
 
     val LEVEL_UP_SOUND = SoundEvent(id("levelup"))

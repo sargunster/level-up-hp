@@ -24,8 +24,8 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "method_16080", at = @At("HEAD"))
-    private void onDropAllDrops(CallbackInfo ci) {
+    @Inject(method = "drop", at = @At("HEAD"))
+    private void onDrop(CallbackInfo ci) {
         PlayerEntity player = this.attackingPlayer;
         if (this.playerHitTimer > 0 && player instanceof ServerPlayerEntity) {
             ExtKt.getHpLevelHandler(player).applyKill(this);

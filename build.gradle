@@ -35,6 +35,9 @@ repositories {
     maven {
         url = "https://kotlin.bintray.com/kotlinx"
     }
+    maven {
+        url = "https://jitpack.io"
+    }
 }
 
 configurations {
@@ -50,8 +53,9 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}"
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
     modCompile "net.fabricmc:fabric:${project.fabric_version}"
-    api "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-    mod "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    modCompile "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    modCompile "com.github.Terrails:Health-Overlay:${project.health_overlay_version}"
 }
 
 processResources {

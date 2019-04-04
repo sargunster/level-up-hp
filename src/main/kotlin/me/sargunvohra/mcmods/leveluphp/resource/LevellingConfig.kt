@@ -4,20 +4,20 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 data class LevellingConfig(
-    val hpOffset: Int,
-    val maximumLevel: Int,
-    val hpPerLevel: Int,
-    val healOnLevelUp: Boolean,
-    val resetOnDeath: Boolean,
-    val xpTargetFunction: Function,
-    val xpPenaltyFunction: Function,
-    val levelPenaltyFunction: Function,
-    val primaryXpValues: PrimaryXpValues,
-    val overrides: Map<String, Int>
+    val hpOffset: Int = 0,
+    val maximumLevel: Int = 0,
+    val hpPerLevel: Int = 0,
+    val healOnLevelUp: Boolean = false,
+    val resetOnDeath: Boolean = false,
+    val xpTargetFunction: Function = Function(emptyList()),
+    val xpPenaltyFunction: Function = Function(emptyList()),
+    val levelPenaltyFunction: Function = Function(emptyList()),
+    val primaryXpValues: PrimaryXpValues = PrimaryXpValues(0, 0),
+    val overrides: Map<String, Int> = emptyMap()
 ) {
     fun validate() {
         check(hpOffset > -20)
-        check(hpPerLevel >= 1)
+        check(hpPerLevel >= 0)
         check(maximumLevel >= 0)
 
         xpTargetFunction.validate()

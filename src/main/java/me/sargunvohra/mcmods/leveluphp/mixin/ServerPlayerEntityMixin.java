@@ -31,7 +31,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         this.setHealth(getHealth() + 1);
     }
 
-    @Inject(method = "method_14203", at = @At("HEAD"))
+    @Inject(method = "copyFrom", at = @At("HEAD"))
     private void onCopyFrom(ServerPlayerEntity oldPlayer, boolean isLivingCopy, CallbackInfo ci) {
         HpLevelHandler newHandler = ExtKt.getHpLevelHandler(this);
         HpLevelHandler oldHandler = ExtKt.getHpLevelHandler(oldPlayer);

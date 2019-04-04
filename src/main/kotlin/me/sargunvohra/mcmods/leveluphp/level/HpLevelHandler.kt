@@ -21,14 +21,14 @@ class HpLevelHandler {
         set(value) {
             if (value != null) {
                 field = value
-                apply()
+                applyToPlayer()
             }
         }
 
     private var _xp = 0
     private var _level = 0
 
-    var justLevelledUp = false
+    private var justLevelledUp = false
 
     var xp
         get() = _xp
@@ -46,7 +46,6 @@ class HpLevelHandler {
         }
 
     val currentXpTarget get() = config.xpTargetFunction(level)
-    val currentHpModifier get() = config.hpOffset + config.hpPerLevel * level
     val isMaxedOut get() = level >= config.maximumLevel
 
     val config get() = LevelUpHp.RELOAD_LISTENER.config
@@ -98,10 +97,10 @@ class HpLevelHandler {
             _xp = 0
         }
 
-        apply()
+        applyToPlayer()
     }
 
-    fun apply() {
+    private fun applyToPlayer() {
         // we only act on the server side
         val player = player as? ServerPlayerEntity ?: return
 
@@ -115,7 +114,7 @@ class HpLevelHandler {
         val modifier = EntityAttributeModifier(
             UUID.fromString("ff859d30-ec60-418f-a5be-6f3de76a514a"),
             "Level Up HP modifier",
-            currentHpModifier.toDouble(),
+            (config.hpOffset + level * config.hpPerLevel).toDouble(),
             EntityAttributeModifier.Operation.ADDITION
         )
         modifier.setSerialize(false)

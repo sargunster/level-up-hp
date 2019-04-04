@@ -11,8 +11,12 @@ import java.io.InputStreamReader
 class ReloadListener : SimpleSynchronousResourceReloadListener {
 
     private val gson = Gson()
-    lateinit var config: LevellingConfig
+    var config: LevellingConfig = LevellingConfig()
         private set
+
+    init {
+        config.validate()
+    }
 
     override fun apply(resourceManager: ResourceManager) {
         val overrides = resourceManager
