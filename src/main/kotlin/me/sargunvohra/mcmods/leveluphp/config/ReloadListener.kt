@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.resource
+package me.sargunvohra.mcmods.leveluphp.config
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

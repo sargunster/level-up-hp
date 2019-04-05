@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp
 
 import me.sargunvohra.mcmods.leveluphp.command.CommandLoader
 import me.sargunvohra.mcmods.leveluphp.item.HeartContainerItem
-import me.sargunvohra.mcmods.leveluphp.resource.ReloadListener
+import me.sargunvohra.mcmods.leveluphp.config.ReloadListener
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.server.ServerStartCallback
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper

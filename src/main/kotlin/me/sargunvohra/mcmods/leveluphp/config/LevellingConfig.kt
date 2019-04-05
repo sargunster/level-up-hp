@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.resource
+package me.sargunvohra.mcmods.leveluphp.config
 
 import kotlin.math.pow
 import kotlin.math.roundToInt
