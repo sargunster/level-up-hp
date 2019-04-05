@@ -10,7 +10,7 @@ import terrails.healthoverlay.api.HealthRendererConfiguration
 @Suppress("unused")
 object LevelUpHpClient : ClientModInitializer {
     override fun onInitializeClient() {
-        ClientConfigManager.load()
+        ClientConfigManager.init()
 
         ClientSidePacketRegistry.INSTANCE.register(
             SyncPacketConsumer.CHANNEL,

@@ -1,7 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
 import com.mojang.authlib.GameProfile;
-import me.sargunvohra.mcmods.leveluphp.ExtKt;
+import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "changeDimension", at = @At(value = "RETURN", ordinal = 1))
     private void onChangeDimension(CallbackInfoReturnable<Entity> ci) {
-        HpLevelHandler handler = ExtKt.getHpLevelHandler(this);
+        HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
         handler.onModified();
         // mark health as dirty
         this.setHealth(getHealth() - 1);
@@ -33,8 +33,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "copyFrom", at = @At("HEAD"))
     private void onCopyFrom(ServerPlayerEntity oldPlayer, boolean isLivingCopy, CallbackInfo ci) {
-        HpLevelHandler newHandler = ExtKt.getHpLevelHandler(this);
-        HpLevelHandler oldHandler = ExtKt.getHpLevelHandler(oldPlayer);
+        HpLevelHandler newHandler = UtilKt.getHpLevelHandler(this);
+        HpLevelHandler oldHandler = UtilKt.getHpLevelHandler(oldPlayer);
 
         newHandler.copyFrom(oldHandler);
         if (!isLivingCopy) {
@@ -45,13 +45,13 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "writeCustomDataToTag", at = @At("HEAD"))
     private void onWriteCustomDataToTag(CompoundTag tag, CallbackInfo ci) {
-        HpLevelHandler handler = ExtKt.getHpLevelHandler(this);
+        HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
         tag.put("leveluphp", handler.writeToTag());
     }
 
     @Inject(method = "readCustomDataFromTag", at = @At("HEAD"))
     private void onReadCustomDataFromTag(CompoundTag tag, CallbackInfo ci) {
-        HpLevelHandler handler = ExtKt.getHpLevelHandler(this);
+        HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
         Tag data = tag.getTag("leveluphp");
         if (data != null) {
             handler.readFromTag(data);

@@ -1,4 +1,6 @@
 {
 	"subtitle.leveluphp.levelup": "HP up!",
-    "item.leveluphp.heart_container": "Heart Container"
+    "item.leveluphp.heart_container": "Heart Container",
+    "text.leveluphp.config.category.general": "General",
+    "text.leveluphp.config.option.disableXpBarOverlay": "Disable custom XP bar"
 }

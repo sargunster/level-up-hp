@@ -1,6 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.leveluphp.ExtKt;
+import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import me.sargunvohra.mcmods.leveluphp.LevelUpHp;
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler;
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfigManager;
@@ -40,7 +40,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             this.client.getTextureManager().bindTexture(TEX_ICONS);
 
             ClientPlayerEntity player = this.client.player;
-            HpLevelHandler levelHandler = ExtKt.getHpLevelHandler(player);
+            HpLevelHandler levelHandler = UtilKt.getHpLevelHandler(player);
 
             this.client.getProfiler().push("levelUpHpBars");
             {

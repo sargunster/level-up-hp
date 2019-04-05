@@ -1,6 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.leveluphp.ExtKt;
+import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +28,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void onDrop(CallbackInfo ci) {
         PlayerEntity player = this.attackingPlayer;
         if (this.playerHitTimer > 0 && player instanceof ServerPlayerEntity) {
-            ExtKt.getHpLevelHandler(player).applyKill(this);
+            UtilKt.getHpLevelHandler(player).applyKill(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.leveluphp.ExtKt;
+import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,16 +21,16 @@ public class PlayerManagerMixin {
 
     @Inject(method = "respawnPlayer", at = @At("RETURN"))
     private void onRespawn(CallbackInfoReturnable<ServerPlayerEntity> cir) {
-        ExtKt.getHpLevelHandler(cir.getReturnValue()).onModified();
+        UtilKt.getHpLevelHandler(cir.getReturnValue()).onModified();
     }
 
     @Inject(method = "onPlayerConnect", at = @At("RETURN"))
     private void onPlayerConnect(ClientConnection conn, ServerPlayerEntity player, CallbackInfo ci) {
-        ExtKt.getHpLevelHandler(player).onModified();
+        UtilKt.getHpLevelHandler(player).onModified();
     }
 
     @Inject(method = "onDataPacksReloaded", at = @At("RETURN"))
     private void onDataPacksReloaded(CallbackInfo ci) {
-        this.players.forEach(player -> ExtKt.getHpLevelHandler(player).onModified());
+        this.players.forEach(player -> UtilKt.getHpLevelHandler(player).onModified());
     }
 }
