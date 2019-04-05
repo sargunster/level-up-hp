@@ -58,7 +58,9 @@ object ClientConfigManager {
         if (!FabricLoader.getInstance().isModLoaded("cloth"))
             return
 
-        val builder = ClothConfigScreen.Builder(parent, i18n("text.leveluphp.config.title")) { save() }
+        val builder = ClothConfigScreen.Builder(parent, i18n("text.leveluphp.config.title")) {
+            save()
+        }
         val default = ClientConfig()
 
         builder.addCategory(i18n("text.leveluphp.config.category.general")).addOption(
