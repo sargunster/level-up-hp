@@ -39,7 +39,7 @@ repositories {
         url = "https://jitpack.io"
     }
     maven {
-        url "https://minecraft.curseforge.com/api/maven"
+        url = "https://minecraft.curseforge.com/api/maven"
     }
 }
 
