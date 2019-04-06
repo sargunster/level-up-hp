@@ -16,7 +16,7 @@ object DataPackEventListener {
     private val gson = Gson()
     private val general = LevelUpHp.res("${LevelUpHp.MOD_ID}/general.json")
 
-    lateinit var config: LevellingConfig
+    var config = LevellingConfig()
         private set
 
     private fun reload(resourceManager: IResourceManager) {
