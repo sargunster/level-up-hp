@@ -1,27 +1,41 @@
 {
+    "$schema": "https://gist.githubusercontent.com/MrYurihi/4460e90099cf934b2078c7607bb0562b/raw/3713076d9d16ad66ba00aad3fa525872ab3438af/mod.json",
+    "schemaVersion": 1,
     "id": "leveluphp",
-    "version": "${version}",
+    "version": "%VERSION%",
     "name": "Level Up HP",
     "description": "Gain hearts of health by killing mobs or consuming heart containers.",
     "authors": [
         "sargunv"
     ],
+    "contact": {
+        "homepage": "https://minecraft.curseforge.com/projects/level-up-hp",
+        "sources": "https://gitlab.com/sargunv-mc-mods/level-up-hp"
+    },
     "license": "Apache-2.0",
     "icon": "assets/leveluphp/icon.png",
-    "side": "universal",
-    "initializers": [
-        "me.sargunvohra.mcmods.leveluphp.LevelUpHp",
-        "me.sargunvohra.mcmods.leveluphp.LevelUpHpClient"
-    ],
-    "languageAdapter": "net.fabricmc.language.kotlin.KotlinLanguageAdapter",
-    "requires": {
-        "fabric": "*",
-        "fabric-language-kotlin": {
-            "version": ">=1.3.21"
-        }
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            {
+                "adapter": "kotlin",
+                "value": "me.sargunvohra.mcmods.leveluphp.LevelUpHp"
+            }
+        ],
+        "client": [
+            {
+                "adapter": "kotlin",
+                "value": "me.sargunvohra.mcmods.leveluphp.LevelUpHpClient"
+            }
+        ]
     },
-    "mixins": {
-        "client": "leveluphp.client.json",
-        "common": "leveluphp.common.json"
-    }
+    "requires": {
+        "fabricloader": ">=0.4.0",
+        "fabric": "*",
+        "fabric-language-kotlin": ">=1.3.21"
+    },
+    "mixins": [
+        "leveluphp.client.json",
+        "leveluphp.common.json"
+    ]
 }

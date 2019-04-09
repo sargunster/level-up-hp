@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.2.0-SNAPSHOT'
+    id 'fabric-loom' version '0.2.1-SNAPSHOT'
     id 'maven-publish'
     id "com.palantir.git-version" version "0.11.0"
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
@@ -24,10 +24,6 @@ compileKotlin {
 minecraft {
 }
 
-runClient {
-    args "--username", "Player", "--uuid", "e0915077-8077-428f-b292-405566bacca5"
-}
-
 repositories {
     maven {
         url = "http://maven.fabricmc.net"
@@ -36,39 +32,30 @@ repositories {
         url = "https://kotlin.bintray.com/kotlinx"
     }
     maven {
-        url = "https://jitpack.io"
-    }
-    maven {
         url = "https://minecraft.curseforge.com/api/maven"
     }
 }
 
 configurations {
     ktlint
-    mod
-    mod.transitive = false
 }
 
 
 dependencies {
     ktlint "com.github.shyiko:ktlint:${project.ktlint_version}"
 
-    // Mapped MC
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}"
-
-    // Fabric
     modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
-    modCompile "net.fabricmc:fabric:${project.fabric_version}"
 
-    // Kotlin
+    modCompile "net.fabricmc:fabric:${project.fabric_version}"
+    include "net.fabricmc:fabric:${project.fabric_version}"
+
     modCompile "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
     compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    include "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    // Optional deps
-    modCompile "com.github.Terrails:Health-Overlay:${project.health_overlay_version}"
-    modCompile "cloth:Cloth:${project.cloth_version}"
-    modCompile "com.github.Prospector:ModMenu:${project.modmenu_version}"
+    modCompile "cloth-config:Cloth:Config:${project.cloth_version}"
 }
 
 processResources {
@@ -76,7 +63,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
-        expand "version": project.version
+        filter {line -> line.replace("%VERSION%", "${project.version}")}
     }
 
     from(sourceSets.main.resources.srcDirs) {
@@ -130,19 +117,4 @@ task ktlintApplyToIdea(type: JavaExec, group: "formatting") {
     main = "com.github.shyiko.ktlint.Main"
     classpath = configurations.ktlint
     args "--apply-to-idea-project", "-y"
-}
-
-task installMods(type: Copy, dependsOn: "deinstallMods") {
-    from { configurations.mod }
-    include "**/*.jar"
-    into file("run/mods")
-}
-
-task deinstallMods(type: Delete) {
-    delete fileTree(dir: "run/mods", include: "*.jar")
-}
-
-
-project.afterEvaluate {
-    project.tasks['runClient'].dependsOn(project.tasks['installMods'])
 }
