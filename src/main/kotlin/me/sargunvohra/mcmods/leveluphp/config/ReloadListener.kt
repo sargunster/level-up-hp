@@ -12,7 +12,6 @@ class ReloadListener : SimpleSynchronousResourceReloadListener {
 
     private val gson = Gson()
     var config: LevellingConfig = LevellingConfig()
-        private set
 
     init {
         config.validate()

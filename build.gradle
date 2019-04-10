@@ -55,7 +55,8 @@ dependencies {
     compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
     include "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    modCompile "cloth-config:Cloth:Config:${project.cloth_version}"
+    modCompile "cloth-config:ClothConfig:${project.cloth_version}"
+    include "cloth-config:ClothConfig:${project.cloth_version}"
 }
 
 processResources {

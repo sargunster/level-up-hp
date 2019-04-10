@@ -1,8 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.config
 
 import com.google.gson.GsonBuilder
-import io.github.prospector.modmenu.api.ModMenuApi
-import me.sargunvohra.mcmods.leveluphp.i18n
 import me.shedaniel.cloth.gui.ClothConfigScreen
 import me.shedaniel.cloth.gui.entries.BooleanListEntry
 import net.fabricmc.loader.api.FabricLoader
@@ -46,26 +44,23 @@ object ClientConfigManager {
     private fun registerConfigButton() {
         if (!FabricLoader.getInstance().isModLoaded("modmenu"))
             return
-        if (!FabricLoader.getInstance().isModLoaded("cloth"))
-            return
 
-        ModMenuApi.addConfigOverride("leveluphp") {
-            openConfigScreen(MinecraftClient.getInstance().currentScreen!!)
-        }
+        Class.forName("io.github.prospector.modmenu.api.ModMenuApi")
+            .getMethod("addConfigOverride", String::class.java, Runnable::class.java)
+            .invoke(null, "leveluphp", Runnable {
+                openConfigScreen(MinecraftClient.getInstance().currentScreen!!)
+            })
     }
 
     private fun openConfigScreen(parent: Screen) {
-        if (!FabricLoader.getInstance().isModLoaded("cloth"))
-            return
-
-        val builder = ClothConfigScreen.Builder(parent, i18n("text.leveluphp.config.title")) {
+        val builder = ClothConfigScreen.Builder(parent, "text.leveluphp.config.title") {
             save()
         }
         val default = ClientConfig()
 
-        builder.addCategory(i18n("text.leveluphp.config.category.general")).addOption(
+        builder.addCategory("text.leveluphp.config.category.general").addOption(
             BooleanListEntry(
-                i18n("text.leveluphp.config.option.disableXpBarOverlay"),
+                "text.leveluphp.config.option.disableXpBarOverlay",
                 config.disableXpBarOverlay,
                 "text.cloth.reset_value",
                 { default.disableXpBarOverlay },

@@ -17,7 +17,9 @@ import java.util.List;
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
 
-    @Shadow @Final private List<ServerPlayerEntity> players;
+    @Shadow
+    @Final
+    private List<ServerPlayerEntity> players;
 
     @Inject(method = "respawnPlayer", at = @At("RETURN"))
     private void onRespawn(CallbackInfoReturnable<ServerPlayerEntity> cir) {
