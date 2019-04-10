@@ -37,7 +37,11 @@ object XpOverlayEventListener {
             val centerX = scaledWidth / 2
             val scaledHeight = mc.mainWindow.scaledHeight
 
-            val fraction = if (it.maxedOut) 1f else it.xp.toFloat() / it.xpTarget
+            val fraction = when {
+                it.xpTarget == 0 -> 0f
+                it.maxedOut -> 1f
+                else -> it.xp.toFloat() / it.xpTarget
+            }
             renderBar(mc, centerX - 91, scaledHeight - 29, 0, (91 * fraction).toInt())
             renderBar(mc, centerX, scaledHeight - 29, 91, (91 * mc.player.experience).toInt())
 

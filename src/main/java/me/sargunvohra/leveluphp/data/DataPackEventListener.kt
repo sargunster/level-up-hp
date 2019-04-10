@@ -17,7 +17,6 @@ object DataPackEventListener {
     private val general = LevelUpHp.res("${LevelUpHp.MOD_ID}/general.json")
 
     var config = LevellingConfig()
-        private set
 
     private fun reload(resourceManager: IResourceManager) {
         val overrides = resourceManager

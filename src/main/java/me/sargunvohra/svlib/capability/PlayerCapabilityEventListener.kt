@@ -1,5 +1,6 @@
 package me.sargunvohra.svlib.capability
 
+import me.sargunvohra.leveluphp.data.DataPackEventListener
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
@@ -98,7 +99,7 @@ open class PlayerCapabilityEventListener<Handler : PlayerCapability>(
         if (player.connection == null) return // player doesn't have a client yet
         val cap = capability
         val nbt = cap.storage.writeNBT(cap, handler, null)!!
-        val message = PlayerCapabilityPacket(nbt)
+        val message = PlayerCapabilityPacket(nbt, DataPackEventListener.config)
         channel.send(PacketDistributor.PLAYER.with { player }, message)
     }
 
@@ -111,6 +112,12 @@ open class PlayerCapabilityEventListener<Handler : PlayerCapability>(
         context.packetHandled = true
 
         context.enqueueWork<Any> {
+            try {
+                message.config.validate()
+                DataPackEventListener.config = message.config
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+            }
             val cap = this.capability
             Minecraft.getInstance()
                 .player
