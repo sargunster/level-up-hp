@@ -134,7 +134,7 @@ class HpLevelHandler {
                 null,
                 player.x, player.y, player.z,
                 LevelUpHp.LEVEL_UP_SOUND,
-                SoundCategory.PLAYER,
+                SoundCategory.PLAYERS,
                 1f, 1f
             )
 
