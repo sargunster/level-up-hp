@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     private ServerPlayerEntityMixin(World world_1, GameProfile gameProfile_1) {
         super(world_1, gameProfile_1);
+        throw new IllegalStateException();
     }
 
     @Inject(method = "changeDimension", at = @At(value = "RETURN", ordinal = 1))

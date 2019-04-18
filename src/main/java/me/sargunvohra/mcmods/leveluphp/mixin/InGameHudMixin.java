@@ -46,7 +46,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             {
                 int target = levelHandler.getCurrentXpTarget();
                 int hpXpBarWidth = target != 0 ? levelHandler.getXp() * 91 / target : 0;
-                int mcXpBarWidth = (int) (player.experienceBarProgress * 91);
+                int mcXpBarWidth = (int) (player.experienceLevelProgress * 91);
 
                 int top = this.scaledHeight - 32 + 3;
 

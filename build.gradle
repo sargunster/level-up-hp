@@ -9,7 +9,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = "${minecraft_version}-${gitVersion()}"
+version = "${gitVersion()}+mc${project.minecraft_normalized_version}"
 group = project.maven_group
 
 compileKotlin {
@@ -55,8 +55,8 @@ dependencies {
     compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
     include "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    modCompile "cloth-config:ClothConfig:${project.cloth_version}"
-    include "cloth-config:ClothConfig:${project.cloth_version}"
+    modCompile "cloth-config:ClothConfig:${project.cloth_config_version}"
+    include "cloth-config:ClothConfig:${project.cloth_config_version}"
 }
 
 processResources {

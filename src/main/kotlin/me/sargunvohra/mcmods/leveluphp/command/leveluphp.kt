@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
-import net.minecraft.server.command.ServerCommandManager.literal
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.StringTextComponent
 import net.minecraft.text.TextComponent

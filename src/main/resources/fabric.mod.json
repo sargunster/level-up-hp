@@ -10,7 +10,8 @@
     ],
     "contact": {
         "homepage": "https://minecraft.curseforge.com/projects/level-up-hp",
-        "sources": "https://gitlab.com/sargunv-mc-mods/level-up-hp"
+        "sources": "https://gitlab.com/sargunv-mc-mods/level-up-hp",
+        "issues": "https://gitlab.com/sargunv-mc-mods/level-up-hp/issues"
     },
     "license": "Apache-2.0",
     "icon": "assets/leveluphp/icon.png",

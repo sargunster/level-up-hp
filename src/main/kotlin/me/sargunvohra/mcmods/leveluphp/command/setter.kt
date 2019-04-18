@@ -5,10 +5,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType.integer
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
-import net.minecraft.command.arguments.EntityArgumentType.method_9312
-import net.minecraft.command.arguments.EntityArgumentType.multiplePlayer
-import net.minecraft.server.command.ServerCommandManager.argument
-import net.minecraft.server.command.ServerCommandManager.literal
+import net.minecraft.command.arguments.EntityArgumentType.getPlayers
+import net.minecraft.command.arguments.EntityArgumentType.players
+import net.minecraft.server.command.CommandManager.argument
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 
 fun setter(
@@ -27,10 +27,10 @@ fun setter(
                     return@executes 0
                 }
         )
-        .then(argument("players", multiplePlayer())
+        .then(argument("players", players())
             .then(argument("amount", integer(0))
                 .executes { ctx ->
-                    val players = method_9312(ctx, "players")
+                    val players = getPlayers(ctx, "players")
                     val amount = getInteger(ctx, "amount")
                     players.map {
                         it.hpLevelHandler
