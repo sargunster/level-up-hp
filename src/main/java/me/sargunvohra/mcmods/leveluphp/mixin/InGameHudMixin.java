@@ -1,9 +1,10 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.leveluphp.UtilKt;
+import me.sargunvohra.mcmods.autoconfig.api.AutoConfig;
 import me.sargunvohra.mcmods.leveluphp.LevelUpHp;
+import me.sargunvohra.mcmods.leveluphp.UtilKt;
+import me.sargunvohra.mcmods.leveluphp.config.ClientConfig;
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler;
-import me.sargunvohra.mcmods.leveluphp.config.ClientConfigManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -19,6 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
+    
+    private static final Identifier TEX_ICONS = LevelUpHp.INSTANCE.id("textures/gui/icons.png");
+
     @Shadow
     @Final
     private MinecraftClient client;
@@ -30,11 +34,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Shadow
     public abstract TextRenderer getFontRenderer();
 
-    private static final Identifier TEX_ICONS = LevelUpHp.INSTANCE.id("textures/gui/icons.png");
-
     @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
     private void renderExperienceBar(int left, CallbackInfo ci) {
-        if (!ClientConfigManager.INSTANCE.getConfig().getDisableXpBarOverlay()) {
+        if (AutoConfig.<ClientConfig>getConfigHolder("leveluphp").getConfig().getEnableXpBarOverride()) {
             ci.cancel();
 
             this.client.getTextureManager().bindTexture(TEX_ICONS);

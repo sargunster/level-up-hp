@@ -25,15 +25,11 @@ minecraft {
 }
 
 repositories {
-    maven {
-        url = "http://maven.fabricmc.net"
-    }
-    maven {
-        url = "https://kotlin.bintray.com/kotlinx"
-    }
-    maven {
-        url = "https://minecraft.curseforge.com/api/maven"
-    }
+    maven { url = "http://maven.fabricmc.net" }
+    maven { url = "https://kotlin.bintray.com/kotlinx" }
+    maven { url = "https://minecraft.curseforge.com/api/maven" }
+    maven { url = "https://maven.fabricmc.net/io/github/prospector/modmenu/ModMenu/" }
+    maven { url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/' }
 }
 
 configurations {
@@ -57,6 +53,14 @@ dependencies {
 
     modCompile "cloth-config:ClothConfig:${project.cloth_config_version}"
     include "cloth-config:ClothConfig:${project.cloth_config_version}"
+
+    modCompile "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+    include "me.sargunvohra.mcmods:auto-config:${project.auto_config_version}"
+
+    modCompile "io.github.prospector.modmenu:ModMenu:${project.mod_menu_version}"
+
+    // temporary hack until MC-148461 is fixed
+    compile "org.lwjgl:lwjgl-jemalloc:3.2.1"
 }
 
 processResources {
@@ -64,7 +68,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
-        filter {line -> line.replace("%VERSION%", "${project.version}")}
+        filter { line -> line.replace("%VERSION%", "${project.version}") }
     }
 
     from(sourceSets.main.resources.srcDirs) {
@@ -79,27 +83,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
     from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(jar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
-    repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
-    }
 }
 
 task ktlint(type: JavaExec, group: "verification") {
