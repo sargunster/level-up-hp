@@ -2,6 +2,6 @@
     "subtitle.leveluphp.levelup": "HP up!",
     "item.leveluphp.heart_container": "Heart Container",
     "text.autoconfig.leveluphp.title": "Level Up HP",
-    "text.autoconfig.leveluphp.category.general": "General",
-    "text.autoconfig.leveluphp.option.general.enableXpBarOverride": "Enable custom XP bar"
+    "text.autoconfig.leveluphp.category.default": "General",
+    "text.autoconfig.leveluphp.option.enableXpBarOverride": "Enable custom XP bar"
 }
