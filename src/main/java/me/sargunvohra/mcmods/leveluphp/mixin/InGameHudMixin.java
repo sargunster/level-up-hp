@@ -1,6 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.autoconfig.api.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1.AutoConfig;
 import me.sargunvohra.mcmods.leveluphp.LevelUpHp;
 import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfig;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
-    
+
     private static final Identifier TEX_ICONS = LevelUpHp.INSTANCE.id("textures/gui/icons.png");
 
     @Shadow
@@ -36,7 +36,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "renderExperienceBar", at = @At("HEAD"), cancellable = true)
     private void renderExperienceBar(int left, CallbackInfo ci) {
-        if (AutoConfig.<ClientConfig>getConfigHolder("leveluphp").getConfig().getEnableXpBarOverride()) {
+        if (AutoConfig.getConfigHolder(ClientConfig.class).getConfig().getEnableXpBarOverride()) {
             ci.cancel();
 
             this.client.getTextureManager().bindTexture(TEX_ICONS);
