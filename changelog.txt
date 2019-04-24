@@ -1,1 +1,1 @@
-Latest deps + auto config
+Build with MC 1.14
