@@ -1,4 +1,5 @@
 import com.matthewprenger.cursegradle.CurseProject
+import com.matthewprenger.cursegradle.CurseRelation
 import com.matthewprenger.cursegradle.Options
 import com.palantir.gradle.gitversion.VersionDetails
 import net.fabricmc.loom.task.RemapJar
@@ -118,12 +119,12 @@ if (versionDetails().isCleanTag) {
             changelog = file("changelog.txt")
             releaseType = "release"
             addGameVersion(curseMinecraftVersion)
-//             relations {
-//                 embeddedLibrary 'fabric'
-//                 embeddedLibrary 'fabric-language-kotlin'
-//                 embeddedLibrary 'cloth-config'
-//                 embeddedLibrary 'auto-config'
-//             }
+            relations(closureOf<CurseRelation>{
+                embeddedLibrary("fabric")
+                embeddedLibrary("fabric-language-kotlin")
+                embeddedLibrary("cloth-config")
+                embeddedLibrary("auto-config")
+            })
         })
 
         options(closureOf<Options> {
