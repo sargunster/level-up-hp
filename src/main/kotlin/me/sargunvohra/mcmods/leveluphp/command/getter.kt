@@ -17,7 +17,7 @@ fun getter(
     return literal(literal)
         .executes { ctx ->
             val handler = ctx.source.player.hpLevelHandler
-            ctx.source.sendFeedback(response(handler), true)
+            ctx.source.sendFeedback(response(handler), false)
             return@executes 0
         }
         .then(

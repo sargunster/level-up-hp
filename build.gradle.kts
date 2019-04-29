@@ -72,7 +72,7 @@ dependencies {
     include("net.fabricmc:fabric:$fabricVersion")
 
     modCompile("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
-    compileOnly("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
+    compileOnly(kotlin("stdlib-jdk8", kotlinVersion))
     include("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
 
     modCompile("cloth-config:ClothConfig:$clothConfigVersion")
