@@ -40,7 +40,6 @@
         "autoconfig": ">=0.2.0"
     },
     "mixins": [
-        "leveluphp.client.json",
-        "leveluphp.common.json"
+        "leveluphp.mixins.json"
     ]
 }
