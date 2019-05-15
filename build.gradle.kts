@@ -27,7 +27,7 @@ plugins {
     kotlin("jvm") version "1.3.30"
     idea
     `maven-publish`
-    id("fabric-loom") version "0.2.1-SNAPSHOT"
+    id("fabric-loom") version "0.2.2-SNAPSHOT"
     id("com.palantir.git-version") version "0.11.0"
     id("com.matthewprenger.cursegradle") version "1.2.0"
 }
@@ -68,8 +68,26 @@ dependencies {
     mappings("net.fabricmc:yarn:$minecraftVersion+$yarnMappings")
     modCompile("net.fabricmc:fabric-loader:$loaderVersion")
 
-    modCompile("net.fabricmc:fabric:$fabricVersion")
-    include("net.fabricmc:fabric:$fabricVersion")
+    modCompile("net.fabricmc.fabric-api:fabric-api-base:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-api-base:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-resource-loader-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-resource-loader-v0:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-object-builders-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-object-builders-v0:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-item-groups-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-item-groups-v0:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-registry-sync-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-registry-sync-v0:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-networking-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-networking-v0:$fabricVersion")
+
+    modCompile("net.fabricmc.fabric-api:fabric-events-lifecycle-v0:$fabricVersion")
+    include("net.fabricmc.fabric-api:fabric-events-lifecycle-v0:$fabricVersion")
 
     modCompile("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
     compileOnly(kotlin("stdlib-jdk8", kotlinVersion))

@@ -4,12 +4,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.StringTextComponent
-import net.minecraft.text.TextComponent
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.Component
 
-private fun check(handler: HpLevelHandler): TextComponent {
+private fun check(handler: HpLevelHandler): Component {
     val message = "level: ${handler.level}, xp: ${handler.xp}/${handler.currentXpTarget}"
-    return StringTextComponent(message)
+    return TextComponent(message)
 }
 
 fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
@@ -21,7 +21,7 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
         setter("setlevel") { obj, level -> obj.level = level },
         setter("addlevel") { obj, levels -> obj.level += levels },
         getter("check") { check(it) },
-        getter("config") { StringTextComponent(it.config.toString()) }
+        getter("config") { TextComponent(it.config.toString()) }
             .requires { it.hasPermissionLevel(2) }
     ).forEach { base.then(it) }
 

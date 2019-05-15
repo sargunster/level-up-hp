@@ -5,14 +5,14 @@ import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.command.arguments.EntityArgumentType.getPlayer
 import net.minecraft.command.arguments.EntityArgumentType.player
+import net.minecraft.network.chat.Component
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.TextComponent
 
 fun getter(
     literal: String,
-    response: (HpLevelHandler) -> TextComponent
+    response: (HpLevelHandler) -> Component
 ): LiteralArgumentBuilder<ServerCommandSource> {
     return literal(literal)
         .executes { ctx ->

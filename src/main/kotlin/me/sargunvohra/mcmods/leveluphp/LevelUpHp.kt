@@ -21,7 +21,7 @@ object LevelUpHp : ModInitializer {
         Registry.register(Registry.SOUND_EVENT, id("levelup"), LEVEL_UP_SOUND)
         Registry.register(Registry.ITEM, id("heart_container"), HeartContainerItem())
         ServerStartCallback.EVENT.register(CommandLoader)
-        ResourceManagerHelper.get(ResourceType.DATA).registerReloadListener(RELOAD_LISTENER)
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(RELOAD_LISTENER)
     }
 
     fun id(name: String) = Identifier("leveluphp", name)

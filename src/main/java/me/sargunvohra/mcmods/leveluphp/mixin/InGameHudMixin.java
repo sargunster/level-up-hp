@@ -48,7 +48,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             {
                 int target = levelHandler.getCurrentXpTarget();
                 int hpXpBarWidth = target != 0 ? levelHandler.getXp() * 91 / target : 0;
-                int mcXpBarWidth = (int) (player.experienceLevelProgress * 91);
+                int mcXpBarWidth = (int) (player.experienceProgress * 91);
 
                 int top = this.scaledHeight - 32 + 3;
 
@@ -60,7 +60,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             this.client.getProfiler().push("levelUpHpLevels");
             {
                 String hpLevel = "" + levelHandler.getLevel();
-                String mcLevel = "" + player.experience;
+                String mcLevel = "" + player.experienceLevel;
 
                 int centerX = this.scaledWidth / 2;
                 int hpLevelWidth = this.getFontRenderer().getStringWidth(hpLevel);
