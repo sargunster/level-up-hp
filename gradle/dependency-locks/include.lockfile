@@ -1,0 +1,5 @@
+# This is a Gradle generated file for dependency locking.
+# Manual edits can break the build and are not advised.
+# This file is expected to be part of source control.
+cloth-config:ClothConfig:0.2.1.14
+me.sargunvohra.mcmods:auto-config:1.1.0+mc1.14.1
