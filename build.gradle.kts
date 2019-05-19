@@ -118,6 +118,7 @@ if (versionDetails().isCleanTag) {
                 requiredDependency("fabric-language-kotlin")
                 embeddedLibrary("cloth-config")
                 embeddedLibrary("auto-config")
+                optionalDependency("health-overlay")
             })
         })
 
