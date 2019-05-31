@@ -2,7 +2,7 @@ import com.matthewprenger.cursegradle.CurseProject
 import com.matthewprenger.cursegradle.CurseRelation
 import com.matthewprenger.cursegradle.Options
 import com.palantir.gradle.gitversion.VersionDetails
-import net.fabricmc.loom.task.RemapJar
+import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val minecraftVersion: String by project
@@ -16,7 +16,7 @@ plugins {
     kotlin("jvm") version "1.3.30"
     idea
     `maven-publish`
-    id("fabric-loom") version "0.2.2-SNAPSHOT"
+    id("fabric-loom") version "0.2.4-SNAPSHOT"
     id("com.palantir.git-version") version "0.11.0"
     id("com.matthewprenger.cursegradle") version "1.2.0"
 }
@@ -52,7 +52,7 @@ minecraft {
 }
 
 configurations {
-    listOf(mappings, modCompile, include, compileOnly).forEach {
+    listOf(mappings, modImplementation, include).forEach {
         it {
             resolutionStrategy.activateDependencyLocking()
         }
@@ -62,19 +62,18 @@ configurations {
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings("net.fabricmc:yarn:$minecraftVersion+")
-    modCompile("net.fabricmc:fabric-loader:0.4.+")
+    modImplementation("net.fabricmc:fabric-loader:0.4.+")
 
-    modCompile("net.fabricmc.fabric-api:fabric-api:0.3.+")
-    modCompile("net.fabricmc:fabric-language-kotlin:1.3.+")
-    compileOnly(kotlin("stdlib-jdk8", "1.3.30"))
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.3.+")
+    modImplementation("net.fabricmc:fabric-language-kotlin:1.3.+")
 
-    modCompile("cloth-config:ClothConfig:0.2.1.14")
-    modCompile("me.sargunvohra.mcmods:auto-config:1.+")
+    modImplementation("cloth-config:ClothConfig:0.2.1.14")
+    modImplementation("me.sargunvohra.mcmods:auto-config:1.+")
 
-    include("cloth-config:ClothConfig:0.2.1.14")
+    include("cloth-config:ClothConfig:0.2.4.17")
     include("me.sargunvohra.mcmods:auto-config:1.+")
 
-    modCompile("io.github.prospector.modmenu:ModMenu:1.+")
+    modRuntime("io.github.prospector.modmenu:ModMenu:1.+")
 }
 
 
@@ -99,7 +98,7 @@ val jar = tasks.getByName<Jar>("jar") {
     from("LICENSE")
 }
 
-val remapJar = tasks.getByName<RemapJar>("remapJar")
+val remapJar = tasks.getByName<RemapJarTask>("remapJar")
 
 if (versionDetails().isCleanTag) {
 
@@ -120,15 +119,15 @@ if (versionDetails().isCleanTag) {
                 embeddedLibrary("auto-config")
                 optionalDependency("health-overlay")
             })
+            mainArtifact(file("${project.buildDir}/libs/${base.archivesBaseName}-$version.jar"))
+            afterEvaluate {
+                uploadTask.dependsOn(remapJar)
+            }
         })
 
         options(closureOf<Options> {
             forgeGradleIntegration = false
         })
-    }
-
-    afterEvaluate {
-        tasks.getByName("curseforge$curseProjectId").dependsOn(remapJar)
     }
 
 }
