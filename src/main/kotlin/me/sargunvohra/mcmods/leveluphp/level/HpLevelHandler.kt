@@ -1,6 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.level
 
 import me.sargunvohra.mcmods.leveluphp.LevelUpHp
+import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
 import net.minecraft.entity.Entity
 import net.minecraft.entity.attribute.EntityAttributeModifier
@@ -105,10 +106,8 @@ class HpLevelHandler {
         val player = player as? ServerPlayerEntity ?: return
 
         // sync to client
-        (player as? ServerPlayerEntity)?.let {
-            if (it.networkHandler != null)
-                SyncPacketConsumer.send(it, this)
-        }
+        if (player.networkHandler != null)
+            SyncPacketConsumer.send(player, this)
 
         // create the hp modifier
         val modifier = EntityAttributeModifier(
@@ -127,6 +126,8 @@ class HpLevelHandler {
         // if we just levelled up, play a sound, show a message, and optionally heal
         if (justLevelledUp) {
             justLevelledUp = false
+
+            LevelUpCriterion.handle(player)
 
             player.addChatMessage(TextComponent("§c§lHP up!"), true)
 

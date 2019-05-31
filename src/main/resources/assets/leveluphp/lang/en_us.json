@@ -3,5 +3,7 @@
     "item.leveluphp.heart_container": "Heart Container",
     "text.autoconfig.leveluphp.title": "Level Up HP",
     "text.autoconfig.leveluphp.category.default": "General",
-    "text.autoconfig.leveluphp.option.enableXpBarOverride": "Enable custom XP bar"
+    "text.autoconfig.leveluphp.option.enableXpBarOverride": "Enable custom XP bar",
+    "advancements.leveluphp.level_up.title": "Level Up HP",
+    "advancements.leveluphp.level_up.description": "Earn your first HP level"
 }

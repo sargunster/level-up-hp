@@ -7,7 +7,8 @@
         "LivingEntityMixin",
         "PlayerEntityMixin",
         "PlayerManagerMixin",
-        "ServerPlayerEntityMixin"
+        "ServerPlayerEntityMixin",
+        "CriterionsMixin"
     ],
     "client": [
         "InGameHudMixin"
