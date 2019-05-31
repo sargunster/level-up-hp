@@ -1,3 +1,4 @@
 * built against MC 1.14.2
+* added advancements for first and max hp levels
 * changed `/leveluphp set*` commands to not implicitly target self
 * changed `/leveluphp config` command to not take a player argument

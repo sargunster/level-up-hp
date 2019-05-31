@@ -1,0 +1,35 @@
+{
+    "parent": "leveluphp:level_up",
+    "display": {
+        "icon": {
+            "item": "leveluphp:heart_container"
+        },
+        "title": {
+            "translate": "advancements.leveluphp.level_up_max.title"
+        },
+        "description": {
+            "translate": "advancements.leveluphp.level_up_max.description"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "level_up": {
+            "trigger": "leveluphp:player_levelled_up",
+            "conditions": {
+                "level": {
+                    "remaining": {
+                        "max": 0
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "level_up"
+        ]
+    ]
+}

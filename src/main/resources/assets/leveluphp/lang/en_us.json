@@ -5,5 +5,7 @@
     "text.autoconfig.leveluphp.category.default": "General",
     "text.autoconfig.leveluphp.option.enableXpBarOverride": "Enable custom XP bar",
     "advancements.leveluphp.level_up.title": "Level Up HP",
-    "advancements.leveluphp.level_up.description": "Earn your first HP level"
+    "advancements.leveluphp.level_up.description": "Earn your first HP level",
+    "advancements.leveluphp.level_up_max.title": "Maxed Out HP",
+    "advancements.leveluphp.level_up_max.description": "Earn the maximum number of HP levels"
 }
