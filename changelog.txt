@@ -1,1 +1,3 @@
-debundle fabric api and kotlin
+* built against MC 1.14.2
+* changed `/leveluphp set*` commands to not implicitly target self
+* changed `/leveluphp config` command to not take a player argument
