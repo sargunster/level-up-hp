@@ -34,7 +34,7 @@ class SyncPacketConsumer : PacketConsumer {
         context.taskQueue.execute {
             try {
                 config.validate()
-                LevelUpHp.RELOAD_LISTENER.config = config
+                LevelUpHp.reloadListener.config = config
             } catch (e: IllegalStateException) {
                 e.printStackTrace()
             }
@@ -57,7 +57,7 @@ class SyncPacketConsumer : PacketConsumer {
             tag.write(output)
 
             // write config data (shitty way to do it but ¯\_(ツ)_/¯)
-            val configJson = gson.toJson(LevelUpHp.RELOAD_LISTENER.config)
+            val configJson = gson.toJson(LevelUpHp.reloadListener.config)
             output.writeInt(configJson.length)
             output.writeChars(configJson)
 

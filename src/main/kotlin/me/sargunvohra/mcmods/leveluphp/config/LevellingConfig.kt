@@ -25,7 +25,7 @@ data class LevellingConfig(
         levelPenaltyFunction.validate()
 
         primaryXpValues.validate()
-        overrides.forEach { entityId, xp ->
+        overrides.forEach { (entityId, xp) ->
             check(entityId.isNotEmpty())
             check(xp >= 0)
         }

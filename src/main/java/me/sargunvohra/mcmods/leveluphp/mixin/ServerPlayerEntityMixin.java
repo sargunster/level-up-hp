@@ -1,6 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
 import com.mojang.authlib.GameProfile;
+import me.sargunvohra.mcmods.leveluphp.LevelUpHp;
 import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler;
 import net.minecraft.entity.Entity;
@@ -46,16 +47,23 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
     @Inject(method = "writeCustomDataToTag", at = @At("HEAD"))
     private void onWriteCustomDataToTag(CompoundTag tag, CallbackInfo ci) {
+        leveluphp_ensureDataLoaded();
         HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
         tag.put("leveluphp", handler.writeToTag());
     }
 
     @Inject(method = "readCustomDataFromTag", at = @At("HEAD"))
     private void onReadCustomDataFromTag(CompoundTag tag, CallbackInfo ci) {
+        leveluphp_ensureDataLoaded();
         HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
         Tag data = tag.getTag("leveluphp");
         if (data != null) {
             handler.readFromTag(data);
         }
+    }
+
+    private void leveluphp_ensureDataLoaded() {
+        if (!LevelUpHp.INSTANCE.getReloadListener().getSuccessfullyLoadedDataPack())
+            throw new RuntimeException("One of your mods broke data loading; forcing a crash to preserve your levels!");
     }
 }

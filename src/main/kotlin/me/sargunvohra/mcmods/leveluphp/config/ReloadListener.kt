@@ -13,6 +13,10 @@ class ReloadListener : SimpleSynchronousResourceReloadListener {
     private val gson = Gson()
     var config: LevellingConfig = LevellingConfig()
 
+    // failsafe to allow us to force a crash in case data loading silently fails
+    var successfullyLoadedDataPack = false
+        private set
+
     init {
         config.validate()
     }
@@ -39,6 +43,7 @@ class ReloadListener : SimpleSynchronousResourceReloadListener {
 
         config.validate()
         this.config = config
+        successfullyLoadedDataPack = true
     }
 
     override fun getFabricId() = LevelUpHp.id("reload_listener")

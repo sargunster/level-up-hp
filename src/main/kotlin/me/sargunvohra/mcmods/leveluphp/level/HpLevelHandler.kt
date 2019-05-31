@@ -49,7 +49,7 @@ class HpLevelHandler {
     val currentXpTarget get() = config.xpTargetFunction(level)
     val isMaxedOut get() = level >= config.maximumLevel
 
-    val config get() = LevelUpHp.RELOAD_LISTENER.config
+    val config get() = LevelUpHp.reloadListener.config
 
     fun applyKill(killed: Entity) {
         val typeId = Registry.ENTITY_TYPE.getId(killed.type)
@@ -134,7 +134,7 @@ class HpLevelHandler {
             player.world.playSound(
                 null,
                 player.x, player.y, player.z,
-                LevelUpHp.LEVEL_UP_SOUND,
+                LevelUpHp.levelUpSound,
                 SoundCategory.PLAYERS,
                 1f, 1f
             )

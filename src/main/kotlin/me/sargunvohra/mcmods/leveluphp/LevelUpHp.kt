@@ -14,14 +14,14 @@ import net.minecraft.util.registry.Registry
 @Suppress("unused")
 object LevelUpHp : ModInitializer {
 
-    val LEVEL_UP_SOUND = SoundEvent(id("levelup"))
-    val RELOAD_LISTENER = ReloadListener()
+    val levelUpSound = SoundEvent(id("levelup"))
+    val reloadListener = ReloadListener()
 
     override fun onInitialize() {
-        Registry.register(Registry.SOUND_EVENT, id("levelup"), LEVEL_UP_SOUND)
+        Registry.register(Registry.SOUND_EVENT, id("levelup"), levelUpSound)
         Registry.register(Registry.ITEM, id("heart_container"), HeartContainerItem())
         ServerStartCallback.EVENT.register(CommandLoader)
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(RELOAD_LISTENER)
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(reloadListener)
     }
 
     fun id(name: String) = Identifier("leveluphp", name)

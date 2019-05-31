@@ -68,7 +68,7 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
         literal("config")
             .executes {
                 it.source.sendFeedback(
-                    TextComponent(LevelUpHp.RELOAD_LISTENER.config.toString()),
+                    TextComponent(LevelUpHp.reloadListener.config.toString()),
                     false
                 )
                 return@executes 0
