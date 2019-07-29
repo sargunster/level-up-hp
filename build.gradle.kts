@@ -13,10 +13,10 @@ val modMavenGroup: String by project
 
 plugins {
     java
-    kotlin("jvm") version "1.3.30"
+    kotlin("jvm") version "1.3.40"
     idea
     `maven-publish`
-    id("fabric-loom") version "0.2.4-SNAPSHOT"
+    id("fabric-loom") version "0.2.3-SNAPSHOT"
     id("com.palantir.git-version") version "0.11.0"
     id("com.matthewprenger.cursegradle") version "1.2.0"
 }
@@ -52,7 +52,7 @@ minecraft {
 }
 
 configurations {
-    listOf(mappings, modImplementation, include).forEach {
+    listOf(mappings, modCompile, include).forEach {
         it {
             resolutionStrategy.activateDependencyLocking()
         }
@@ -61,19 +61,19 @@ configurations {
 
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings("net.fabricmc:yarn:$minecraftVersion+")
-    modImplementation("net.fabricmc:fabric-loader:0.4.+")
+    mappings("net.fabricmc:yarn:$minecraftVersion+build.3")
+    modCompile("net.fabricmc:fabric-loader:0.4.8+")
 
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.3.+")
-    modImplementation("net.fabricmc:fabric-language-kotlin:1.3.+")
+    modCompile("net.fabricmc.fabric-api:fabric-api:0.3.0+build.206")
+    modCompile("net.fabricmc:fabric-language-kotlin:1.3.40+")
 
-    modImplementation("cloth-config:ClothConfig:0.2.1.14")
-    modImplementation("me.sargunvohra.mcmods:auto-config:1.+")
+    modCompile("cloth-config:ClothConfig:0.2.4.17")
+    modCompile("me.sargunvohra.mcmods:auto-config:1.2.+")
 
     include("cloth-config:ClothConfig:0.2.4.17")
-    include("me.sargunvohra.mcmods:auto-config:1.+")
+    include("me.sargunvohra.mcmods:auto-config:1.2.+")
 
-    modRuntime("io.github.prospector.modmenu:ModMenu:1.+")
+    modCompile("io.github.prospector.modmenu:ModMenu:1.+")
 }
 
 
@@ -113,7 +113,7 @@ if (versionDetails().isCleanTag) {
             releaseType = "release"
             addGameVersion(curseMinecraftVersion)
             relations(closureOf<CurseRelation>{
-                requiredDependency("fabric")
+                requiredDependency("fabric-api")
                 requiredDependency("fabric-language-kotlin")
                 embeddedLibrary("cloth-config")
                 embeddedLibrary("auto-config")

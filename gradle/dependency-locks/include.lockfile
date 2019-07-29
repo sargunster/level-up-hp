@@ -2,4 +2,4 @@
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
 cloth-config:ClothConfig:0.2.4.17
-me.sargunvohra.mcmods:auto-config:1.1.2+mc1.14.1
+me.sargunvohra.mcmods:auto-config:1.2.0+mc1.14.4

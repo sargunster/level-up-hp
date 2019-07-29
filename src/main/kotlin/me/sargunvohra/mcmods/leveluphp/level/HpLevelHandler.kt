@@ -13,7 +13,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.text.LiteralText
 import net.minecraft.util.registry.Registry
 import java.util.UUID
 
@@ -129,7 +129,7 @@ class HpLevelHandler {
 
             LevelUpCriterion.handle(player)
 
-            player.addChatMessage(TextComponent("§c§lHP up!"), true)
+            player.addChatMessage(LiteralText("§c§lHP up!"), true)
 
             player.world.playSound(
                 null,

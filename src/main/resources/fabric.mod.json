@@ -33,11 +33,11 @@
             "me.sargunvohra.mcmods.leveluphp.ModMenuCompat"
         ]
     },
-    "requires": {
+    "depends": {
         "fabricloader": ">=0.4.0",
         "fabric": ">=0.3.0",
         "fabric-language-kotlin": ">=1.3.30",
-        "autoconfig": ">=1.0.0"
+        "autoconfig1": ">=1.0.0"
     },
     "mixins": [
         "leveluphp.mixins.json"

@@ -15,7 +15,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
 
-class HeartContainerItem : Item(Item.Settings().itemGroup(ItemGroup.MISC).stackSize(1)) {
+class HeartContainerItem : Item(Item.Settings().group(ItemGroup.MISC).maxCount(1)) {
 
     override fun hasEnchantmentGlint(stack: ItemStack) = true
 
@@ -34,7 +34,7 @@ class HeartContainerItem : Item(Item.Settings().itemGroup(ItemGroup.MISC).stackS
         return ret
     }
 
-    override fun onItemFinishedUsing(
+    override fun finishUsing(
         stack: ItemStack,
         world: World,
         entity: LivingEntity
@@ -43,7 +43,7 @@ class HeartContainerItem : Item(Item.Settings().itemGroup(ItemGroup.MISC).stackS
             it.level++
             entity.incrementStat(Stats.USED.getOrCreateStat(this))
             Criterions.CONSUME_ITEM.handle(entity, stack)
-            stack.subtractAmount(1)
+            stack.decrement(1)
         }
         return stack
     }

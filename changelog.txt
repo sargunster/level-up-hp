@@ -1,5 +1,2 @@
-* built against MC 1.14.2
-* added advancements for first and max hp levels
-* changed `/leveluphp set*` commands to not implicitly target self
-* changed `/leveluphp config` command to not take a player argument
-* added failsafe to force a crash in case data loading silently fails
+* Updated to MC 1.14.4
+* Added a message in the config screen for people who refuse to read the CurseForge page

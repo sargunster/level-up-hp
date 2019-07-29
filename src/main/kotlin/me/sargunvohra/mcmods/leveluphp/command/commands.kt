@@ -6,15 +6,15 @@ import me.sargunvohra.mcmods.leveluphp.LevelUpHp
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.command.arguments.EntityArgumentType
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TextComponent
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 fun getter(
     literal: String,
-    response: (HpLevelHandler) -> Component
+    response: (HpLevelHandler) -> Text
 ): LiteralArgumentBuilder<ServerCommandSource> {
     return literal(literal)
         .executes { ctx ->
@@ -63,12 +63,12 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
         setter("setlevel") { obj, level -> obj.level = level },
         setter("addlevel") { obj, levels -> obj.level += levels },
         getter("check") {
-            TextComponent("level: ${it.level}, xp: ${it.xp}/${it.currentXpTarget}")
+            LiteralText("level: ${it.level}, xp: ${it.xp}/${it.currentXpTarget}")
         },
         literal("config")
             .executes {
                 it.source.sendFeedback(
-                    TextComponent(LevelUpHp.reloadListener.config.toString()),
+                    LiteralText(LevelUpHp.reloadListener.config.toString()),
                     false
                 )
                 return@executes 0
