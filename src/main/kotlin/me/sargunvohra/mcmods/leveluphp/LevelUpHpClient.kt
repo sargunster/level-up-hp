@@ -1,7 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp
 
-import me.sargunvohra.mcmods.autoconfig1.AutoConfig
-import me.sargunvohra.mcmods.autoconfig1.serializer.Toml4jConfigSerializer
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
+import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfig
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
 import net.fabricmc.api.ClientModInitializer

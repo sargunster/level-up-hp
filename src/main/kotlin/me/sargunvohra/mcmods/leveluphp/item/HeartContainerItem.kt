@@ -15,7 +15,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
 
-class HeartContainerItem : Item(Item.Settings().group(ItemGroup.MISC).maxCount(1)) {
+class HeartContainerItem : Item(Settings().group(ItemGroup.MISC).maxCount(1)) {
 
     override fun hasEnchantmentGlint(stack: ItemStack) = true
 
@@ -42,7 +42,7 @@ class HeartContainerItem : Item(Item.Settings().group(ItemGroup.MISC).maxCount(1
         (entity as? ServerPlayerEntity)?.hpLevelHandler?.let {
             it.level++
             entity.incrementStat(Stats.USED.getOrCreateStat(this))
-            Criterions.CONSUME_ITEM.handle(entity, stack)
+            Criterions.CONSUME_ITEM.trigger(entity, stack)
             stack.decrement(1)
         }
         return stack

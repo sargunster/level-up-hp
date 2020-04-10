@@ -17,15 +17,9 @@ import net.minecraft.text.LiteralText
 import net.minecraft.util.registry.Registry
 import java.util.UUID
 
-class HpLevelHandler {
-    var player: PlayerEntity? = null
-        set(value) {
-            if (value != null) {
-                field = value
-                applyToPlayer()
-            }
-        }
-
+class HpLevelHandler(
+    val player: PlayerEntity
+) {
     private var _xp = 0
     private var _level = 0
 
@@ -101,7 +95,7 @@ class HpLevelHandler {
         applyToPlayer()
     }
 
-    private fun applyToPlayer() {
+    fun applyToPlayer() {
         // we only act on the server side
         val player = player as? ServerPlayerEntity ?: return
 
@@ -127,7 +121,7 @@ class HpLevelHandler {
         if (justLevelledUp) {
             justLevelledUp = false
 
-            LevelUpCriterion.handle(player)
+            LevelUpCriterion.test(player)
 
             player.addChatMessage(LiteralText("§c§lHP up!"), true)
 
@@ -140,13 +134,13 @@ class HpLevelHandler {
             )
 
             if (config.healOnLevelUp) {
-                player.health = player.healthMaximum
+                player.health = player.maximumHealth
             }
         }
 
         // if level went down, we need to cap hp
-        if (player.health > player.healthMaximum) {
-            player.health = player.healthMaximum
+        if (player.health > player.maximumHealth) {
+            player.health = player.maximumHealth
         }
     }
 

@@ -3,7 +3,7 @@ package me.sargunvohra.mcmods.leveluphp.advancement
 import com.google.gson.JsonElement
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.util.JsonHelper
-import net.minecraft.util.NumberRange
+import net.minecraft.predicate.NumberRange
 import java.util.function.Predicate
 
 class LevelPredicate(

@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.nbt.PositionTracker
 import net.minecraft.nbt.Tag
+import net.minecraft.nbt.TagReaders
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.PacketByteBuf
 import java.lang.StringBuilder
@@ -23,8 +24,10 @@ class SyncPacketConsumer : PacketConsumer {
         val input = ByteBufInputStream(buffer)
 
         // read level data
-        val data = Tag.createTag(input.readByte())
-        data.read(input, 0, PositionTracker.DEFAULT)
+        val reader = TagReaders.of(input.readInt())
+        val data = reader.read(input, 0, PositionTracker.DEFAULT)
+//        val data = Tag.createTag(input.readByte())
+//        data.read(input, 0, PositionTracker.DEFAULT)
 
         // read config data (shitty way to do it but ¯\_(ツ)_/¯)
         val len = input.readInt()
@@ -53,7 +56,7 @@ class SyncPacketConsumer : PacketConsumer {
 
             // write level data
             val tag = data.writeToTag()
-            output.writeByte(tag.type.toInt())
+            output.writeInt(tag.type.toInt())
             tag.write(output)
 
             // write config data (shitty way to do it but ¯\_(ツ)_/¯)

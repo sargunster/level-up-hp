@@ -58,22 +58,22 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
     val base = literal("leveluphp")
 
     listOf(
-        setter("setxp") { obj, xp -> obj.xp = xp },
-        setter("addxp") { obj, xp -> obj.xp += xp },
-        setter("setlevel") { obj, level -> obj.level = level },
-        setter("addlevel") { obj, levels -> obj.level += levels },
-        getter("check") {
-            LiteralText("level: ${it.level}, xp: ${it.xp}/${it.currentXpTarget}")
+        setter("setxp") { target, xp -> target.xp = xp },
+        setter("addxp") { target, xp -> target.xp += xp },
+        setter("setlevel") { target, level -> target.level = level },
+        setter("addlevel") { target, levels -> target.level += levels },
+        getter("check") { target ->
+            LiteralText("Level: ${target.level}\nXP: ${target.xp}/${target.currentXpTarget}")
         },
-        literal("config")
-            .executes {
-                it.source.sendFeedback(
+        literal("checkconfig")
+            .executes { context ->
+                context.source.sendFeedback(
                     LiteralText(LevelUpHp.reloadListener.config.toString()),
                     false
                 )
                 return@executes 0
             }
-    ).forEach { base.then(it) }
+    ).forEach { subCmd -> base.then(subCmd) }
 
     return base
 }

@@ -1,6 +1,5 @@
 package me.sargunvohra.mcmods.leveluphp.mixin;
 
-import me.sargunvohra.mcmods.leveluphp.UtilKt;
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler;
 import me.sargunvohra.mcmods.leveluphp.level.HpLeveller;
 import net.minecraft.entity.EntityType;
@@ -19,7 +18,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements HpLevell
         super(type, world);
     }
 
-    private HpLevelHandler hpLevelHandler = new HpLevelHandler();
+    private final HpLevelHandler hpLevelHandler = new HpLevelHandler((PlayerEntity) (Object) this);
 
     @NotNull
     @Override
@@ -29,7 +28,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements HpLevell
 
     @Inject(method = "<init>*", at = @At("RETURN"))
     private void onConstructed(CallbackInfo ci) {
-        PlayerEntity p = (PlayerEntity) (Object) this;
-        UtilKt.getHpLevelHandler(p).setPlayer(p);
+        this.getHpLevelHandler().applyToPlayer();
     }
 }

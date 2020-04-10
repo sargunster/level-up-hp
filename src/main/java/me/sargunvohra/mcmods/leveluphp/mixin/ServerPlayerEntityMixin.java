@@ -41,7 +41,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         newHandler.copyFrom(oldHandler);
         if (!isLivingCopy) {
             newHandler.applyDeathPenalty();
-            setHealth(this.getHealthMaximum());
+            setHealth(this.getMaximumHealth());
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
     private void onReadCustomDataFromTag(CompoundTag tag, CallbackInfo ci) {
         leveluphp_ensureDataLoaded();
         HpLevelHandler handler = UtilKt.getHpLevelHandler(this);
-        Tag data = tag.getTag("leveluphp");
+        Tag data = tag.get("leveluphp");
         if (data != null) {
             handler.readFromTag(data);
         }
