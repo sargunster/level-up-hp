@@ -58,8 +58,6 @@ configurations {
 }
 
 dependencies {
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
     minecraft("com.mojang:minecraft:$minecraftVersion")
     mappings("net.fabricmc:yarn:$minecraftVersion+build.14:v2")
     modImplementation("net.fabricmc:fabric-loader:0.8.2+build.194")
@@ -73,7 +71,7 @@ dependencies {
     include("me.shedaniel.cloth:config-2:2.12")
     include("me.sargunvohra.mcmods:autoconfig1u:2.0")
 
-    modCompileOnly("io.github.prospector:modmenu:1.10.2+build.32")
+    modRuntime("io.github.prospector:modmenu:1.10.2+build.32")
 }
 
 

@@ -26,8 +26,6 @@ class SyncPacketConsumer : PacketConsumer {
         // read level data
         val reader = TagReaders.of(input.readInt())
         val data = reader.read(input, 0, PositionTracker.DEFAULT)
-//        val data = Tag.createTag(input.readByte())
-//        data.read(input, 0, PositionTracker.DEFAULT)
 
         // read config data (shitty way to do it but ¯\_(ツ)_/¯)
         val len = input.readInt()
