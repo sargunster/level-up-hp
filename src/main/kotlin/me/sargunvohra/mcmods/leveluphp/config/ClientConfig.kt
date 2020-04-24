@@ -1,14 +1,26 @@
 package me.sargunvohra.mcmods.leveluphp.config
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry
+import net.minecraftforge.common.ForgeConfigSpec
 
-@Config(name = "leveluphp")
-@Config.Gui.Background("textures/block/spruce_planks.png")
-data class ClientConfig(
-    @ConfigEntry.Gui.PrefixText
-    val enableXpBarOverride: Boolean = true
-) : ConfigData {
-    override fun validatePostLoad() {}
+class ClientConfig(builder: ForgeConfigSpec.Builder) {
+
+    init {
+        builder.comment(
+            "Values like starting health, xp gain, and death penalties are customizable"
+                + " with data packs, not with this config. See the mod's wiki for more information,"
+                + " including instructions."
+        )
+    }
+
+    private val enableXpBarOverrideSpec: ForgeConfigSpec.ConfigValue<Boolean> = builder
+        .comment("Enable custom XP bar")
+        .define("enableXpBarOverride", true)
+
+    val enableXpBarOverride: Boolean get() = enableXpBarOverrideSpec.get()
+
+    companion object {
+        private val specPair = ForgeConfigSpec.Builder().configure(::ClientConfig)
+        val spec: ForgeConfigSpec = specPair.right
+        val instance: ClientConfig = specPair.left
+    }
 }

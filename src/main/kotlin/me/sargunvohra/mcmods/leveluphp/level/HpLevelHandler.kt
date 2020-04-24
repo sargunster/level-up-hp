@@ -1,21 +1,23 @@
 package me.sargunvohra.mcmods.leveluphp.level
 
-import me.sargunvohra.mcmods.leveluphp.LevelUpHp
+import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
 import net.minecraft.entity.Entity
-import net.minecraft.entity.attribute.EntityAttributeModifier
-import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.entity.mob.Monster
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.MobEntity
+import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.Tag
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.sound.SoundCategory
-import net.minecraft.text.LiteralText
-import net.minecraft.util.registry.Registry
-import java.util.UUID
+import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.INBT
+import net.minecraft.util.SoundCategory
+import net.minecraft.util.text.StringTextComponent
+import net.minecraftforge.registries.RegistryManager
+import java.util.*
 
 class HpLevelHandler(
     val player: PlayerEntity
@@ -43,14 +45,14 @@ class HpLevelHandler(
     val currentXpTarget get() = config.xpTargetFunction(level)
     val isMaxedOut get() = level >= config.maximumLevel
 
-    val config get() = LevelUpHp.reloadListener.config
+    val config get() = LevellingConfigLoader.config
 
     fun applyKill(killed: Entity) {
-        val typeId = Registry.ENTITY_TYPE.getId(killed.type)
+        val typeId = RegistryManager.ACTIVE.getRegistry(EntityType::class.java).getKey(killed.type)
         val gain = config.overrides[typeId.toString()]
             ?: when (killed) {
                 is AnimalEntity -> config.primaryXpValues.animal
-                is Monster -> config.primaryXpValues.mob
+                is MobEntity -> config.primaryXpValues.mob
                 else -> 0
             }
         if (gain != 0) {
@@ -100,22 +102,22 @@ class HpLevelHandler(
         val player = player as? ServerPlayerEntity ?: return
 
         // sync to client
-        if (player.networkHandler != null)
+        if (player.connection != null)
             SyncPacketConsumer.send(player, this)
 
         // create the hp modifier
-        val modifier = EntityAttributeModifier(
+        val modifier = AttributeModifier(
             UUID.fromString("ff859d30-ec60-418f-a5be-6f3de76a514a"),
             "Level Up HP modifier",
             (config.hpOffset + level * config.hpPerLevel).toDouble(),
-            EntityAttributeModifier.Operation.ADDITION
+            AttributeModifier.Operation.ADDITION
         )
-        modifier.setSerialize(false)
+        modifier.isSaved = false
 
         // apply the hp modifier to the player, replacing the old one
-        val maxHealthAttr = player.getAttributeInstance(EntityAttributes.MAX_HEALTH)
-        maxHealthAttr.removeModifier(modifier.id)
-        maxHealthAttr.addModifier(modifier)
+        val maxHealthAttr = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH)
+        maxHealthAttr.removeModifier(modifier)
+        maxHealthAttr.applyModifier(modifier)
 
         // if we just levelled up, play a sound, show a message, and optionally heal
         if (justLevelledUp) {
@@ -123,36 +125,36 @@ class HpLevelHandler(
 
             LevelUpCriterion.test(player)
 
-            player.addChatMessage(LiteralText("§c§lHP up!"), true)
+            player.sendStatusMessage(StringTextComponent("§c§lHP up!"), true)
 
             player.world.playSound(
                 null,
-                player.x, player.y, player.z,
-                LevelUpHp.levelUpSound,
+                player.posX, player.posY, player.posZ,
+                LuhpMod.levelUpSound,
                 SoundCategory.PLAYERS,
                 1f, 1f
             )
 
             if (config.healOnLevelUp) {
-                player.health = player.maximumHealth
+                player.health = player.maxHealth
             }
         }
 
         // if level went down, we need to cap hp
-        if (player.health > player.maximumHealth) {
-            player.health = player.maximumHealth
+        if (player.health > player.maxHealth) {
+            player.health = player.maxHealth
         }
     }
 
-    fun writeToTag(): Tag {
-        val ret = CompoundTag()
+    fun writeToTag(): INBT {
+        val ret = CompoundNBT()
         ret.putInt("xp", xp)
         ret.putInt("level", level)
         return ret
     }
 
-    fun readFromTag(tag: Tag) {
-        tag as CompoundTag
+    fun readFromTag(tag: INBT) {
+        tag as CompoundNBT
         _xp = tag.getInt("xp")
         _level = tag.getInt("level")
         onModified()

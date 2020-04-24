@@ -1,10 +1,6 @@
 {
     "subtitle.leveluphp.levelup": "HP up!",
     "item.leveluphp.heart_container": "Heart Container",
-    "text.autoconfig.leveluphp.title": "Level Up HP",
-    "text.autoconfig.leveluphp.category.default": "General",
-    "text.autoconfig.leveluphp.option.enableXpBarOverride": "Enable custom XP bar",
-    "text.autoconfig.leveluphp.option.enableXpBarOverride.@PrefixText": "Values like starting health, xp gain, and death penalties are customizable with data packs, not with this config. See the mod's wiki for more information, including instructions.",
     "advancements.leveluphp.level_up.title": "Level Up HP",
     "advancements.leveluphp.level_up.description": "Earn your first HP level",
     "advancements.leveluphp.level_up_max.title": "Maxed Out HP",

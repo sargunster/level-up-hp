@@ -3,7 +3,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         jcenter()
-        maven(url = "https://maven.fabricmc.net/")
     }
 }
 

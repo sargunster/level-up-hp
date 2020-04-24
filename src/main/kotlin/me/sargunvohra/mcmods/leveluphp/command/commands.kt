@@ -2,31 +2,31 @@ package me.sargunvohra.mcmods.leveluphp.command
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import me.sargunvohra.mcmods.leveluphp.LevelUpHp
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
-import net.minecraft.command.arguments.EntityArgumentType
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
-import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.LiteralText
-import net.minecraft.text.Text
+import net.minecraft.command.CommandSource
+import net.minecraft.command.Commands
+import net.minecraft.command.Commands.literal
+import net.minecraft.command.arguments.EntityArgument
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.StringTextComponent
 
 fun getter(
     literal: String,
-    response: (HpLevelHandler) -> Text
-): LiteralArgumentBuilder<ServerCommandSource> {
+    response: (HpLevelHandler) -> ITextComponent
+): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
         .executes { ctx ->
-            val handler = ctx.source.player.hpLevelHandler
+            val handler = ctx.source.asPlayer().hpLevelHandler
             ctx.source.sendFeedback(response(handler), false)
             return@executes 0
         }
         .then(
-            CommandManager.argument("player", EntityArgumentType.player())
+            Commands.argument("player", EntityArgument.player())
                 .requires { it.hasPermissionLevel(2) }
                 .executes { ctx ->
-                    val player = EntityArgumentType.getPlayer(ctx, "player")
+                    val player = EntityArgument.getPlayer(ctx, "player")
                     val handler = player.hpLevelHandler
                     ctx.source.sendFeedback(response(handler), true)
                     return@executes 0
@@ -37,13 +37,13 @@ fun getter(
 fun setter(
     literal: String,
     set: (HpLevelHandler, Int) -> Unit
-): LiteralArgumentBuilder<ServerCommandSource> {
+): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
         .requires { it.hasPermissionLevel(2) }
-        .then(CommandManager.argument("players", EntityArgumentType.players())
-            .then(CommandManager.argument("amount", IntegerArgumentType.integer(0))
+        .then(Commands.argument("players", EntityArgument.players())
+            .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                 .executes { ctx ->
-                    val players = EntityArgumentType.getPlayers(ctx, "players")
+                    val players = EntityArgument.getPlayers(ctx, "players")
                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
                     players
                         .map { it.hpLevelHandler }
@@ -54,7 +54,7 @@ fun setter(
         )
 }
 
-fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
+fun buildLevelUpHpCommand(): LiteralArgumentBuilder<CommandSource> {
     val base = literal("leveluphp")
 
     listOf(
@@ -63,12 +63,12 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<ServerCommandSource> {
         setter("setlevel") { target, level -> target.level = level },
         setter("addlevel") { target, levels -> target.level += levels },
         getter("check") { target ->
-            LiteralText("Level: ${target.level}\nXP: ${target.xp}/${target.currentXpTarget}")
+            StringTextComponent("Level: ${target.level}\nXP: ${target.xp}/${target.currentXpTarget}")
         },
         literal("checkconfig")
             .executes { context ->
                 context.source.sendFeedback(
-                    LiteralText(LevelUpHp.reloadListener.config.toString()),
+                    StringTextComponent(LevellingConfigLoader.config.toString()),
                     false
                 )
                 return@executes 0

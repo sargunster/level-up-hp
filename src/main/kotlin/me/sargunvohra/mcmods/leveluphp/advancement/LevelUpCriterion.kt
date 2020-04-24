@@ -2,19 +2,19 @@ package me.sargunvohra.mcmods.leveluphp.advancement
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
-import me.sargunvohra.mcmods.leveluphp.LevelUpHp
+import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
-import net.minecraft.advancement.criterion.AbstractCriterion
-import net.minecraft.advancement.criterion.AbstractCriterionConditions
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.advancements.criterion.AbstractCriterionTrigger
+import net.minecraft.advancements.criterion.CriterionInstance
+import net.minecraft.entity.player.ServerPlayerEntity
 import java.util.function.Predicate
 
-object LevelUpCriterion : AbstractCriterion<LevelUpCriterion.Conditions>() {
+object LevelUpCriterion : AbstractCriterionTrigger<LevelUpCriterion.Conditions>() {
 
-    override fun getId() = LevelUpHp.id("player_levelled_up")
+    override fun getId() = LuhpMod.id("player_levelled_up")
 
-    override fun conditionsFromJson(
+    override fun deserializeInstance(
         jsonObject: JsonObject,
         deserializationContext: JsonDeserializationContext
     ): Conditions {
@@ -24,14 +24,14 @@ object LevelUpCriterion : AbstractCriterion<LevelUpCriterion.Conditions>() {
     }
 
     fun test(player: ServerPlayerEntity) {
-        this.test(player.advancementTracker) { conditions ->
+        this.func_227070_a_(player.advancements) { conditions ->
             conditions.test(player.hpLevelHandler)
         }
     }
 
     class Conditions(
         private val level: LevelPredicate
-    ) : AbstractCriterionConditions(LevelUpCriterion.id),
+    ) : CriterionInstance(LevelUpCriterion.id),
         Predicate<HpLevelHandler> by level
 
 }

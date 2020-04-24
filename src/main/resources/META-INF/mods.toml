@@ -1,0 +1,27 @@
+modLoader="kotlinfml"
+loaderVersion="[1,)"
+issueTrackerURL="https://gitlab.com/sargunv-mc-mods/level-up-hp/issues"
+
+[[mods]]
+modId="leveluphp"
+version="${file.jarVersion}"
+displayName="Level Up HP"
+#updateJSONURL="https://raw.githubusercontent.com/sargunv-mc-mods/level-up-hp/1.15/update.json"
+displayURL="https://minecraft.curseforge.com/projects/level-up-hp"
+#logoFile="icon.png"
+authors="sargunv"
+description="Gain hearts of health by killing mobs or consuming heart containers."
+
+[[dependencies.leveluphp]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.15.2]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.leveluphp]]
+modId="forge"
+mandatory=true
+versionRange="[31,)"
+ordering="NONE"
+side="BOTH"
