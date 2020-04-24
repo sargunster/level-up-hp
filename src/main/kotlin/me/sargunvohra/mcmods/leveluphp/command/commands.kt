@@ -12,7 +12,7 @@ import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 
-fun getter(
+private fun getter(
     literal: String,
     response: (HpLevelHandler) -> ITextComponent
 ): LiteralArgumentBuilder<CommandSource> {
@@ -34,7 +34,7 @@ fun getter(
         )
 }
 
-fun setter(
+private fun setter(
     literal: String,
     set: (HpLevelHandler, Int) -> Unit
 ): LiteralArgumentBuilder<CommandSource> {
@@ -58,21 +58,27 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<CommandSource> {
     val base = literal("leveluphp")
 
     listOf(
+        getter("getxp") { target -> StringTextComponent("${target.level}") },
         setter("setxp") { target, xp -> target.xp = xp },
         setter("addxp") { target, xp -> target.xp += xp },
+        getter("getlevel") { target -> StringTextComponent("${target.level}") },
         setter("setlevel") { target, level -> target.level = level },
         setter("addlevel") { target, levels -> target.level += levels },
         getter("check") { target ->
-            StringTextComponent("Level: ${target.level}\nXP: ${target.xp}/${target.currentXpTarget}")
+            StringTextComponent(
+                listOf(
+                    "Level: ${target.level}",
+                    "XP: ${target.xp}/${target.currentXpTarget}"
+                ).joinToString("\n")
+            )
         },
-        literal("checkconfig")
-            .executes { context ->
-                context.source.sendFeedback(
-                    StringTextComponent(LevellingConfigLoader.config.toString()),
-                    false
-                )
-                return@executes 0
-            }
+        literal("checkconfig").executes { context ->
+            context.source.sendFeedback(
+                StringTextComponent(LevellingConfigLoader.config.toString()),
+                false
+            )
+            return@executes 0
+        }
     ).forEach { subCmd -> base.then(subCmd) }
 
     return base
