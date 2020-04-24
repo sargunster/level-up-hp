@@ -62,7 +62,7 @@ version = "5.0.0+mc$minecraftVersion+forge"
 group = modMavenGroup
 
 configure<MinecraftExtension> {
-    mappings("snapshot", "20200225-1.15.1")
+    mappings("snapshot", "20200424-1.15.1")
 //    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     runs {
