@@ -1,8 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
-import me.sargunvohra.mcmods.leveluphp.LuhpMod
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
@@ -11,7 +10,6 @@ import net.minecraft.client.gui.AbstractGui.GUI_ICONS_LOCATION
 import net.minecraft.client.gui.FontRenderer
 
 object XpBarRenderer {
-    private val TEX_ICONS = LuhpMod.id("textures/gui/icons.png")
 
     fun render(client: Minecraft, player: ClientPlayerEntity) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
@@ -21,7 +19,7 @@ object XpBarRenderer {
             val window = client.mainWindow
             val left = window.scaledWidth / 2 - 91
             val levelHandler = player.hpLevelHandlerOpt
-            client.textureManager.bindTexture(TEX_ICONS)
+            client.textureManager.bindTexture(LuhpIds.EXP_BAR_ICONS_TEXTURE)
 
             client.profiler.startSection("levelUpHpBars")
             run {

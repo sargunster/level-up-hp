@@ -2,6 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.config
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.resources.IResourceManager
@@ -30,7 +31,7 @@ class LevellingConfigLoader(val server: MinecraftServer) : IResourceManagerReloa
                 return@fold map
             }
 
-        val general = resourceManager.getResource(LuhpMod.id("leveluphp/general.json"))
+        val general = resourceManager.getResource(LuhpIds.LEVELLING_CONFIG)
         val config = gson.fromJson(
             InputStreamReader(general.inputStream),
             LevellingConfig::class.java

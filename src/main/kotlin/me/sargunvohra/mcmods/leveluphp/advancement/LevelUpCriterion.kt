@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.advancement
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
-import me.sargunvohra.mcmods.leveluphp.LuhpMod
+import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger
@@ -12,7 +12,7 @@ import java.util.function.Predicate
 
 object LevelUpCriterion : AbstractCriterionTrigger<LevelUpCriterion.Conditions>() {
 
-    override fun getId() = LuhpMod.id("player_levelled_up")
+    override fun getId() = LuhpIds.LEVEL_UP_TRIGGER
 
     override fun deserializeInstance(
         jsonObject: JsonObject,
@@ -31,7 +31,6 @@ object LevelUpCriterion : AbstractCriterionTrigger<LevelUpCriterion.Conditions>(
 
     class Conditions(
         private val level: LevelPredicate
-    ) : CriterionInstance(LevelUpCriterion.id),
+    ) : CriterionInstance(LuhpIds.LEVEL_UP_TRIGGER),
         Predicate<HpLevelHandler> by level
-
 }

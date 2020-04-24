@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.network.PacketBuffer
-import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -42,13 +41,15 @@ import java.util.*
 object LuhpMod {
     private const val protocolVersion = "1"
     val channel = NetworkRegistry.newSimpleChannel(
-        id("hp_level_sync"),
+        LuhpIds.LEVEL_SYNC_CHANNEL,
         { protocolVersion },
         { it == protocolVersion },
         { it == protocolVersion || it == "ABSENT" }
     )!!
-    val levelUpSound = SoundEvent(id("levelup")).setRegistryName("levelup")!!
-    private val heartContainerItem = HeartContainerItem().setRegistryName("heart_container")!!
+    val levelUpSound = SoundEvent(LuhpIds.LEVEL_UP_SOUND)
+        .setRegistryName(LuhpIds.LEVEL_UP_SOUND.path)!!
+    private val heartContainerItem = HeartContainerItem()
+        .setRegistryName(LuhpIds.HEART_CONTAINER_ITEM)!!
 
     init {
         @Suppress("INACCESSIBLE_TYPE")
@@ -105,7 +106,7 @@ object LuhpMod {
     fun onAttachEntityCapabilities(event: AttachCapabilitiesEvent<Entity>) {
         val entity = event.`object`
         if (entity is PlayerEntity) {
-            event.addCapability(id("hp_leveller"), IHpLeveller.Provider(entity))
+            event.addCapability(LuhpIds.LEVELLER_CAPABILITY, IHpLeveller.Provider(entity))
         }
     }
 
@@ -162,6 +163,4 @@ object LuhpMod {
         event.isCanceled = true
         XpBarRenderer.render(client, player)
     }
-
-    fun id(name: String) = ResourceLocation("leveluphp", name)
 }

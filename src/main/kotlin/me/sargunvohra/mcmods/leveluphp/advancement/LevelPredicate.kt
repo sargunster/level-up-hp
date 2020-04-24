@@ -10,6 +10,7 @@ class LevelPredicate(
     private val current: MinMaxBounds.IntBound,
     private val remaining: MinMaxBounds.IntBound
 ) : Predicate<HpLevelHandler> {
+
     override fun test(hpLevelHandler: HpLevelHandler): Boolean {
         val currentLevel = hpLevelHandler.level
         val remainingLevels = hpLevelHandler.config.maximumLevel - currentLevel
