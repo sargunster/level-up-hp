@@ -3,7 +3,6 @@ package me.sargunvohra.mcmods.leveluphp.config
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.resources.IResourceManager
 import net.minecraft.resources.IResourceManagerReloadListener
