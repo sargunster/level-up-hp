@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.advancement
+package me.sargunvohra.mcmods.leveluphp.criterion
 
 import com.google.gson.JsonElement
 import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler

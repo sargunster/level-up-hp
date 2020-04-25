@@ -1,9 +1,9 @@
 package me.sargunvohra.mcmods.leveluphp.capability
 
-import me.sargunvohra.mcmods.leveluphp.LuhpMod
-import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
+import me.sargunvohra.mcmods.leveluphp.criterion.LuhpCriterionTriggers
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
+import me.sargunvohra.mcmods.leveluphp.sound.LuhpSoundEvents
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.MobEntity
@@ -123,14 +123,14 @@ class HpLevelHandler(
         if (justLevelledUp) {
             justLevelledUp = false
 
-            LevelUpCriterion.test(player)
+            LuhpCriterionTriggers.LEVEL_UP.test(player)
 
             player.sendStatusMessage(StringTextComponent("§c§lHP up!"), true)
 
             player.world.playSound(
                 null,
                 player.posX, player.posY, player.posZ,
-                LuhpMod.levelUpSound,
+                LuhpSoundEvents.LEVEL_UP,
                 SoundCategory.PLAYERS,
                 1f, 1f
             )

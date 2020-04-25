@@ -2,9 +2,9 @@ package me.sargunvohra.mcmods.leveluphp.command
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
-import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.Commands.literal
@@ -58,7 +58,7 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<CommandSource> {
     val base = literal("leveluphp")
 
     listOf(
-        getter("getxp") { target -> StringTextComponent("${target.level}") },
+        getter("getxp") { target -> StringTextComponent("${target.xp}") },
         setter("setxp") { target, xp -> target.xp = xp },
         setter("addxp") { target, xp -> target.xp += xp },
         getter("getlevel") { target -> StringTextComponent("${target.level}") },

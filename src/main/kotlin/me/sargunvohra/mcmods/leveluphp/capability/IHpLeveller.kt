@@ -4,7 +4,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
 
 
 interface IHpLeveller {
@@ -34,16 +33,10 @@ interface IHpLeveller {
     }
 
     class Provider(player: PlayerEntity)
-        : SimpleCapabilityProvider<IHpLeveller>(HP_LEVELLER_CAPABILITY) {
+        : SimpleCapabilityProvider<IHpLeveller>(LuhpCapabilities.HP_LEVELLER_CAPABILITY) {
 
-        override val implementation = Impl().apply {
+        override val instance = Impl().apply {
             hpLevelHandler = HpLevelHandler(player)
         }
-    }
-
-    companion object {
-        @JvmStatic
-        @CapabilityInject(IHpLeveller::class)
-        lateinit var HP_LEVELLER_CAPABILITY: Capability<IHpLeveller>
     }
 }

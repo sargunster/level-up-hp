@@ -5,12 +5,10 @@ import io.netty.buffer.ByteBuf
 import io.netty.buffer.ByteBufInputStream
 import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.Unpooled
-import me.sargunvohra.mcmods.leveluphp.LuhpMod
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfig
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
-import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
-import me.sargunvohra.mcmods.leveluphp.capability.IHpLeveller
+import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOrNull
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.NBTSizeTracker
@@ -42,7 +40,7 @@ object SyncPacketConsumer {
                 e.printStackTrace()
             }
             val player = Minecraft.getInstance().player ?: return@enqueueWork
-            player.hpLevelHandlerOpt?.readFromTag(data)
+            player.hpLevelHandlerOrNull?.readFromTag(data)
         }
 
         context.packetHandled = true
@@ -63,7 +61,7 @@ object SyncPacketConsumer {
         output.writeChars(configJson)
 
         output.close()
-        LuhpMod.channel.sendTo(
+        LuhpNetwork.CHANNEL.sendTo(
             output.buffer(),
             player.connection.netManager,
             NetworkDirection.PLAY_TO_CLIENT

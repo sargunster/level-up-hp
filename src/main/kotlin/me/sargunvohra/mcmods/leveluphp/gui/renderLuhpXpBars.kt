@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
+import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOrNull
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.AbstractGui
@@ -13,15 +13,15 @@ private const val BAR_TOP_OFFSET = 30
 private const val HP_LEVEL_COLOR = 0xff3f3f
 private const val MC_LEVEL_COLOR = 0x80FF20
 
-fun renderLuhpExpBars(client: Minecraft, player: ClientPlayerEntity) {
-    client.profiler.startSection("levelUpHpExpBars")
+fun renderLuhpXpBars(client: Minecraft, player: ClientPlayerEntity) {
+    client.profiler.startSection("levelUpHpXpBars")
 
     RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
     RenderSystem.disableBlend()
 
     if (client.playerController!!.gameIsSurvivalOrAdventure()) {
 
-        client.textureManager.bindTexture(LuhpIds.EXP_BAR_ICONS_TEXTURE)
+        client.textureManager.bindTexture(LuhpIds.XP_BAR_ICONS_TEXTURE)
 
         val window = client.mainWindow
         val fontRenderer = client.fontRenderer
@@ -29,16 +29,16 @@ fun renderLuhpExpBars(client: Minecraft, player: ClientPlayerEntity) {
         val barsCenterX = window.scaledWidth / 2
         val barsTopY = window.scaledHeight - BAR_TOP_OFFSET
 
-        val hpLevelHandler = player.hpLevelHandlerOpt
+        val hpLevelHandler = player.hpLevelHandlerOrNull
 
-        // render luhp exp bar
+        // render luhp xp bar
         if (hpLevelHandler != null) {
             val hpXpTarget = hpLevelHandler.currentXpTarget
             val hpXpFillWidth = if (hpXpTarget != 0) hpLevelHandler.xp * BAR_WIDTH / hpXpTarget else 0
             renderProgress(barsCenterX - BAR_WIDTH, barsTopY + 1, 0, hpXpFillWidth)
         }
 
-        // render vanilla exp bar
+        // render vanilla xp bar
         val mcXpFillWidth = (player.experience * BAR_WIDTH).toInt()
         renderProgress(barsCenterX, barsTopY + 1, BAR_WIDTH, mcXpFillWidth)
 

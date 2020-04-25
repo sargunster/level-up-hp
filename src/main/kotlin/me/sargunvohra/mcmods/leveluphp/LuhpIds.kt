@@ -8,7 +8,7 @@ object LuhpIds {
     val LEVEL_SYNC_CHANNEL = id("hp_level_sync")
     val LEVEL_UP_SOUND = id("levelup")
     val LEVEL_UP_TRIGGER = id("player_levelled_up")
-    val EXP_BAR_ICONS_TEXTURE = id("textures/gui/icons.png")
+    val XP_BAR_ICONS_TEXTURE = id("textures/gui/icons.png")
     val HEART_CONTAINER_ITEM = id("heart_container")
 
     private fun id(path: String) = ResourceLocation("leveluphp", path)

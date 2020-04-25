@@ -1,16 +1,16 @@
-package me.sargunvohra.mcmods.leveluphp.advancement
+package me.sargunvohra.mcmods.leveluphp.criterion
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger
 import net.minecraft.advancements.criterion.CriterionInstance
 import net.minecraft.entity.player.ServerPlayerEntity
 import java.util.function.Predicate
 
-object LevelUpCriterion : AbstractCriterionTrigger<LevelUpCriterion.Conditions>() {
+class LevelUpCriterionTrigger : AbstractCriterionTrigger<LevelUpCriterionTrigger.Conditions>() {
 
     override fun getId() = LuhpIds.LEVEL_UP_TRIGGER
 
