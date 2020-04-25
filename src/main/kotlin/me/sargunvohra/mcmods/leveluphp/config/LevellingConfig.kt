@@ -41,20 +41,20 @@ data class LevellingConfig(
         fun validate() = terms.forEach { it.validate() }
 
         override fun toString() = if (terms.isEmpty()) "0" else terms.joinToString("+")
+    }
 
-        data class Term(
-            val coefficient: Double,
-            val exponent: Double
-        ) {
-            operator fun invoke(level: Int) = coefficient * level.toDouble().pow(exponent)
+    data class Term(
+        val coefficient: Double,
+        val exponent: Double
+    ) {
+        operator fun invoke(level: Int) = coefficient * level.toDouble().pow(exponent)
 
-            fun validate() {
-                check(coefficient >= 0)
-                check(exponent >= 0)
-            }
-
-            override fun toString() = "$coefficient*X^$exponent"
+        fun validate() {
+            check(coefficient >= 0)
+            check(exponent >= 0)
         }
+
+        override fun toString() = "$coefficient*X^$exponent"
     }
 
     data class PrimaryXpValues(
@@ -66,6 +66,6 @@ data class LevellingConfig(
             check(mob >= 0)
         }
 
-        override fun toString() = "{animal=$animal, animal=$mob}"
+        override fun toString() = "{animal=$animal, mob=$mob}"
     }
 }

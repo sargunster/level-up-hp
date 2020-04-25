@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package me.sargunvohra.mcmods.leveluphp.config
 
 import com.google.gson.Gson
@@ -7,7 +9,6 @@ import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.resources.IResourceManager
 import net.minecraft.resources.IResourceManagerReloadListener
 import net.minecraft.server.MinecraftServer
-import net.minecraftforge.resource.IResourceType
 import org.apache.logging.log4j.LogManager
 import java.io.InputStreamReader
 
@@ -43,10 +44,6 @@ class LevellingConfigLoader(val server: MinecraftServer) : IResourceManagerReloa
         successfullyLoadedDataPack = true
 
         server.playerList.players.forEach { it.hpLevelHandler.onModified() }
-    }
-
-    override fun getResourceType(): IResourceType {
-        return LuhpResourceTypes.LEVELLING_CONFIG
     }
 
     companion object {

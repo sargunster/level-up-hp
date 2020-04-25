@@ -6,114 +6,93 @@ import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.AbstractGui
-import net.minecraft.client.gui.AbstractGui.GUI_ICONS_LOCATION
 import net.minecraft.client.gui.FontRenderer
 
-object XpBarRenderer {
+private const val BAR_WIDTH = 91
+private const val BAR_TOP_OFFSET = 30
+private const val HP_LEVEL_COLOR = 0xff3f3f
+private const val MC_LEVEL_COLOR = 0x80FF20
 
-    fun render(client: Minecraft, player: ClientPlayerEntity) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        RenderSystem.disableBlend()
+fun renderLuhpExpBars(client: Minecraft, player: ClientPlayerEntity) {
+    client.profiler.startSection("levelUpHpExpBars")
 
-        if (client.playerController!!.gameIsSurvivalOrAdventure()) {
-            val window = client.mainWindow
-            val left = window.scaledWidth / 2 - 91
-            val levelHandler = player.hpLevelHandlerOpt
-            client.textureManager.bindTexture(LuhpIds.EXP_BAR_ICONS_TEXTURE)
+    RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
+    RenderSystem.disableBlend()
 
-            client.profiler.startSection("levelUpHpBars")
-            run {
-                val top: Int = window.scaledHeight - 32 + 3
+    if (client.playerController!!.gameIsSurvivalOrAdventure()) {
 
-                if (levelHandler != null) {
-                    val target = levelHandler.currentXpTarget
-                    val hpXpBarWidth = if (target != 0) levelHandler.xp * 91 / target else 0
-                    renderProgress(left, top, 0, hpXpBarWidth)
-                }
+        client.textureManager.bindTexture(LuhpIds.EXP_BAR_ICONS_TEXTURE)
 
-                val mcXpBarWidth = (player.experience * 91).toInt()
-                renderProgress(left + 91, top, 91, mcXpBarWidth)
-            }
-            client.profiler.endSection()
+        val window = client.mainWindow
+        val fontRenderer = client.fontRenderer
 
-            client.profiler.startSection("levelUpHpBars")
-            run {
-                val fontRenderer = client.fontRenderer
-                val centerX: Int = window.scaledWidth / 2
-                val textTop = window.scaledHeight - 30
+        val barsCenterX = window.scaledWidth / 2
+        val barsTopY = window.scaledHeight - BAR_TOP_OFFSET
 
-                if (levelHandler != null) {
-                    val hpLevel = "" + levelHandler.level
-                    val hpLevelWidth: Int = fontRenderer.getStringWidth(hpLevel)
-                    renderLevel(
-                        fontRenderer,
-                        hpLevel,
-                        textTop,
-                        centerX - 92 - hpLevelWidth,
-                        0xff3f3f
-                    )
-                }
+        val hpLevelHandler = player.hpLevelHandlerOpt
 
-                val mcLevel = "" + player.experienceLevel
-                renderLevel(
-                    fontRenderer,
-                    mcLevel,
-                    textTop,
-                    centerX + 93,
-                    0x80FF20
-                )
-            }
-            client.profiler.endSection()
-
-            client.textureManager.bindTexture(GUI_ICONS_LOCATION)
+        // render luhp exp bar
+        if (hpLevelHandler != null) {
+            val hpXpTarget = hpLevelHandler.currentXpTarget
+            val hpXpFillWidth = if (hpXpTarget != 0) hpLevelHandler.xp * BAR_WIDTH / hpXpTarget else 0
+            renderProgress(barsCenterX - BAR_WIDTH, barsTopY + 1, 0, hpXpFillWidth)
         }
-        RenderSystem.enableBlend()
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-    }
 
-    private fun renderProgress(
-        left: Int,
-        top: Int,
-        texX: Int,
-        filled: Int
-    ) {
-        AbstractGui.blit(
-            left,
-            top,
-            -90,
-            texX.toFloat(),
-            0F,
-            91,
-            5,
-            256,
-            256
-        )
-        if (filled > 0) {
-            AbstractGui.blit(
-                left,
-                top,
-                -90,
-                texX.toFloat(),
-                5F,
-                filled,
-                5,
-                256,
-                256
+        // render vanilla exp bar
+        val mcXpFillWidth = (player.experience * BAR_WIDTH).toInt()
+        renderProgress(barsCenterX, barsTopY + 1, BAR_WIDTH, mcXpFillWidth)
+
+        // render luhp level
+        if (hpLevelHandler != null) {
+            val levelStr = "${hpLevelHandler.level}"
+            val levelStrWidth: Int = fontRenderer.getStringWidth(levelStr)
+            renderLevel(
+                fontRenderer,
+                levelStr,
+                barsTopY,
+                barsCenterX - BAR_WIDTH - 1 - levelStrWidth,
+                HP_LEVEL_COLOR
             )
         }
+
+        // render vanilla level
+        val mcLevel = "" + player.experienceLevel
+        renderLevel(
+            fontRenderer,
+            mcLevel,
+            barsTopY,
+            barsCenterX + BAR_WIDTH + 2,
+            MC_LEVEL_COLOR
+        )
     }
 
-    private fun renderLevel(
-        fontRenderer: FontRenderer,
-        str: String,
-        top: Int,
-        left: Int,
-        color: Int
-    ) {
-        fontRenderer.drawString(str, (left + 1).toFloat(), top.toFloat(), 0)
-        fontRenderer.drawString(str, (left - 1).toFloat(), top.toFloat(), 0)
-        fontRenderer.drawString(str, left.toFloat(), (top + 1).toFloat(), 0)
-        fontRenderer.drawString(str, left.toFloat(), (top - 1).toFloat(), 0)
-        fontRenderer.drawString(str, left.toFloat(), top.toFloat(), color)
-    }
+    RenderSystem.enableBlend()
+    RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
+
+    client.profiler.endSection()
+}
+
+private fun renderProgress(
+    left: Int,
+    top: Int,
+    texX: Int,
+    filled: Int
+) {
+    AbstractGui.blit(left, top, -90, texX.toFloat(), 0F, BAR_WIDTH, 5, 256, 256)
+    if (filled > 0)
+        AbstractGui.blit(left, top, -90, texX.toFloat(), 5F, filled, 5, 256, 256)
+}
+
+private fun renderLevel(
+    fontRenderer: FontRenderer,
+    str: String,
+    top: Int,
+    left: Int,
+    color: Int
+) {
+    fontRenderer.drawString(str, (left + 1).toFloat(), top.toFloat(), 0)
+    fontRenderer.drawString(str, (left - 1).toFloat(), top.toFloat(), 0)
+    fontRenderer.drawString(str, left.toFloat(), (top + 1).toFloat(), 0)
+    fontRenderer.drawString(str, left.toFloat(), (top - 1).toFloat(), 0)
+    fontRenderer.drawString(str, left.toFloat(), top.toFloat(), color)
 }

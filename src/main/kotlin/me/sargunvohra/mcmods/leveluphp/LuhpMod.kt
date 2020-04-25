@@ -4,7 +4,7 @@ import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
 import me.sargunvohra.mcmods.leveluphp.command.buildLevelUpHpCommand
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfig
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
-import me.sargunvohra.mcmods.leveluphp.gui.XpBarRenderer
+import me.sargunvohra.mcmods.leveluphp.gui.renderLuhpExpBars
 import me.sargunvohra.mcmods.leveluphp.item.HeartContainerItem
 import me.sargunvohra.mcmods.leveluphp.level.IHpLeveller
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
@@ -161,6 +161,6 @@ object LuhpMod {
         val client = Minecraft.getInstance()
         val player = client.player ?: return
         event.isCanceled = true
-        XpBarRenderer.render(client, player)
+        renderLuhpExpBars(client, player)
     }
 }
