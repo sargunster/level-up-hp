@@ -13,7 +13,6 @@ class ClientConfig(builder: ForgeConfigSpec.Builder) {
     }
 
     private val enableXpBarOverrideSpec: ForgeConfigSpec.ConfigValue<Boolean> = builder
-        .comment("Enable custom XP bar")
         .define("enableXpBarOverride", true)
 
     val enableXpBarOverride: Boolean get() = enableXpBarOverrideSpec.get()

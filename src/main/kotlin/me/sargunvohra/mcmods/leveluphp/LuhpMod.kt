@@ -3,7 +3,7 @@ package me.sargunvohra.mcmods.leveluphp
 import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
 import me.sargunvohra.mcmods.leveluphp.command.buildLevelUpHpCommand
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfig
-import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.gui.renderLuhpExpBars
 import me.sargunvohra.mcmods.leveluphp.item.HeartContainerItem
 import me.sargunvohra.mcmods.leveluphp.level.IHpLeveller
@@ -84,7 +84,7 @@ object LuhpMod {
 
     @SubscribeEvent
     fun onServerAboutToStart(event: FMLServerAboutToStartEvent) {
-        event.server.resourceManager.addReloadListener(LevellingConfigLoader(event.server))
+        event.server.resourceManager.addReloadListener(LevellingConfigManager(event.server))
     }
 
     @SubscribeEvent

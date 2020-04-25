@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.level
 
 import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion
-import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -45,7 +45,7 @@ class HpLevelHandler(
     val currentXpTarget get() = config.xpTargetFunction(level)
     val isMaxedOut get() = level >= config.maximumLevel
 
-    val config get() = LevellingConfigLoader.config
+    val config get() = LevellingConfigManager.config
 
     fun applyKill(killed: Entity) {
         val typeId = RegistryManager.ACTIVE.getRegistry(EntityType::class.java).getKey(killed.type)

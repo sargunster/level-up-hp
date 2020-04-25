@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.Unpooled
 import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfig
-import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.client.Minecraft
@@ -36,7 +36,7 @@ object SyncPacketConsumer {
         context.enqueueWork {
             try {
                 config.validate()
-                LevellingConfigLoader.config = config
+                LevellingConfigManager.config = config
             } catch (e: IllegalStateException) {
                 e.printStackTrace()
             }
@@ -57,7 +57,7 @@ object SyncPacketConsumer {
         tag.write(output)
 
         // write config data (shitty way to do it but ¯\_(ツ)_/¯)
-        val configJson = gson.toJson(LevellingConfigLoader.config)
+        val configJson = gson.toJson(LevellingConfigManager.config)
         output.writeInt(configJson.length)
         output.writeChars(configJson)
 

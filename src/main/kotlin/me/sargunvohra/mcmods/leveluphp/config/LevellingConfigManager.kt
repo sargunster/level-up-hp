@@ -11,7 +11,7 @@ import net.minecraft.server.MinecraftServer
 import org.apache.logging.log4j.LogManager
 import java.io.InputStreamReader
 
-class LevellingConfigLoader(
+class LevellingConfigManager(
     private val server: MinecraftServer
 ) : ReloadListener<LevellingConfig>() {
 
@@ -51,7 +51,6 @@ class LevellingConfigLoader(
         LogManager.getLogger().info("Loaded {}", loadedConfig)
         loadedConfig.validate()
         config = loadedConfig
-        successfullyLoadedDataPack = true
         server.playerList.players.forEach { it.hpLevelHandler.onModified() }
     }
 
@@ -59,18 +58,9 @@ class LevellingConfigLoader(
         var config: LevellingConfig = LevellingConfig()
 
         private val gson = Gson()
-        private var successfullyLoadedDataPack = false
 
         init {
             config.validate()
-        }
-
-        fun ensureDataLoaded() {
-            if (!successfullyLoadedDataPack)
-                throw RuntimeException(
-                    "One of your mods broke data loading;"
-                        + " forcing a crash to preserve your levels!"
-                )
         }
     }
 }

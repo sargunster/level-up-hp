@@ -15,7 +15,11 @@ import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 
-class HeartContainerItem : Item(Properties().group(ItemGroup.MISC).maxStackSize(1)) {
+class HeartContainerItem : Item(
+    Properties()
+        .group(ItemGroup.MISC)
+        .maxStackSize(1)
+) {
 
     override fun hasEffect(stack: ItemStack) = true
 

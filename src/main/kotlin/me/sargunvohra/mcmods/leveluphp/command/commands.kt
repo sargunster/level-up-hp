@@ -2,7 +2,7 @@ package me.sargunvohra.mcmods.leveluphp.command
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigLoader
+import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
 import net.minecraft.command.CommandSource
@@ -74,7 +74,7 @@ fun buildLevelUpHpCommand(): LiteralArgumentBuilder<CommandSource> {
         },
         literal("checkconfig").executes { context ->
             context.source.sendFeedback(
-                StringTextComponent(LevellingConfigLoader.config.toString()),
+                StringTextComponent(LevellingConfigManager.config.toString()),
                 false
             )
             return@executes 0
