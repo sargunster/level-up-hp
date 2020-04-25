@@ -1,7 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.advancement
 
 import com.google.gson.JsonElement
-import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import net.minecraft.advancements.criterion.MinMaxBounds
 import net.minecraft.util.JSONUtils
 import java.util.function.Predicate

@@ -6,7 +6,7 @@ import me.sargunvohra.mcmods.leveluphp.config.ClientConfig
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.gui.renderLuhpExpBars
 import me.sargunvohra.mcmods.leveluphp.item.HeartContainerItem
-import me.sargunvohra.mcmods.leveluphp.level.IHpLeveller
+import me.sargunvohra.mcmods.leveluphp.capability.IHpLeveller
 import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
 import net.alexwells.kottle.FMLKotlinModLoadingContext
 import net.minecraft.advancements.CriteriaTriggers

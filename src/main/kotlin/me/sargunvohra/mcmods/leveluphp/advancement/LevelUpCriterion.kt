@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
-import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger
 import net.minecraft.advancements.criterion.CriterionInstance
 import net.minecraft.entity.player.ServerPlayerEntity

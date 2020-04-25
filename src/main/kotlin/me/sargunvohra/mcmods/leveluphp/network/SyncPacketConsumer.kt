@@ -9,7 +9,8 @@ import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfig
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOpt
-import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.capability.IHpLeveller
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.NBTSizeTracker

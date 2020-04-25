@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.level
+package me.sargunvohra.mcmods.leveluphp.capability
 
 import me.sargunvohra.mcmods.leveluphp.LuhpMod
 import me.sargunvohra.mcmods.leveluphp.advancement.LevelUpCriterion

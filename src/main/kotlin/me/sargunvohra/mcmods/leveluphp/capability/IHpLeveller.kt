@@ -1,12 +1,10 @@
-package me.sargunvohra.mcmods.leveluphp.level
+package me.sargunvohra.mcmods.leveluphp.capability
 
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.INBT
 import net.minecraft.util.Direction
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.CapabilityInject
-import net.minecraftforge.common.capabilities.ICapabilitySerializable
-import net.minecraftforge.common.util.LazyOptional
 
 
 interface IHpLeveller {
@@ -35,30 +33,17 @@ interface IHpLeveller {
         }
     }
 
-    class Provider(player: PlayerEntity) : ICapabilitySerializable<INBT> {
-        private val capability = Impl().apply {
+    class Provider(player: PlayerEntity)
+        : SimpleCapabilityProvider<IHpLeveller>(HP_LEVELLER_CAPABILITY) {
+
+        override val implementation = Impl().apply {
             hpLevelHandler = HpLevelHandler(player)
-        }
-
-        override fun <T : Any?> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
-            if (cap == CAPABILITY) {
-                return LazyOptional.of { capability }.cast()
-            }
-            return LazyOptional.empty()
-        }
-
-        override fun deserializeNBT(nbt: INBT) {
-            CAPABILITY.storage.readNBT(CAPABILITY, capability, null, nbt)
-        }
-
-        override fun serializeNBT(): INBT? {
-            return CAPABILITY.storage.writeNBT(CAPABILITY, capability, null)
         }
     }
 
     companion object {
         @JvmStatic
         @CapabilityInject(IHpLeveller::class)
-        lateinit var CAPABILITY: Capability<IHpLeveller>
+        lateinit var HP_LEVELLER_CAPABILITY: Capability<IHpLeveller>
     }
 }

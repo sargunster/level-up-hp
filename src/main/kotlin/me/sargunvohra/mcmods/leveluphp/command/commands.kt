@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
-import me.sargunvohra.mcmods.leveluphp.level.HpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.Commands.literal
