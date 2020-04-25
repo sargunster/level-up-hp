@@ -17,7 +17,7 @@ object LuhpCapabilities {
         CapabilityManager.INSTANCE.register(
             IHpLeveller::class.java,
             IHpLeveller.Storage,
-            IHpLeveller::Impl
+            IHpLeveller::PlayerHpLeveller
         )
     }
 }

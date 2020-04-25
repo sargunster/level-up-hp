@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-object HpLevellerLifecycleSubscriber {
+object PlayerLifecycleSubscriber {
     @SubscribeEvent
     fun onAttachEntityCapabilities(event: AttachCapabilitiesEvent<Entity>) {
         val entity = event.`object`

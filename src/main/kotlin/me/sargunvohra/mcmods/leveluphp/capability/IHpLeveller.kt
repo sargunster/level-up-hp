@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.Capability
 interface IHpLeveller {
     val hpLevelHandler: HpLevelHandler
 
-    class Impl : IHpLeveller {
+    class PlayerHpLeveller : IHpLeveller {
         override lateinit var hpLevelHandler: HpLevelHandler
     }
 
@@ -33,9 +33,9 @@ interface IHpLeveller {
     }
 
     class Provider(player: PlayerEntity)
-        : SimpleCapabilityProvider<IHpLeveller>(LuhpCapabilities.HP_LEVELLER_CAPABILITY) {
+        : SimpleStoredCapabilityHolder<IHpLeveller>(LuhpCapabilities.HP_LEVELLER_CAPABILITY) {
 
-        override val instance = Impl().apply {
+        override val instance = PlayerHpLeveller().apply {
             hpLevelHandler = HpLevelHandler(player)
         }
     }

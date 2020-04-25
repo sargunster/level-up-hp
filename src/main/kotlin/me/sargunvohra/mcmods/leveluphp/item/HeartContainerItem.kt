@@ -6,7 +6,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.UseAction
 import net.minecraft.stats.Stats
@@ -15,11 +14,7 @@ import net.minecraft.util.ActionResultType
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 
-class HeartContainerItem : Item(
-    Properties()
-        .group(ItemGroup.MISC)
-        .maxStackSize(1)
-) {
+class HeartContainerItem(props: Properties) : Item(props) {
 
     override fun hasEffect(stack: ItemStack) = true
 
