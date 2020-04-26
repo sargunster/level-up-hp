@@ -1,7 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.network
 
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import net.minecraft.network.PacketBuffer
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -24,11 +23,12 @@ object LuhpNetwork {
         @Suppress("INACCESSIBLE_TYPE")
         CHANNEL.registerMessage(
             0,
-            PacketBuffer::class.java,
-            { message, packetBuffer -> packetBuffer.writeBytes(message) },
-            { packetBuffer -> packetBuffer.buffer },
-            { message, context -> SyncPacketConsumer.accept(message, context.get()) },
+            HpLevellerSyncMessage::class.java,
+            { message, packet -> HpLevellerSyncMessage.encode(message, packet) },
+            { packet -> HpLevellerSyncMessage.decode(packet) },
+            { message, contextSupplier -> message.consume(contextSupplier) },
             Optional.of(NetworkDirection.PLAY_TO_CLIENT)
         )
     }
 }
+

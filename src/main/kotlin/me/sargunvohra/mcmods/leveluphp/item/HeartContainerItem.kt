@@ -1,6 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.item
 
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.core.hpLeveller
+import me.sargunvohra.mcmods.leveluphp.core.isMaxedOut
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -24,7 +25,7 @@ class HeartContainerItem(props: Properties) : Item(props) {
 
     override fun onItemRightClick(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
         var ret = ActionResult(ActionResultType.FAIL, player.getHeldItem(hand))
-        player.hpLevelHandler.let {
+        player.hpLeveller.let {
             if (!it.isMaxedOut) {
                 player.activeHand = hand
                 ret = ActionResult(ActionResultType.SUCCESS, player.getHeldItem(hand))
@@ -38,7 +39,7 @@ class HeartContainerItem(props: Properties) : Item(props) {
         world: World,
         entity: LivingEntity
     ): ItemStack {
-        (entity as? ServerPlayerEntity)?.hpLevelHandler?.let {
+        (entity as? ServerPlayerEntity)?.hpLeveller?.let {
             it.level++
             entity.addStat(Stats.ITEM_USED.get(this))
             CriteriaTriggers.CONSUME_ITEM.trigger(entity, stack)

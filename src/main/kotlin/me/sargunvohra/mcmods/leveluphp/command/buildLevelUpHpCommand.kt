@@ -2,9 +2,10 @@ package me.sargunvohra.mcmods.leveluphp.command
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.core.HpLeveller
+import me.sargunvohra.mcmods.leveluphp.core.currentXpTarget
+import me.sargunvohra.mcmods.leveluphp.core.hpLeveller
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.Commands.literal
@@ -14,11 +15,11 @@ import net.minecraft.util.text.StringTextComponent
 
 private fun getter(
     literal: String,
-    response: (HpLevelHandler) -> ITextComponent
+    response: (HpLeveller) -> ITextComponent
 ): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
         .executes { ctx ->
-            val handler = ctx.source.asPlayer().hpLevelHandler
+            val handler = ctx.source.asPlayer().hpLeveller
             ctx.source.sendFeedback(response(handler), false)
             return@executes 0
         }
@@ -27,7 +28,7 @@ private fun getter(
                 .requires { it.hasPermissionLevel(2) }
                 .executes { ctx ->
                     val player = EntityArgument.getPlayer(ctx, "player")
-                    val handler = player.hpLevelHandler
+                    val handler = player.hpLeveller
                     ctx.source.sendFeedback(response(handler), true)
                     return@executes 0
                 }
@@ -36,7 +37,7 @@ private fun getter(
 
 private fun setter(
     literal: String,
-    set: (HpLevelHandler, Int) -> Unit
+    set: (HpLeveller, Int) -> Unit
 ): LiteralArgumentBuilder<CommandSource> {
     return literal(literal)
         .requires { it.hasPermissionLevel(2) }
@@ -46,7 +47,7 @@ private fun setter(
                     val players = EntityArgument.getPlayers(ctx, "players")
                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
                     players
-                        .map { it.hpLevelHandler }
+                        .map { it.hpLeveller }
                         .forEach { set(it, amount) }
                     return@executes 0
                 }

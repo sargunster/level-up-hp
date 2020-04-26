@@ -3,8 +3,8 @@ package me.sargunvohra.mcmods.leveluphp.criterion
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonObject
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.capability.HpLevelHandler
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.core.HpLeveller
+import me.sargunvohra.mcmods.leveluphp.core.hpLeveller
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger
 import net.minecraft.advancements.criterion.CriterionInstance
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -25,12 +25,12 @@ class LevelUpCriterionTrigger : AbstractCriterionTrigger<LevelUpCriterionTrigger
 
     fun test(player: ServerPlayerEntity) {
         this.func_227070_a_(player.advancements) { conditions ->
-            conditions.test(player.hpLevelHandler)
+            conditions.test(player.hpLeveller)
         }
     }
 
     class Conditions(
         private val level: LevelPredicate
     ) : CriterionInstance(LuhpIds.LEVEL_UP_TRIGGER),
-        Predicate<HpLevelHandler> by level
+        Predicate<HpLeveller> by level
 }

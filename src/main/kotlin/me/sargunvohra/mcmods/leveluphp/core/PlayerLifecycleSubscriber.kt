@@ -1,7 +1,6 @@
-package me.sargunvohra.mcmods.leveluphp.capability
+package me.sargunvohra.mcmods.leveluphp.core
 
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -17,19 +16,19 @@ object PlayerLifecycleSubscriber {
     fun onAttachEntityCapabilities(event: AttachCapabilitiesEvent<Entity>) {
         val entity = event.`object`
         if (entity is PlayerEntity) {
-            event.addCapability(LuhpIds.LEVELLER_CAPABILITY, IHpLeveller.Provider(entity))
+            event.addCapability(LuhpIds.LEVELLER_CAPABILITY, PlayerAttachedHpLeveller().attachTo(entity))
         }
     }
 
     @SubscribeEvent
     fun onClone(event: PlayerEvent.Clone) {
         val newPlayer = event.player
-        val newHandler = newPlayer.hpLevelHandler
-        val oldHandler = event.original.hpLevelHandler
+        val newLeveller = newPlayer.hpLeveller
+        val oldLeveller = event.original.hpLeveller
 
-        newHandler.copyFrom(oldHandler)
+        newLeveller.restoreTo(level = oldLeveller.level, xp = oldLeveller.xp)
         if (event.isWasDeath) {
-            newHandler.applyDeathPenalty()
+            newLeveller.handleDeath()
             newPlayer.health = newPlayer.maxHealth
         }
     }
@@ -37,7 +36,7 @@ object PlayerLifecycleSubscriber {
     @SubscribeEvent
     fun onChangeDimension(event: PlayerEvent.PlayerChangedDimensionEvent) {
         event.player.let {
-            it.hpLevelHandler.onModified()
+            it.hpLeveller.updateState()
             // lol
             it.health -= 1
             it.health += 1
@@ -46,19 +45,19 @@ object PlayerLifecycleSubscriber {
 
     @SubscribeEvent
     fun onRespawn(event: PlayerEvent.PlayerRespawnEvent) {
-        event.player.hpLevelHandler.onModified()
+        event.player.hpLeveller.updateState()
     }
 
     @SubscribeEvent
     fun onConnect(event: PlayerEvent.PlayerLoggedInEvent) {
-        event.player.hpLevelHandler.onModified()
+        event.player.hpLeveller.updateState()
     }
 
     @SubscribeEvent
     fun onDrop(event: LivingDropsEvent) {
         val attacker = event.entityLiving.attackingEntity
         if (event.isRecentlyHit && attacker is ServerPlayerEntity) {
-            attacker.hpLevelHandler.applyKill(event.entity)
+            attacker.hpLevellerOrNull?.handleKillEnemy(event.entity)
         }
     }
 }

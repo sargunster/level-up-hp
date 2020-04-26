@@ -3,7 +3,7 @@ package me.sargunvohra.mcmods.leveluphp.config
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandler
+import me.sargunvohra.mcmods.leveluphp.core.hpLeveller
 import net.minecraft.client.resources.ReloadListener
 import net.minecraft.profiler.IProfiler
 import net.minecraft.resources.IResourceManager
@@ -51,7 +51,7 @@ class LevellingConfigManager(
         LogManager.getLogger().info("Loaded {}", loadedConfig)
         loadedConfig.validate()
         config = loadedConfig
-        server.playerList.players.forEach { it.hpLevelHandler.onModified() }
+        server.playerList.players.forEach { it.hpLeveller.updateState() }
     }
 
     companion object {

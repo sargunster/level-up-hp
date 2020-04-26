@@ -2,7 +2,8 @@ package me.sargunvohra.mcmods.leveluphp.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.hpLevelHandlerOrNull
+import me.sargunvohra.mcmods.leveluphp.core.currentXpTarget
+import me.sargunvohra.mcmods.leveluphp.core.hpLevellerOrNull
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraft.client.gui.AbstractGui
@@ -29,12 +30,12 @@ fun renderLuhpXpBars(client: Minecraft, player: ClientPlayerEntity) {
         val barsCenterX = window.scaledWidth / 2
         val barsTopY = window.scaledHeight - BAR_TOP_OFFSET
 
-        val hpLevelHandler = player.hpLevelHandlerOrNull
+        val leveller = player.hpLevellerOrNull
 
         // render luhp xp bar
-        if (hpLevelHandler != null) {
-            val hpXpTarget = hpLevelHandler.currentXpTarget
-            val hpXpFillWidth = if (hpXpTarget != 0) hpLevelHandler.xp * BAR_WIDTH / hpXpTarget else 0
+        if (leveller != null) {
+            val hpXpTarget = leveller.currentXpTarget
+            val hpXpFillWidth = if (hpXpTarget != 0) leveller.xp * BAR_WIDTH / hpXpTarget else 0
             renderProgress(barsCenterX - BAR_WIDTH, barsTopY + 1, 0, hpXpFillWidth)
         }
 
@@ -43,8 +44,8 @@ fun renderLuhpXpBars(client: Minecraft, player: ClientPlayerEntity) {
         renderProgress(barsCenterX, barsTopY + 1, BAR_WIDTH, mcXpFillWidth)
 
         // render luhp level
-        if (hpLevelHandler != null) {
-            val levelStr = "${hpLevelHandler.level}"
+        if (leveller != null) {
+            val levelStr = "${leveller.level}"
             val levelStrWidth: Int = fontRenderer.getStringWidth(levelStr)
             renderLevel(
                 fontRenderer,

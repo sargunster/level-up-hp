@@ -1,8 +1,8 @@
-package me.sargunvohra.mcmods.leveluphp.capability
+package me.sargunvohra.mcmods.leveluphp.core
 
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.criterion.LuhpCriterionTriggers
-import me.sargunvohra.mcmods.leveluphp.network.SyncPacketConsumer
+import me.sargunvohra.mcmods.leveluphp.network.HpLevellerSyncMessage
 import me.sargunvohra.mcmods.leveluphp.sound.LuhpSoundEvents
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -12,45 +12,49 @@ import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.INBT
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.text.StringTextComponent
 import net.minecraftforge.registries.RegistryManager
 import java.util.*
 
-class HpLevelHandler(
-    val player: PlayerEntity
-) {
-    private var _xp = 0
-    private var _level = 0
+class PlayerAttachedHpLeveller :
+    HpLeveller,
+    SimpleCapabilityProvider<HpLeveller>(LuhpCapabilities.HP_LEVELLER_CAPABILITY) {
+
+    private var player: PlayerEntity? = null
 
     private var justLevelledUp = false
 
-    var xp
+    private var _level = 0
+    private var _xp = 0
+
+    private val config get() = LevellingConfigManager.config
+
+    override var level: Int
+        get() = _level
+        set(value) {
+            justLevelledUp = justLevelledUp || (!isMaxedOut && value > level)
+            _level = value
+            updateState()
+        }
+
+    override var xp: Int
         get() = _xp
         set(value) {
             _xp = value
-            onModified()
+            updateState()
         }
 
-    var level
-        get() = _level
-        set(value) {
-            justLevelledUp = justLevelledUp || (!isMaxedOut && value > _level)
-            _level = value
-            onModified()
-        }
+    override fun restoreTo(level: Int, xp: Int) {
+        _level = level
+        _xp = xp
+        updateState()
+    }
 
-    val currentXpTarget get() = config.xpTargetFunction(level)
-    val isMaxedOut get() = level >= config.maximumLevel
-
-    val config get() = LevellingConfigManager.config
-
-    fun applyKill(killed: Entity) {
-        val typeId = RegistryManager.ACTIVE.getRegistry(EntityType::class.java).getKey(killed.type)
+    override fun handleKillEnemy(enemy: Entity) {
+        val typeId = RegistryManager.ACTIVE.getRegistry(EntityType::class.java).getKey(enemy.type)
         val gain = config.overrides[typeId.toString()]
-            ?: when (killed) {
+            ?: when (enemy) {
                 is AnimalEntity -> config.primaryXpValues.animal
                 is MobEntity -> config.primaryXpValues.mob
                 else -> 0
@@ -60,50 +64,47 @@ class HpLevelHandler(
         }
     }
 
-    fun applyDeathPenalty() {
+    override fun handleDeath() {
         if (config.resetOnDeath) {
-            _xp = 0
             _level = 0
+            _xp = 0
         } else {
-            _xp -= config.xpPenaltyFunction(level)
             _level -= config.levelPenaltyFunction(level)
+            _xp -= config.xpPenaltyFunction(level)
         }
-        onModified()
+        updateState()
     }
 
-    fun copyFrom(oldHandler: HpLevelHandler) {
-        _level = oldHandler.level
-        _xp = oldHandler.xp
-        onModified()
+    override fun updateState() {
+        constrainXpAndLevel()
+        levelUpIfAble()
+        applyToPlayer()
     }
 
-    fun onModified() {
-        // apply constraints
+    private fun constrainXpAndLevel() {
         _level = _level.coerceIn(0, config.maximumLevel)
         _xp = _xp.coerceAtLeast(0)
+    }
 
-        // level up if we reached the target
+    private fun levelUpIfAble() {
         while (_xp >= currentXpTarget && !isMaxedOut) {
             _xp -= currentXpTarget
             _level++
             justLevelledUp = true
         }
 
-        // lock the xp bar if we can't level up anymore
         if (_level == config.maximumLevel) {
             _xp = 0
         }
-
-        applyToPlayer()
     }
 
-    fun applyToPlayer() {
+    private fun applyToPlayer() {
         // we only act on the server side
         val player = player as? ServerPlayerEntity ?: return
 
         // sync to client
         if (player.connection != null)
-            SyncPacketConsumer.send(player, this)
+            HpLevellerSyncMessage.create(this).send(player)
 
         // create the hp modifier
         val modifier = AttributeModifier(
@@ -146,17 +147,10 @@ class HpLevelHandler(
         }
     }
 
-    fun writeToTag(): INBT {
-        val ret = CompoundNBT()
-        ret.putInt("xp", xp)
-        ret.putInt("level", level)
-        return ret
+    fun attachTo(target: PlayerEntity) = this.apply {
+        player = target
     }
 
-    fun readFromTag(tag: INBT) {
-        tag as CompoundNBT
-        _xp = tag.getInt("xp")
-        _level = tag.getInt("level")
-        onModified()
-    }
+    override val capability: HpLeveller?
+        get() = player?.let { this }
 }
