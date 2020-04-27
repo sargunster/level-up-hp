@@ -1,6 +1,6 @@
-package me.sargunvohra.mcmods.leveluphp.item
+package me.sargunvohra.mcmods.leveluphp
 
-import me.sargunvohra.mcmods.leveluphp.LuhpIds
+import me.sargunvohra.mcmods.leveluphp.heartcontainer.HeartContainerItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraftforge.event.RegistryEvent

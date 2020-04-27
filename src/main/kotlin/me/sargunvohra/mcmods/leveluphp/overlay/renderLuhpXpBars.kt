@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.gui
+package me.sargunvohra.mcmods.leveluphp.overlay
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.sargunvohra.mcmods.leveluphp.LuhpIds

@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.item
+package me.sargunvohra.mcmods.leveluphp.heartcontainer
 
 import me.sargunvohra.mcmods.leveluphp.core.hpLeveller
 import me.sargunvohra.mcmods.leveluphp.core.isMaxedOut

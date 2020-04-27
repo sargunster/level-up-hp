@@ -1,13 +1,10 @@
-package me.sargunvohra.mcmods.leveluphp.network
+package me.sargunvohra.mcmods.leveluphp.core
 
 import com.google.gson.Gson
 import io.netty.buffer.ByteBufInputStream
 import io.netty.buffer.ByteBufOutputStream
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfig
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
-import me.sargunvohra.mcmods.leveluphp.core.HpLeveller
-import me.sargunvohra.mcmods.leveluphp.core.LuhpCapabilities
-import me.sargunvohra.mcmods.leveluphp.core.hpLevellerOrNull
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.INBT
@@ -33,14 +30,14 @@ data class HpLevellerSyncMessage(
             }
             val player = Minecraft.getInstance().player ?: return@enqueueWork
             player.hpLevellerOrNull?.let {
-                LuhpCapabilities.HP_LEVELLER_CAPABILITY.readNBT(it, null, hpLevellerNbt)
+                CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY.readNBT(it, null, hpLevellerNbt)
             }
         }
         context.packetHandled = true
     }
 
     fun send(target: ServerPlayerEntity) {
-        LuhpNetwork.CHANNEL.sendTo(
+        HpLevellerSyncManager.CHANNEL.sendTo(
             this,
             target.connection.netManager,
             NetworkDirection.PLAY_TO_CLIENT
@@ -52,7 +49,7 @@ data class HpLevellerSyncMessage(
 
         fun create(leveller: HpLeveller): HpLevellerSyncMessage {
             return HpLevellerSyncMessage(
-                HpLeveller.Serializer.writeNBT(LuhpCapabilities.HP_LEVELLER_CAPABILITY, leveller, null),
+                HpLeveller.Serializer.writeNBT(CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY, leveller, null),
                 LevellingConfigManager.config
             )
         }

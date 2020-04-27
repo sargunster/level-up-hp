@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.gui
+package me.sargunvohra.mcmods.leveluphp.overlay
 
 import me.sargunvohra.mcmods.leveluphp.config.ClientConfig
 import net.minecraft.client.Minecraft

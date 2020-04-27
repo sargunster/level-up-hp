@@ -1,6 +1,5 @@
-package me.sargunvohra.mcmods.leveluphp.sound
+package me.sargunvohra.mcmods.leveluphp
 
-import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent

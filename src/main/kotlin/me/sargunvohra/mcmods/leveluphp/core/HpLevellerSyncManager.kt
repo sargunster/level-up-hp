@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.network
+package me.sargunvohra.mcmods.leveluphp.core
 
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.network.NetworkRegistry
 import java.util.*
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-object LuhpNetwork {
+object HpLevellerSyncManager {
     private const val protocolVersion = "1"
     val CHANNEL = NetworkRegistry.newSimpleChannel(
         LuhpIds.LEVEL_SYNC_CHANNEL,

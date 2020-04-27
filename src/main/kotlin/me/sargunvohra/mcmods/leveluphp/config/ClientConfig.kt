@@ -23,3 +23,4 @@ class ClientConfig(builder: ForgeConfigSpec.Builder) {
         val instance: ClientConfig = specPair.left
     }
 }
+

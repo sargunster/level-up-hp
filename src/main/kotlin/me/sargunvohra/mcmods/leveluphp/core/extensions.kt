@@ -9,7 +9,7 @@ val HpLeveller.currentXpTarget get() = LevellingConfigManager.config.xpTargetFun
 
 val PlayerEntity.hpLevellerOrNull: HpLeveller?
     get() {
-        val opt = getCapability(LuhpCapabilities.HP_LEVELLER_CAPABILITY)
+        val opt = getCapability(CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY)
         return if (opt.isPresent)
             opt.orElseThrow { RuntimeException("capability disappeared!") }
         else null

@@ -1,4 +1,4 @@
-package me.sargunvohra.mcmods.leveluphp.criterion
+package me.sargunvohra.mcmods.leveluphp.advancement
 
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-object LuhpCriterionTriggers {
+object AdvancementRegistrationSubscriber {
     val LEVEL_UP = LevelUpCriterionTrigger()
 
     @SubscribeEvent

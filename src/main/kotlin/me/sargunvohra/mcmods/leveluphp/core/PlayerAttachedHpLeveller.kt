@@ -1,9 +1,8 @@
 package me.sargunvohra.mcmods.leveluphp.core
 
+import me.sargunvohra.mcmods.leveluphp.LuhpSoundEvents
+import me.sargunvohra.mcmods.leveluphp.advancement.AdvancementRegistrationSubscriber
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
-import me.sargunvohra.mcmods.leveluphp.criterion.LuhpCriterionTriggers
-import me.sargunvohra.mcmods.leveluphp.network.HpLevellerSyncMessage
-import me.sargunvohra.mcmods.leveluphp.sound.LuhpSoundEvents
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.MobEntity
@@ -19,7 +18,7 @@ import java.util.*
 
 class PlayerAttachedHpLeveller :
     HpLeveller,
-    SimpleCapabilityProvider<HpLeveller>(LuhpCapabilities.HP_LEVELLER_CAPABILITY) {
+    SimpleCapabilityProvider<HpLeveller>(CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY) {
 
     private var player: PlayerEntity? = null
 
@@ -124,7 +123,7 @@ class PlayerAttachedHpLeveller :
         if (justLevelledUp) {
             justLevelledUp = false
 
-            LuhpCriterionTriggers.LEVEL_UP.test(player)
+            AdvancementRegistrationSubscriber.LEVEL_UP.test(player)
 
             player.sendStatusMessage(StringTextComponent("§c§lHP up!"), true)
 

@@ -8,7 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-object LuhpConfigs {
+object ConfigRegistrationSubscriber {
 
     @SubscribeEvent
     fun registerClientConfig(event: FMLClientSetupEvent) {
