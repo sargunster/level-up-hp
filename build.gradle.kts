@@ -1,16 +1,15 @@
 import com.matthewprenger.cursegradle.CurseProject
 import com.matthewprenger.cursegradle.CurseRelation
 import com.matthewprenger.cursegradle.Options
-import com.palantir.gradle.gitversion.VersionDetails
 import net.minecraftforge.gradle.common.util.MinecraftExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.time.OffsetDateTime
 
 val minecraftVersion: String by project
 val curseProjectId: String by project
 val curseMinecraftVersion: String by project
 val modJarBaseName: String by project
 val modMavenGroup: String by project
+val modPlatform: String by project
 
 buildscript {
     repositories {
@@ -29,7 +28,6 @@ plugins {
     java
     kotlin("jvm") version "1.3.61"
     idea
-    id("com.palantir.git-version") version "0.12.3"
     id("com.matthewprenger.cursegradle") version "1.4.0"
 }
 
@@ -45,7 +43,7 @@ tasks.withType<KotlinCompile> {
 }
 
 base {
-    archivesBaseName = modJarBaseName
+    archivesBaseName = "$modJarBaseName-mc$minecraftVersion-$modPlatform"
 }
 
 repositories {
@@ -55,10 +53,7 @@ repositories {
     maven(url= "https://minecraft.curseforge.com/api/maven/")
 }
 
-val gitVersion: groovy.lang.Closure<Any> by extra
-val versionDetails: groovy.lang.Closure<VersionDetails> by extra
-
-version = "5.0.0+mc$minecraftVersion+forge"
+version = "5.1.0"
 group = modMavenGroup
 
 configure<MinecraftExtension> {
@@ -87,54 +82,25 @@ configure<MinecraftExtension> {
 }
 
 dependencies {
-    "minecraft"("net.minecraftforge:forge:1.15.2-31.1.47")
+    "minecraft"("net.minecraftforge:forge:$minecraftVersion-31.1.47")
     implementation("kottle:Kottle:1.5.0")
 }
 
-tasks.withType<Jar> {
-    manifest {
-        attributes(mapOf(
-                "Specification-Title" to "leveluphp",
-                "Specification-Vendor" to "sargunv",
-                "Specification-Version" to project.version,
-                "Implementation-Title" to project.name,
-                "Implementation-Version" to project.version,
-                "Implementation-Vendor" to "sargunv",
-                "Implementation-Timestamp" to OffsetDateTime.now().toString()
-        ))
+curseforge {
+    if (project.hasProperty("curseforge_api_key")) {
+        apiKey = project.property("curseforge_api_key")!!
     }
-}
 
-//if (versionDetails().isCleanTag) {
-//
-//    curseforge {
-//        if (project.hasProperty("curseforge_api_key")) {
-//            apiKey = project.property("curseforge_api_key")!!
-//        }
-//
-//        project(closureOf<CurseProject> {
-//            id = curseProjectId
-//            changelog = file("changelog.txt")
-//            releaseType = "release"
-//            addGameVersion(curseMinecraftVersion)
-//            addGameVersion("Fabric")
-//            relations(closureOf<CurseRelation>{
-//                requiredDependency("fabric-api")
-//                requiredDependency("fabric-language-kotlin")
-//                embeddedLibrary("cloth-config")
-//                embeddedLibrary("auto-config-updated-api")
-//                optionalDependency("health-overlay")
-//            })
-//            mainArtifact(file("${project.buildDir}/libs/${base.archivesBaseName}-$version.jar"))
-//            afterEvaluate {
-//                mainArtifact(remapJar)
-//                uploadTask.dependsOn(remapJar)
-//            }
-//        })
-//
-//        options(closureOf<Options> {
-//            forgeGradleIntegration = false
-//        })
-//    }
-//
-//}
+    project(closureOf<CurseProject> {
+        id = curseProjectId
+        releaseType = "release"
+        addGameVersion(curseMinecraftVersion)
+        addGameVersion(modPlatform.capitalize())
+        relations(closureOf<CurseRelation>{
+            requiredDependency("kottle")
+        })
+        options(closureOf<Options> {
+            forgeGradleIntegration = (modPlatform == "forge")
+        })
+    })
+}
