@@ -1,7 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.core
 
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
-import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity

@@ -57,7 +57,7 @@ version = "6.0.0"
 group = modMavenGroup
 
 configure<MinecraftExtension> {
-    mappings("snapshot", "20200424-1.15.1")
+    mappings("snapshot", "20200119-1.14.4")
 //    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
     runs {
@@ -82,8 +82,8 @@ configure<MinecraftExtension> {
 }
 
 dependencies {
-    "minecraft"("net.minecraftforge:forge:$minecraftVersion-31.1.47")
-    implementation("kottle:Kottle:1.5.0")
+    "minecraft"("net.minecraftforge:forge:$minecraftVersion-28.2.5")
+    implementation("kottle:Kottle:1.4.0")
 }
 
 curseforge {

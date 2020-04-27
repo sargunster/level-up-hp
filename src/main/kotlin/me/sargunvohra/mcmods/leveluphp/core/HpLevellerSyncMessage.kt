@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.nbt.INBT
 import net.minecraft.nbt.NBTSizeTracker
-import net.minecraft.nbt.NBTTypes
 import net.minecraft.network.PacketBuffer
 import net.minecraftforge.fml.network.NetworkDirection
 import net.minecraftforge.fml.network.NetworkEvent
@@ -72,8 +71,8 @@ data class HpLevellerSyncMessage(
             val input = ByteBufInputStream(packet)
 
             // read hp leveller data
-            val tagReader = NBTTypes.func_229710_a_(input.readInt())
-            val levellerNbt = tagReader.func_225649_b_(input, 0, NBTSizeTracker.INFINITE)
+            val levellerNbt = INBT.create(input.readInt().toByte())
+            levellerNbt.read(input, 0, NBTSizeTracker.INFINITE)
 
             // read config data
             val configJson = input.readUTF()

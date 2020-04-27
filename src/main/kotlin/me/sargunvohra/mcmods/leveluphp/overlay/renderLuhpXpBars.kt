@@ -1,6 +1,6 @@
 package me.sargunvohra.mcmods.leveluphp.overlay
 
-import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.platform.GlStateManager
 import me.sargunvohra.mcmods.leveluphp.LuhpIds
 import me.sargunvohra.mcmods.leveluphp.core.currentXpTarget
 import me.sargunvohra.mcmods.leveluphp.core.hpLevellerOrNull
@@ -17,8 +17,8 @@ private const val MC_LEVEL_COLOR = 0x80FF20
 fun renderLuhpXpBars(client: Minecraft, player: ClientPlayerEntity) {
     client.profiler.startSection("levelUpHpXpBars")
 
-    RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-    RenderSystem.disableBlend()
+    GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
+    GlStateManager.disableBlend()
 
     if (client.playerController!!.gameIsSurvivalOrAdventure()) {
 
@@ -67,8 +67,8 @@ fun renderLuhpXpBars(client: Minecraft, player: ClientPlayerEntity) {
         )
     }
 
-    RenderSystem.enableBlend()
-    RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
+    GlStateManager.enableBlend()
+    GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f)
 
     client.profiler.endSection()
 }
