@@ -53,7 +53,7 @@ repositories {
     maven(url= "https://minecraft.curseforge.com/api/maven/")
 }
 
-version = "6.0.0"
+version = "5.1.0"
 group = modMavenGroup
 
 configure<MinecraftExtension> {
