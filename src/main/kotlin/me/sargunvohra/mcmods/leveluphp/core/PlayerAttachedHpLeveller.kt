@@ -3,6 +3,7 @@ package me.sargunvohra.mcmods.leveluphp.core
 import me.sargunvohra.mcmods.leveluphp.LuhpSoundEvents
 import me.sargunvohra.mcmods.leveluphp.advancement.AdvancementRegistrationSubscriber
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
+import me.sargunvohra.mcmods.leveluphp.core.CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.MobEntity
@@ -11,14 +12,17 @@ import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.nbt.INBT
+import net.minecraft.util.Direction
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.text.StringTextComponent
+import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.common.capabilities.ICapabilitySerializable
+import net.minecraftforge.common.util.LazyOptional
 import net.minecraftforge.registries.RegistryManager
 import java.util.*
 
-class PlayerAttachedHpLeveller :
-    HpLeveller,
-    SimpleCapabilityProvider<HpLeveller>(CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY) {
+class PlayerAttachedHpLeveller : HpLeveller, ICapabilitySerializable<INBT> {
 
     private var player: PlayerEntity? = null
 
@@ -150,6 +154,19 @@ class PlayerAttachedHpLeveller :
         player = target
     }
 
-    override val capability: HpLeveller?
-        get() = player?.let { this }
+    override fun <T> getCapability(requested: Capability<T>, side: Direction?): LazyOptional<T> {
+        return if (player != null)
+            HP_LEVELLER_CAPABILITY.orEmpty<T>(requested, LazyOptional.of { this }).cast()
+        else LazyOptional.empty()
+    }
+
+    override fun deserializeNBT(nbt: INBT?) {
+        LevellingConfigManager.ensureDataLoaded()
+        HP_LEVELLER_CAPABILITY.readNBT(this, null, nbt)
+    }
+
+    override fun serializeNBT(): INBT? {
+        LevellingConfigManager.ensureDataLoaded()
+        return HP_LEVELLER_CAPABILITY.writeNBT(this, null)
+    }
 }
