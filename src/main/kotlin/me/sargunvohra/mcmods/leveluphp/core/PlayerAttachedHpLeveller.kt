@@ -1,7 +1,7 @@
 package me.sargunvohra.mcmods.leveluphp.core
 
 import me.sargunvohra.mcmods.leveluphp.LuhpSoundEvents
-import me.sargunvohra.mcmods.leveluphp.advancement.AdvancementRegistrationSubscriber
+import me.sargunvohra.mcmods.leveluphp.LuhpCriterionTriggers
 import me.sargunvohra.mcmods.leveluphp.config.LevellingConfigManager
 import me.sargunvohra.mcmods.leveluphp.core.CapabilityRegistrationSubscriber.HP_LEVELLER_CAPABILITY
 import net.minecraft.entity.Entity
@@ -127,7 +127,7 @@ class PlayerAttachedHpLeveller : HpLeveller, ICapabilitySerializable<INBT> {
         if (justLevelledUp) {
             justLevelledUp = false
 
-            AdvancementRegistrationSubscriber.LEVEL_UP.test(player)
+            LuhpCriterionTriggers.LEVEL_UP.test(player)
 
             player.sendStatusMessage(StringTextComponent("§c§lHP up!"), true)
 
