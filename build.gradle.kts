@@ -18,9 +18,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(group="net.minecraftforge.gradle", name="ForgeGradle", version="3.+")
-                .setChanging(true)
-                .exclude(group="trove", module = "trove")
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "3.+")
+            .setChanging(true)
+            .exclude(group = "trove", module = "trove")
     }
 }
 
@@ -31,7 +31,7 @@ plugins {
     id("com.matthewprenger.cursegradle") version "1.4.0"
 }
 
-apply(plugin="net.minecraftforge.gradle")
+apply(plugin = "net.minecraftforge.gradle")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -50,7 +50,7 @@ repositories {
     maven(url = "https://files.minecraftforge.net/maven")
     mavenCentral()
     jcenter()
-    maven(url= "https://minecraft.curseforge.com/api/maven/")
+    maven(url = "https://minecraft.curseforge.com/api/maven/")
 }
 
 version = "5.1.1"
@@ -86,6 +86,23 @@ dependencies {
     implementation("kottle:Kottle:1.5.0")
 }
 
+val jar: Jar by tasks
+jar.apply {
+    manifest {
+        attributes(
+            mapOf(
+                "Specification-Title" to "leveluphp",
+                "Specification-Vendor" to "sargunv",
+                "Specification-Version" to "1",
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to "${project.version}",
+                "Implementation-Vendor" to "sargunv"
+            )
+        )
+    }
+}
+
+
 curseforge {
     if (project.hasProperty("curseforge_api_key")) {
         apiKey = project.property("curseforge_api_key")!!
@@ -96,7 +113,7 @@ curseforge {
         releaseType = "release"
         addGameVersion(curseMinecraftVersion)
         addGameVersion(modPlatform.capitalize())
-        relations(closureOf<CurseRelation>{
+        relations(closureOf<CurseRelation> {
             requiredDependency("kottle")
         })
         options(closureOf<Options> {
